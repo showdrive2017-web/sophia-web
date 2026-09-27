@@ -11,14 +11,14 @@
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Shippori+Mincho+B1:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@300;400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#0A0F22; --surf:#111832; --surf2:#1A2344;
   --line:#232C4E; --line2:#3D4874;
   --ink:#E9E3D3; --ash:#A2AAC6; --ash2:#5F6A8E;
   --accent:#D8B565; --rec:#E06055;
-  --mincho:"Shippori Mincho B1",serif;
+  --mincho:"Noto Sans JP",sans-serif; /* 見出し用。宇宙的でモダンな印象に、字間を広めに使う */
   --sans:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
   --thin:"Noto Sans JP",sans-serif;
   --mono:"IBM Plex Mono",monospace;
@@ -32,7 +32,7 @@ img{max-width:100%;display:block}
 section{padding:120px 24px;position:relative}
 .wrap{max-width:1040px;margin:0 auto}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
-h2{font-family:var(--mincho);font-size:clamp(24px,3.4vw,34px);font-weight:600;letter-spacing:.04em;line-height:1.6;margin-bottom:28px}
+h2{font-family:var(--mincho);font-size:clamp(22px,3.2vw,32px);font-weight:500;letter-spacing:.12em;line-height:1.75;margin-bottom:28px}
 .lead{color:var(--ash);font-size:16px;line-height:2;max-width:620px}
 
 /* ---- nav ---- */
@@ -64,7 +64,7 @@ h2{font-family:var(--mincho);font-size:clamp(24px,3.4vw,34px);font-weight:600;le
 /* ---- origin story band ---- */
 #origin{padding:70px 24px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   background:linear-gradient(180deg,rgba(216,181,101,.03),transparent)}
-#origin p{font-family:var(--mincho);font-size:clamp(15px,2vw,18px);color:var(--ash);line-height:2;max-width:640px;margin:0 auto;width:100%}
+#origin p{font-family:var(--mincho);font-weight:400;font-size:clamp(14px,2vw,17px);letter-spacing:.04em;color:var(--ash);line-height:2.1;max-width:600px;margin:0 auto;width:100%}
 #origin p b{color:var(--accent);font-weight:600}
 
 /* ---- concept ---- */
@@ -85,7 +85,7 @@ h2{font-family:var(--mincho);font-size:clamp(24px,3.4vw,34px);font-weight:600;le
 .frame-mobile{width:min(260px,70vw);margin:0 auto;border:8px solid #0d1330;border-radius:34px;overflow:hidden;
   box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .showcase-copy .eyebrow{margin-bottom:14px}
-.showcase-copy h3{font-family:var(--mincho);font-size:20px;font-weight:600;margin-bottom:14px}
+.showcase-copy h3{font-family:var(--mincho);font-size:19px;font-weight:500;letter-spacing:.08em;line-height:1.6;margin-bottom:14px}
 .showcase-copy p{color:var(--ash);font-size:14.5px;line-height:2;max-width:340px}
 .showcase-block{display:grid;gap:40px;margin-top:64px}
 @media (min-width:900px){.showcase-block{grid-template-columns:1fr 1fr}}
@@ -96,7 +96,7 @@ h2{font-family:var(--mincho);font-size:clamp(24px,3.4vw,34px);font-weight:600;le
 .price-card{max-width:420px;margin:56px auto 0;padding:44px 36px;border:1px solid var(--accent);border-radius:14px;
   background:linear-gradient(180deg,rgba(216,181,101,.06),transparent)}
 .price-card .free{font-family:var(--mono);font-size:12px;color:var(--ash2);letter-spacing:.1em;margin-bottom:6px}
-.price-card .num{font-family:var(--mincho);font-size:44px;font-weight:600;color:var(--ink)}
+.price-card .num{font-family:var(--mincho);font-size:44px;font-weight:500;letter-spacing:.06em;color:var(--ink)}
 .price-card .num small{font-size:16px;color:var(--ash)}
 .price-card .desc{color:var(--ash);font-size:13.5px;margin-top:18px;line-height:1.9}
 .price-card hr{border:none;border-top:1px solid var(--line);margin:26px 0}
@@ -127,7 +127,7 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
   <div class="content">
     <div class="mark">SOPHIA</div>
     <div class="tag">その思いつきが、無限の宇宙を創る</div>
-    <p class="sub">SOPHIA は、ノベルゲーム「君のいない世界を走る」の開発過程で、
+    <p class="sub">SOPHIA は、短編ドラマ「君のいない世界を走る」の開発過程で、
       主人公「ソフィア」と開発者の間で偶然生まれたアプリです。</p>
     <div class="badges">
       <span class="badge">🍎 <b>App Store</b>　近日公開</span>
@@ -138,7 +138,8 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 </section>
 
 <section id="origin">
-  <p>ふとした思いつきや打ち合わせのメモを、星として生み、<br>つないで星座にしていく。説明はいらない。ただ触れて、発見していく<br>——新しい発想の見える化アプリです。</p>
+  <p>ふとした思いつきや打ち合わせのメモを、星として生み、つないで星座にしていく。
+    説明はいらない。ただ触れて、発見していく——新しい発想の見える化アプリです。</p>
 </section>
 
 <section id="about">
@@ -200,7 +201,7 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
   <div class="wrap">
     <div class="eyebrow">Pricing</div>
     <h2>ちょっといいランチ一回分で、<br>自分だけの宇宙が一生手に入る。</h2>
-    <p class="lead" style="margin:0 auto">月額ではなく、買い切り。罪悪感なく、ずっと持ち続けられる個人ツールです。</p>
+    <p class="lead" style="margin:0 auto">月額ではなく、買い切り。あなたの頭の中だけにある宇宙を、創り出してください。</p>
     <div class="price-card">
       <div class="free">FREE TRIAL — 星10個まで</div>
       <div style="font-size:13px;color:var(--ash);margin-bottom:22px">ログイン不要。すぐに、すべての機能を試せます。</div>
