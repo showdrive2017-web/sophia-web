@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOPHIA — その思いつきが、無限の宇宙を創る</title>
+<meta name="description" content="ふとした思いつきや打ち合わせのメモを、星として生み、つないで星座にしていく見える化アプリ。体験版は無料、買い切り1,200円で星はいくつでも。">
+<meta property="og:title" content="SOPHIA">
+<meta property="og:description" content="その思いつきが、無限の宇宙を創る。マインドマップ/見える化 アプリ">
+<meta property="og:image" content="assets/feature-graphic.png">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Shippori+Mincho+B1:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@300;400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#0A0F22; --surf:#111832; --surf2:#1A2344;
+  --line:#232C4E; --line2:#3D4874;
+  --ink:#E9E3D3; --ash:#A2AAC6; --ash2:#5F6A8E;
+  --accent:#D8B565; --rec:#E06055;
+  --mincho:"Shippori Mincho B1",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --thin:"Noto Sans JP",sans-serif;
+  --mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.9;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw}
+a{color:inherit}
+img{max-width:100%;display:block}
+section{padding:120px 24px;position:relative}
+.wrap{max-width:1040px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
+h2{font-family:var(--mincho);font-size:clamp(24px,3.4vw,34px);font-weight:600;letter-spacing:.04em;line-height:1.6;margin-bottom:28px}
+.lead{color:var(--ash);font-size:16px;line-height:2;max-width:620px}
+
+/* ---- nav ---- */
+#nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 28px;background:rgba(10,15,34,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+#nav .mark{font-family:Cinzel,serif;font-size:15px;font-weight:600;letter-spacing:.32em;padding-left:.32em;color:var(--ink)}
+#nav .links{display:flex;gap:28px;font-size:13px;color:var(--ash);letter-spacing:.03em}
+#nav .links a{text-decoration:none;transition:color .15s}
+#nav .links a:hover{color:var(--accent)}
+#nav .links{display:none}
+@media (min-width:760px){#nav .links{display:flex}}
+
+/* ---- hero ---- */
+#hero{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:140px 24px 80px;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#hero .content{position:relative;z-index:1;text-align:center;max-width:720px}
+#hero .mark{font-family:Cinzel,serif;font-size:clamp(38px,8vw,64px);font-weight:600;letter-spacing:.4em;
+  padding-left:.4em;color:#EEF3F6;text-shadow:0 0 30px rgba(170,205,225,.5),0 0 70px rgba(216,181,101,.22)}
+#hero .tag{font-family:var(--thin);font-weight:300;font-size:clamp(15px,2.6vw,21px);letter-spacing:.28em;
+  padding-left:.28em;color:var(--accent);margin-top:26px}
+#hero .sub{font-family:var(--sans);color:var(--ash);font-size:14.5px;line-height:2;margin-top:34px;max-width:480px;margin-left:auto;margin-right:auto}
+#hero .badges{display:flex;gap:14px;justify-content:center;margin-top:44px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:1px solid var(--line2);border-radius:24px;
+  font-size:13px;color:var(--ash);letter-spacing:.04em;background:rgba(17,24,50,.5)}
+.badge b{color:var(--ink);font-weight:500}
+#hero .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:var(--mono);
+  font-size:10px;letter-spacing:.2em;color:var(--ash2);z-index:1;text-transform:uppercase}
+
+/* ---- origin story band ---- */
+#origin{padding:70px 24px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(216,181,101,.03),transparent)}
+#origin p{font-family:var(--mincho);font-size:clamp(15px,2vw,18px);color:var(--ash);line-height:2;max-width:640px;margin:0 auto;width:100%}
+#origin p b{color:var(--accent);font-weight:600}
+
+/* ---- concept ---- */
+#about .grid{display:grid;grid-template-columns:1fr;gap:56px;margin-top:56px}
+@media (min-width:820px){#about .grid{grid-template-columns:repeat(3,1fr)}}
+.feature{border-top:1px solid var(--line2);padding-top:20px}
+.feature .num{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spacing:.1em}
+.feature h3{font-family:var(--sans);font-weight:500;font-size:17px;margin:12px 0 10px;color:var(--ink)}
+.feature p{color:var(--ash);font-size:14px;line-height:1.9}
+
+/* ---- showcase ---- */
+#showcase{background:var(--surf)}
+.dual{display:grid;grid-template-columns:1fr;gap:64px;margin-top:56px;align-items:start}
+@media (min-width:900px){.dual{grid-template-columns:1.3fr 1fr;align-items:center}}
+.frame-pc{border:1px solid var(--line2);border-radius:10px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.frame-pc .bar{display:flex;gap:6px;padding:10px 14px;background:#0d1330;border-bottom:1px solid var(--line)}
+.frame-pc .bar span{width:9px;height:9px;border-radius:50%;background:var(--line2)}
+.frame-mobile{width:min(260px,70vw);margin:0 auto;border:8px solid #0d1330;border-radius:34px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.showcase-copy .eyebrow{margin-bottom:14px}
+.showcase-copy h3{font-family:var(--mincho);font-size:20px;font-weight:600;margin-bottom:14px}
+.showcase-copy p{color:var(--ash);font-size:14.5px;line-height:2;max-width:340px}
+.showcase-block{display:grid;gap:40px;margin-top:64px}
+@media (min-width:900px){.showcase-block{grid-template-columns:1fr 1fr}}
+.showcase-block:first-of-type{margin-top:0}
+
+/* ---- pricing ---- */
+#pricing{text-align:center}
+.price-card{max-width:420px;margin:56px auto 0;padding:44px 36px;border:1px solid var(--accent);border-radius:14px;
+  background:linear-gradient(180deg,rgba(216,181,101,.06),transparent)}
+.price-card .free{font-family:var(--mono);font-size:12px;color:var(--ash2);letter-spacing:.1em;margin-bottom:6px}
+.price-card .num{font-family:var(--mincho);font-size:44px;font-weight:600;color:var(--ink)}
+.price-card .num small{font-size:16px;color:var(--ash)}
+.price-card .desc{color:var(--ash);font-size:13.5px;margin-top:18px;line-height:1.9}
+.price-card hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+.trial-note{font-size:13px;color:var(--ash2);margin-top:40px}
+
+/* ---- footer ---- */
+footer{padding:60px 24px 40px;border-top:1px solid var(--line);text-align:center}
+footer .mark{font-family:Cinzel,serif;font-size:14px;letter-spacing:.3em;padding-left:.3em;color:var(--ash);margin-bottom:18px}
+footer .links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:12.5px;color:var(--ash2);margin-bottom:18px}
+footer .links a{text-decoration:none}
+footer .links a:hover{color:var(--accent)}
+footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="mark">SOPHIA</div>
+  <div class="links">
+    <a href="#about">コンセプト</a>
+    <a href="#showcase">使い方</a>
+    <a href="#pricing">料金</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <canvas id="starfield"></canvas>
+  <div class="content">
+    <div class="mark">SOPHIA</div>
+    <div class="tag">その思いつきが、無限の宇宙を創る</div>
+    <p class="sub">ふとした思いつきや打ち合わせのメモを、星として生み、つないで星座にしていく。
+      説明はいらない。ただ触れて、発見していく——新しい発想の見える化アプリです。</p>
+    <div class="badges">
+      <span class="badge">🍎 <b>App Store</b>　近日公開</span>
+      <span class="badge">▶ <b>Google Play</b>　近日公開</span>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section id="origin">
+  <p>SOPHIA は、短編ドラマ <b>「君のいない世界を走る」</b><br>この物語をつくるために、ソフィアと一緒に生まれたアプリです。</p>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">Concept</div>
+    <h2>頭に浮かんだことを、<br>星として生み出す。</h2>
+    <p class="lead">アイデア出し、打ち合わせの備忘、頭の整理。堅苦しくなく、楽しく思考をまとめたい人へ。
+      無の宇宙から始まり、触れるたびに星が生まれ、つながり、育っていきます。</p>
+    <div class="grid">
+      <div class="feature"><div class="num">01</div><h3>ダブルタップで、星が生まれる</h3>
+        <p>思いついた瞬間に、その場で星が生まれます。溜めはありません。</p></div>
+      <div class="feature"><div class="num">02</div><h3>星から星へ、なぞってつなぐ</h3>
+        <p>指でなぞるだけで線になり、星座になっていきます。</p></div>
+      <div class="feature"><div class="num">03</div><h3>色で仲間分け、まとめて消せる</h3>
+        <p>色グループで整理。要らなくなったら囲んで消せます。</p></div>
+      <div class="feature"><div class="num">04</div><h3>メモを書いて、貼っておける</h3>
+        <p>思いついたことを、そのままメモに書いて星空に貼れます。</p></div>
+      <div class="feature"><div class="num">05</div><h3>テキストや作品ファイルに書き出せる</h3>
+        <p>作った星座は、いつでも読める形で書き出せます。</p></div>
+      <div class="feature"><div class="num">06</div><h3>PCとスマホ、ふたつの画面で</h3>
+        <p>PCは編集室、スマホはキャンバス。ひとつの宇宙をつなぎ、育てます。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="showcase">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>PC は編集室、<br>スマホはキャンバスに。</h2>
+    <p class="lead">全体を見渡して整理するのは PC で。ハッとした瞬間をすぐ拾うのはスマホで。
+      ふたつの画面が、ひとつの宇宙をつなぎ、育てます。</p>
+
+    <div class="showcase-block">
+      <div class="frame-pc">
+        <div class="bar"><span></span><span></span><span></span></div>
+        <img src="assets/shot-pc.png" width="1440" height="900" alt="SOPHIA PC版：星座を見渡して整理する編集室">
+      </div>
+      <div class="showcase-copy">
+        <div class="eyebrow">PC 版</div>
+        <h3>星座全体を見渡して、整理する編集室。</h3>
+        <p>自由なズームとパンで、育った宇宙の全体を俯瞰。色グループでの整理や、まとめての整頓・削除もここで。</p>
+      </div>
+    </div>
+
+    <div class="showcase-block">
+      <div class="showcase-copy">
+        <div class="eyebrow">スマホ版</div>
+        <h3>ハッとした瞬間を、すぐ拾えるキャンバス。</h3>
+        <p>思いついたら、その場で書いて生む。星に触れて滑らせれば、つながる。持ち歩く受信箱です。</p>
+      </div>
+      <div class="frame-mobile">
+        <img src="assets/shot-mobile.png" width="390" height="844" alt="SOPHIA スマホ版：ハッとした瞬間を拾うキャンバス">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">Pricing</div>
+    <h2>ちょっといいランチ一回分で、<br>自分だけの宇宙が一生手に入る。</h2>
+    <p class="lead" style="margin:0 auto">月額ではなく、買い切り。罪悪感なく、ずっと持ち続けられる個人ツールです。</p>
+    <div class="price-card">
+      <div class="free">FREE TRIAL — 星10個まで</div>
+      <div style="font-size:13px;color:var(--ash);margin-bottom:22px">ログイン不要。すぐに、すべての機能を試せます。</div>
+      <hr>
+      <div class="num">¥1,200<small>　買い切り</small></div>
+      <div class="desc">星はいくつでも。育てた宇宙は、購入後もそのまま残ります。<br>アカウント登録なしで、いつでも解放できます。</div>
+    </div>
+    <p class="trial-note">App Store ／ Google Play にて近日公開予定</p>
+  </div>
+</section>
+
+<footer>
+  <div class="mark">SOPHIA</div>
+  <div class="links">
+    <a href="https://showdrive2017-web.github.io/sophia-legal/">プライバシーポリシー</a>
+    <a href="mailto:showdrive2017@gmail.com">お問い合わせ</a>
+  </div>
+  <div class="copy">© 2026 The Highway Design</div>
+</footer>
+
+<script>
+// 起動画面と同じ手描きの天の川。軽量・静的な一枚背景として。
+(function(){
+  const c=document.getElementById('starfield');
+  const ctx=c.getContext('2d');
+  function paint(){
+    const d=Math.min(2,window.devicePixelRatio||1),W=c.clientWidth,H=c.clientHeight;
+    c.width=W*d;c.height=H*d;ctx.setTransform(d,0,0,d,0,0);
+    const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v);};
+    const bg=ctx.createLinearGradient(0,0,W*0.3,H);
+    bg.addColorStop(0,'#0d1b30');bg.addColorStop(.5,'#0A0F22');bg.addColorStop(1,'#080d1c');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    const x0=-0.1*W,y0=0.1*H,x1=1.05*W,y1=0.95*H;
+    const L=Math.hypot(x1-x0,y1-y0),ux=(x1-x0)/L,uy=(y1-y0)/L,nx=-uy,ny=ux;
+    const along=k=>({x:x0+(x1-x0)*k,y:y0+(y1-y0)*k});
+    ctx.globalCompositeOperation='lighter';
+    for(let i=0;i<60;i++){
+      const k=Math.random(),o=gauss()*H*0.12,P=along(k);
+      const x=P.x+nx*o,y=P.y+ny*o,r=30+Math.random()*100;
+      const a=(0.03+Math.random()*0.04);
+      const rg=ctx.createRadialGradient(x,y,0,x,y,r);
+      rg.addColorStop(0,'rgba(150,175,220,'+a.toFixed(3)+')');rg.addColorStop(1,'rgba(150,175,220,0)');
+      ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();
+    }
+    const N=Math.round(W*H/500);
+    for(let i=0;i<N;i++){
+      let x,y;
+      if(Math.random()<0.5){const k=Math.random(),o=gauss()*H*0.12,P=along(k);x=P.x+nx*o;y=P.y+ny*o;}
+      else{x=Math.random()*W;y=Math.random()*H;}
+      const m=Math.pow(Math.random(),3),r=0.3+m*1,a=0.2+0.6*Math.random();
+      const tint=Math.random()<0.2?'205,225,255':(Math.random()<0.15?'216,181,101':'238,244,248');
+      ctx.fillStyle='rgba('+tint+','+a.toFixed(3)+')';ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();
+    }
+  }
+  paint();
+  let t; window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(paint,150);});
+})();
+</script>
+</body>
+</html>
