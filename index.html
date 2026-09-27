@@ -11,7 +11,7 @@
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&family=Noto+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#0A0F22; --surf:#111832; --surf2:#1A2344;
@@ -19,6 +19,7 @@
   --ink:#E9E3D3; --ash:#A2AAC6; --ash2:#5F6A8E;
   --accent:#D8B565; --rec:#E06055;
   --mincho:"Noto Sans JP",sans-serif; /* 見出し用。宇宙的でモダンな印象に、字間を広めに使う */
+  --armor:"Zen Old Mincho",serif; /* 装甲明朝ふうの、太く力強い見出し用 */
   --sans:"Zen Kaku Gothic New","Hiragino Sans",sans-serif;
   --thin:"Noto Sans JP",sans-serif;
   --mono:"IBM Plex Mono",monospace;
@@ -33,6 +34,7 @@ section{padding:120px 24px;position:relative}
 .wrap{max-width:1040px;margin:0 auto}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
 h2{font-family:var(--mincho);font-size:clamp(22px,3.2vw,32px);font-weight:500;letter-spacing:.12em;line-height:1.75;margin-bottom:28px}
+h2.armor{font-family:var(--armor);font-weight:900;letter-spacing:.08em;color:#F5F1E6;line-height:1.7}
 .lead{color:var(--ash);font-size:16px;line-height:2;max-width:620px}
 
 /* ---- nav ---- */
@@ -145,7 +147,7 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 <section id="about">
   <div class="wrap">
     <div class="eyebrow">Concept</div>
-    <h2>頭に浮かんだことを、<br>星として生み出す。</h2>
+    <h2 class="armor">頭に浮かんだことを、<br>星として生み出す。</h2>
     <p class="lead">アイデア出し、打ち合わせの備忘、頭の整理。堅苦しくなく、楽しく思考をまとめたい人へ。
       無の宇宙から始まり、触れるたびに星が生まれ、つながり、育っていきます。</p>
     <div class="grid">
@@ -168,7 +170,7 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 <section id="showcase">
   <div class="wrap">
     <div class="eyebrow">How it works</div>
-    <h2>PC は編集室、<br>スマホはキャンバスに。</h2>
+    <h2 class="armor">PC は編集室、<br>スマホはキャンバスに。</h2>
     <p class="lead">全体を見渡して整理するのは PC で。ハッとした瞬間をすぐ拾うのはスマホで。
       ふたつの画面が、ひとつの宇宙をつなぎ、育てます。</p>
 
