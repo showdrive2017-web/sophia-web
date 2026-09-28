@@ -555,6 +555,9 @@ function updateKbGap(){                         // iOS: the keyboard covers the 
   const gap=vv?Math.max(0,innerHeight-(vv.offsetTop+vv.height)):0;
   document.documentElement.style.setProperty('--kbGap',Math.round(gap)+'px');
 }
+function settleSheet(n){                        // the keyboard and the browser's own bars can take a while to settle
+  [30,150,320,600,1000,1500].forEach(t=>setTimeout(()=>{updateKbGap();if(sel===n)centreOn(n);},t));
+}
 function centreOn(n){                           // the chosen star sits a hand's width above the sheet
   const off=nearestOffset(n.x);
   const vv=window.visualViewport;
@@ -579,12 +582,12 @@ function openSheet(n,fresh){
   SH.classList.toggle('compact',!!fresh);
   SH.classList.add('open');
   if(fresh){SHT.focus();SHT.select();}          // inside the same touch, so the keyboard may open at once
-  if(!tidy){setTimeout(()=>centreOn(n),30);setTimeout(()=>centreOn(n),320);}
+  if(!tidy)settleSheet(n);
 }
 function expandSheet(focusBody){
   SH.classList.remove('compact');
   if(focusBody)SHB.focus();
-  if(sel){setTimeout(()=>centreOn(sel),30);setTimeout(()=>centreOn(sel),320);}
+  if(sel)settleSheet(sel);
 }
 function shrinkSheet(){SH.classList.add('compact');SHB.blur();if(sel){setTimeout(()=>centreOn(sel),320);}}
 $('shMore').onclick=()=>{expandSheet(true);Snd.tick();};
@@ -601,7 +604,7 @@ function closeSheet(){SH.classList.remove('open');sel=null;SHT.blur();SHB.blur()
 SHT.addEventListener('input',()=>{if(sel){sel.title=SHT.value;save();renderList();}});
 SHB.addEventListener('input',()=>{if(sel){sel.body=toHtml(SHB.value);save();}});
 SHT.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SHB.focus();}});
-[SHT,SHB].forEach(el=>{el.addEventListener('pointerdown',()=>{el.focus();});el.addEventListener('focus',()=>{updateKbGap();if(sel)setTimeout(()=>{updateKbGap();centreOn(sel);},350);});el.addEventListener('blur',()=>{updateKbGap();});});
+[SHT,SHB].forEach(el=>{el.addEventListener('pointerdown',()=>{el.focus();});el.addEventListener('focus',()=>{if(sel)settleSheet(sel);});el.addEventListener('blur',()=>{updateKbGap();});});
 if(window.visualViewport){['resize','scroll'].forEach(ev=>window.visualViewport.addEventListener(ev,()=>{updateKbGap();if(sel)centreOn(sel);}));}
 window.addEventListener('scroll',()=>{if(sel)centreOn(sel);},{passive:true});
 $('shClose').onclick=closeSheet;
