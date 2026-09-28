@@ -116,7 +116,7 @@ body.genesis #skyBtns{display:none}
 #sheet{position:fixed;left:0;right:0;bottom:0;z-index:30;transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.9,.25,1);
   background:rgba(13,19,42,.96);border-top:1px solid var(--line2);border-radius:18px 18px 0 0;
   padding:12px 18px calc(var(--sab) + 14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;max-height:56vh}
-#sheet.open{transform:none}
+#sheet.open{transform:translateY(calc(-1 * var(--kbGap,0px)))}
 #shBar{width:36px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 10px}
 #shTitle{width:100%;font:inherit;font-size:19px;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--line);
   padding:6px 0 8px;outline:none;-webkit-user-select:text;user-select:text;touch-action:manipulation}
@@ -550,6 +550,11 @@ cv.addEventListener('lostpointercapture',e=>{ptrs.delete(e.pointerId);});
 const SH=$('sheet'),SHT=$('shTitle'),SHB=$('shBody');
 function sheetTop(){return SH.classList.contains('open')?SH.getBoundingClientRect().top:H_;}
 let dbg=false;
+function updateKbGap(){                         // iOS: the keyboard covers the bottom of the layout viewport
+  const vv=window.visualViewport;
+  const gap=vv?Math.max(0,innerHeight-(vv.offsetTop+vv.height)):0;
+  document.documentElement.style.setProperty('--kbGap',Math.round(gap)+'px');
+}
 function centreOn(n){                           // the chosen star sits a hand's width above the sheet
   const off=nearestOffset(n.x);
   const vv=window.visualViewport;
@@ -596,8 +601,8 @@ function closeSheet(){SH.classList.remove('open');sel=null;SHT.blur();SHB.blur()
 SHT.addEventListener('input',()=>{if(sel){sel.title=SHT.value;save();renderList();}});
 SHB.addEventListener('input',()=>{if(sel){sel.body=toHtml(SHB.value);save();}});
 SHT.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();SHB.focus();}});
-[SHT,SHB].forEach(el=>{el.addEventListener('pointerdown',()=>{el.focus();});el.addEventListener('focus',()=>{if(sel)setTimeout(()=>centreOn(sel),350);});});
-if(window.visualViewport){['resize','scroll'].forEach(ev=>window.visualViewport.addEventListener(ev,()=>{if(sel)centreOn(sel);}));}
+[SHT,SHB].forEach(el=>{el.addEventListener('pointerdown',()=>{el.focus();});el.addEventListener('focus',()=>{updateKbGap();if(sel)setTimeout(()=>{updateKbGap();centreOn(sel);},350);});el.addEventListener('blur',()=>{updateKbGap();});});
+if(window.visualViewport){['resize','scroll'].forEach(ev=>window.visualViewport.addEventListener(ev,()=>{updateKbGap();if(sel)centreOn(sel);}));}
 window.addEventListener('scroll',()=>{if(sel)centreOn(sel);},{passive:true});
 $('shClose').onclick=closeSheet;
 $('shDel').onclick=()=>{if(!sel)return;const n=sel;ask('「'+(n.title||'無題')+'」を消しますか？',()=>{closeSheet();vanishStars([n.id]);});};
