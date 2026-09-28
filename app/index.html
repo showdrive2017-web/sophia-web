@@ -552,12 +552,14 @@ function sheetTop(){return SH.classList.contains('open')?SH.getBoundingClientRec
 let dbg=false;
 function centreOn(n){                           // the chosen star sits a hand's width above the sheet
   const off=nearestOffset(n.x);
-  const st=sheetTop();
-  const topBar=(parseFloat(getComputedStyle($('top')).paddingTop)||50)+44;
+  const vv=window.visualViewport;
+  const visBottom=vv?vv.offsetTop+vv.height:H_;   // iOS: the keyboard shrinks what's visible, not the layout box
+  const st=Math.min(sheetTop(),visBottom);
+  const topBar=(parseFloat(getComputedStyle($('top')).paddingTop)||50)+44+(vv?vv.offsetTop:0);
   let ty=st-118;                                // the sheet is always on screen while you type; so is this
   if(ty<topBar+16)ty=topBar+16;
   pxT=n.x+off-W_/(2*sc);vyT=ty-n.y*sc;
-  if(dbg){const vv=window.visualViewport;$('dbg').textContent='H '+H_+' sheet '+Math.round(st)+' ty '+Math.round(ty)+' vy '+Math.round(vyT)+
+  if(dbg){$('dbg').textContent='H '+H_+' sheet '+Math.round(st)+' ty '+Math.round(ty)+' vy '+Math.round(vyT)+
     (vv?' vv '+Math.round(vv.offsetTop)+'/'+Math.round(vv.height):'')+' scrollY '+Math.round(window.scrollY);}
 }
 function openSheet(n,fresh){
