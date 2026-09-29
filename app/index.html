@@ -412,8 +412,7 @@ function draw(){
       taper(cu,0,1,(linkTo?7:6)*KZ,(linkTo?1:1.6)*KZ,hex(ca,.95),hex(cb,linkTo?.95:.6),(linkTo?16:10)*KZ,hex(ca,.9));
       ctx.save();ctx.globalCompositeOperation='lighter';ctx.shadowColor='rgba(255,240,210,.95)';ctx.shadowBlur=12;
       ctx.fillStyle='rgba(255,250,238,'+(linkTo?.55:.95)+')';ctx.beginPath();ctx.arc(mouse.x,mouse.y,3.2,0,6.2832);ctx.fill();ctx.restore();}
-    for(const off of [-WW(),0,WW()])for(const n of nodes){const D=P(n),p0=S({x:D.x+off,y:D.y});if(p0.x<-160||p0.x>W_+160||p0.y<-160||p0.y>H_+160)continue;
-      const p={x:Math.round(p0.x),y:Math.round(p0.y)};    // whole pixels: shadowBlur shimmers on fractional positions while panning
+    for(const off of [-WW(),0,WW()])for(const n of nodes){const D=P(n),p=S({x:D.x+off,y:D.y});if(p.x<-160||p.x>W_+160||p.y<-160||p.y>H_+160)continue;
       const B=births.find(x=>x.n===n);if(!(B&&drawBirth(B,t,p.x,p.y)))drawStar(n,t,p.x,p.y,n===linkTo?2:((n===sel||n===held||n===linkFrom)?1:0));}
     for(const V of vanishes.slice())drawVanish(V,t);
     if(nodes.length===0){const idle=performance.now()-lastAct;if(idle>6000){const k=0.5-0.5*Math.cos((idle-6000)*0.0013);
