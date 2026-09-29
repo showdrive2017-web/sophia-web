@@ -493,7 +493,7 @@ cv.addEventListener('pointermove',e=>{
     else if(!atR&&!atL&&edgeT){clearTimeout(edgeT);edgeT=null;}
     return;
   }
-  if(pan){const dx=e.clientX-pan.x,dy=e.clientY-pan.y;if(Math.hypot(dx,dy)>4)pan.moved=true;
+  if(pan){const dx=e.clientX-pan.x,dy=e.clientY-pan.y;if(Math.hypot(dx,dy)>4&&!pan.moved){pan.moved=true;cancelSettle();}  // a real pan wins over any pending re-centering
     const now=performance.now();pan.v=(e.clientX-pan.lx)/Math.max(1,now-pan.lt);pan.lx=e.clientX;pan.lt=now;
     px=pxT=pan.px0-dx/sc;
     if(sel)vy=vyT=clampVy(pan.vy0+dy);}        // with a star chosen, the sky moves up and down too
@@ -554,8 +554,11 @@ function updateKbGap(){                         // iOS: the keyboard covers the 
   SH.style.bottom=Math.max(0,H_-visBottom)+'px';  // pin the sheet's own bottom edge exactly there
   document.documentElement.style.setProperty('--vvTop',(vv?Math.round(vv.offsetTop):0)+'px');
 }
+let settleTimers=[];
+function cancelSettle(){settleTimers.forEach(clearTimeout);settleTimers=[];}
 function settleSheet(n){                        // the keyboard and the browser's own bars can take a while to settle
-  [30,150,320,600,1000,1500].forEach(t=>setTimeout(()=>{updateKbGap();if(sel===n)centreOn(n);},t));
+  cancelSettle();
+  settleTimers=[30,150,320,600,1000,1500].map(t=>setTimeout(()=>{updateKbGap();if(sel===n)centreOn(n);},t));
 }
 function centreOn(n){                           // the chosen star sits a hand's width above the sheet
   const off=nearestOffset(n.x);
