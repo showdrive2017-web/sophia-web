@@ -664,7 +664,15 @@ function renderList(){
     const end=e=>{if(!on)return;on=false;
       if(hor&&dx<-rowW*0.75){                     // swept nearly all the way: finish the sweep, then it's gone
         inner.style.transition='transform .16s ease-in';inner.style.transform='translateX(-'+rowW+'px)';
-        vib(10);setTimeout(()=>vanishStars([n.id]),150);return;
+        vib(10);
+        setTimeout(()=>{                          // then the row itself closes up, like sweeping it off the list
+          row.style.overflow='hidden';row.style.height=row.offsetHeight+'px';
+          row.getBoundingClientRect();             // force layout before animating to 0
+          row.style.transition='height .18s ease, margin .18s ease';
+          row.style.height='0px';row.style.marginBottom='0px';
+          setTimeout(()=>vanishStars([n.id]),180);
+        },150);
+        return;
       }
       inner.style.transition='transform .18s';inner.style.transform='';row.classList.remove('sw');
       if(hor===false||hor===null){if(Math.hypot((e.clientX||sx)-sx,(e.clientY||sy)-sy)<8){setMode('sky');openSheet(n,false);}}};
