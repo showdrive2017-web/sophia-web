@@ -69,8 +69,6 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .dot{width:14px;height:14px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
 .rt{flex:1;min-width:0;font-size:15px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rg{font-family:var(--mono);font-size:9.5px;color:var(--ash2);letter-spacing:.06em;flex:none}
-.swipeHint{position:absolute;inset:0;display:flex;align-items:center;padding:0 16px;font-size:12px;color:var(--ash);pointer-events:none;opacity:0;transition:opacity .12s}
-.row.sw .swipeHint{opacity:1}
 #empty{padding:34px 28px;text-align:center;color:var(--ash2);font-size:13px;line-height:2}
 #empty b{display:block;color:var(--ash);font-weight:400;font-size:14px}
 
@@ -645,7 +643,7 @@ function renderList(){
   $('empty').style.display=caps.length?'none':'';
   ROWS.innerHTML='';
   caps.slice(0,60).forEach(n=>{
-    const row=document.createElement('div');row.className='row';const hint=document.createElement('div');hint.className='swipeHint';
+    const row=document.createElement('div');row.className='row';
     const inner=document.createElement('div');inner.className='rowIn';
     const dot=document.createElement('div');dot.className='dot';const c=colorOf(n);dot.style.background=c;dot.style.color=c;
     dot.title='タップで色を変える';
@@ -653,14 +651,12 @@ function renderList(){
     dot.addEventListener('click',e=>{e.stopPropagation();const idx=nextColorIdx(n,1);n.group=idx<0?null:groupForColor(idx).id;save();Snd.tick();renderList();vib(6);});
     const rt=document.createElement('div');rt.className='rt';rt.textContent=n.title||'無題';
     const rg=document.createElement('div');rg.className='rg';const g=group(n.group);rg.textContent=(g?g.name+'  ':'')+fmt(n.cap);
-    inner.append(dot,rt,rg);row.append(hint,inner);ROWS.appendChild(row);
+    inner.append(dot,rt,rg);row.append(inner);ROWS.appendChild(row);
     let sx=0,sy=0,dx=0,on=false,hor=null,pid=null,rowW=300;
     inner.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;dx=0;hor=null;pid=e.pointerId;inner.style.transition='none';rowW=row.getBoundingClientRect().width||300;});
     inner.addEventListener('pointermove',e=>{if(!on)return;const mx=e.clientX-sx,my=e.clientY-sy;
       if(hor===null&&Math.hypot(mx,my)>8)hor=Math.abs(mx)>Math.abs(my);
-      if(!hor)return;e.preventDefault();try{inner.setPointerCapture(pid);}catch(_){}dx=Math.max(-rowW,Math.min(0,mx));inner.style.transform='translateX('+dx+'px)';
-      row.classList.toggle('sw',dx<-28);hint.style.justifyContent='flex-end';
-      hint.textContent=dx<-rowW*0.5?'削除':'';hint.style.color='#D9634A';});
+      if(!hor)return;e.preventDefault();try{inner.setPointerCapture(pid);}catch(_){}dx=Math.max(-rowW,Math.min(0,mx));inner.style.transform='translateX('+dx+'px)';});
     const end=e=>{if(!on)return;on=false;
       if(hor&&dx<-rowW*0.75){                     // swept nearly all the way: it's out, and the gap closes at once (だるま落とし)
         vib(10);
@@ -672,7 +668,7 @@ function renderList(){
         setTimeout(()=>vanishStars([n.id]),180);
         return;
       }
-      inner.style.transition='transform .18s';inner.style.transform='';row.classList.remove('sw');
+      inner.style.transition='transform .18s';inner.style.transform='';
       if(hor===false||hor===null){if(Math.hypot((e.clientX||sx)-sx,(e.clientY||sy)-sy)<8){setMode('sky');openSheet(n,false);}}};
     inner.addEventListener('pointerup',end);inner.addEventListener('pointercancel',end);
   });
