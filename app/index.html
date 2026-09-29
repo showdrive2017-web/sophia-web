@@ -116,7 +116,7 @@ body.genesis #skyBtns{display:none}
 #sheet{position:fixed;left:0;right:0;bottom:0;z-index:30;transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.9,.25,1);
   background:rgba(13,19,42,.96);border-top:1px solid var(--line2);border-radius:18px 18px 0 0;
   padding:12px 18px calc(var(--sab) + 14px);backdrop-filter:blur(14px);display:flex;flex-direction:column;max-height:56vh}
-#sheet.open{transform:translateY(calc(-1 * var(--kbGap,0px)))}
+#sheet.open{transform:none}
 #shBar{width:36px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 10px}
 #shTitle{width:100%;font:inherit;font-size:19px;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--line);
   padding:6px 0 8px;outline:none;-webkit-user-select:text;user-select:text;touch-action:manipulation}
@@ -148,7 +148,7 @@ body.genesis #skyBtns{display:none}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--sab) + 84px);z-index:50;display:none;
   background:rgba(233,227,211,.94);color:#0A0F22;font-size:12.5px;padding:9px 16px;border-radius:16px;max-width:86vw;text-align:center}
 #toast.on{display:block}
-#dbg{position:fixed;left:8px;top:calc(var(--sat) + 60px);z-index:60;font:10px var(--mono);color:#9ad;pointer-events:none;white-space:pre}
+#dbg{position:fixed;left:8px;top:calc(var(--sat) + 60px + var(--vvTop,0px));z-index:60;font:10px var(--mono);color:#9ad;pointer-events:none;white-space:pre}
 #file{display:none}
 #ttl,#modeBtn,#faces,#tools,#cap{transition:opacity .9s ease}
 body.genesis #ttl,body.genesis #modeBtn,body.genesis #faces,body.genesis #skyHint{opacity:0;pointer-events:none}
@@ -552,8 +552,9 @@ function sheetTop(){return SH.classList.contains('open')?SH.getBoundingClientRec
 let dbg=false;
 function updateKbGap(){                         // iOS: the keyboard covers the bottom of the layout viewport
   const vv=window.visualViewport;
-  const gap=vv?Math.max(0,innerHeight-(vv.offsetTop+vv.height)):0;
-  document.documentElement.style.setProperty('--kbGap',Math.round(gap)+'px');
+  const visBottom=vv?vv.offsetTop+vv.height:H_;   // the true bottom edge of what's actually visible
+  SH.style.bottom=Math.max(0,H_-visBottom)+'px';  // pin the sheet's own bottom edge exactly there
+  document.documentElement.style.setProperty('--vvTop',(vv?Math.round(vv.offsetTop):0)+'px');
 }
 function settleSheet(n){                        // the keyboard and the browser's own bars can take a while to settle
   [30,150,320,600,1000,1500].forEach(t=>setTimeout(()=>{updateKbGap();if(sel===n)centreOn(n);},t));
@@ -563,7 +564,7 @@ function centreOn(n){                           // the chosen star sits a hand's
   const vv=window.visualViewport;
   const visBottom=vv?vv.offsetTop+vv.height:H_;   // iOS: the keyboard shrinks what's visible, not the layout box
   const st=Math.min(sheetTop(),visBottom);
-  const topBar=(parseFloat(getComputedStyle($('top')).paddingTop)||50)+44+(vv?vv.offsetTop:0);
+  const topBar=(parseFloat(getComputedStyle($('top')).paddingTop)||50)+44+(vv?vv.offsetTop:0); // fixed elements don't track the keyboard-scrolled visual viewport
   let ty=st-118;                                // the sheet is always on screen while you type; so is this
   if(ty<topBar+16)ty=topBar+16;
   pxT=n.x+off-W_/(2*sc);vyT=ty-n.y*sc;
@@ -647,6 +648,9 @@ function renderList(){
     const row=document.createElement('div');row.className='row';const hint=document.createElement('div');hint.className='swipeHint';
     const inner=document.createElement('div');inner.className='rowIn';
     const dot=document.createElement('div');dot.className='dot';const c=colorOf(n);dot.style.background=c;dot.style.color=c;
+    dot.title='タップで色を変える';
+    dot.addEventListener('pointerdown',e=>e.stopPropagation());
+    dot.addEventListener('click',e=>{e.stopPropagation();const idx=nextColorIdx(n,1);n.group=idx<0?null:groupForColor(idx).id;save();Snd.tick();renderList();vib(6);});
     const rt=document.createElement('div');rt.className='rt';rt.textContent=n.title||'無題';
     const rg=document.createElement('div');rg.className='rg';const g=group(n.group);rg.textContent=(g?g.name+'  ':'')+fmt(n.cap);
     inner.append(dot,rt,rg);row.append(hint,inner);ROWS.appendChild(row);
@@ -654,12 +658,13 @@ function renderList(){
     inner.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;dx=0;hor=null;pid=e.pointerId;inner.style.transition='none';});
     inner.addEventListener('pointermove',e=>{if(!on)return;const mx=e.clientX-sx,my=e.clientY-sy;
       if(hor===null&&Math.hypot(mx,my)>8)hor=Math.abs(mx)>Math.abs(my);
-      if(!hor)return;e.preventDefault();inner.setPointerCapture(pid);dx=Math.max(-120,Math.min(120,mx));inner.style.transform='translateX('+dx+'px)';
-      row.classList.toggle('sw',Math.abs(dx)>28);hint.style.justifyContent=dx>0?'flex-start':'flex-end';
-      const idx=nextColorIdx(n,dx>0?1:-1);hint.textContent=Math.abs(dx)>28?(idx<0?'色を外す':PNAME[idx]):'';hint.style.color=idx<0?GRAY:PALETTE[idx];});
-    const end=e=>{if(!on)return;on=false;inner.style.transition='transform .18s';inner.style.transform='';row.classList.remove('sw');
-      if(hor&&Math.abs(dx)>56){const idx=nextColorIdx(n,dx>0?1:-1);n.group=idx<0?null:groupForColor(idx).id;save();Snd.tick();renderList();vib(8);}
-      else if(hor===false||hor===null){if(Math.hypot((e.clientX||sx)-sx,(e.clientY||sy)-sy)<8){setMode('sky');openSheet(n,false);}}};
+      if(!hor)return;e.preventDefault();inner.setPointerCapture(pid);dx=Math.max(-120,Math.min(0,mx));inner.style.transform='translateX('+dx+'px)';
+      row.classList.toggle('sw',dx<-28);hint.style.justifyContent='flex-end';
+      hint.textContent=dx<-28?'削除':'';hint.style.color='#D9634A';});
+    const end=e=>{if(!on)return;on=false;inner.style.transition='transform .18s';
+      if(hor&&dx<-72){vib(10);vanishStars([n.id]);return;}
+      inner.style.transform='';row.classList.remove('sw');
+      if(hor===false||hor===null){if(Math.hypot((e.clientX||sx)-sx,(e.clientY||sy)-sy)<8){setMode('sky');openSheet(n,false);}}};
     inner.addEventListener('pointerup',end);inner.addEventListener('pointercancel',end);
   });
 }
