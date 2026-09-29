@@ -654,16 +654,19 @@ function renderList(){
     const rt=document.createElement('div');rt.className='rt';rt.textContent=n.title||'無題';
     const rg=document.createElement('div');rg.className='rg';const g=group(n.group);rg.textContent=(g?g.name+'  ':'')+fmt(n.cap);
     inner.append(dot,rt,rg);row.append(hint,inner);ROWS.appendChild(row);
-    let sx=0,sy=0,dx=0,on=false,hor=null,pid=null;
-    inner.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;dx=0;hor=null;pid=e.pointerId;inner.style.transition='none';});
+    let sx=0,sy=0,dx=0,on=false,hor=null,pid=null,rowW=300;
+    inner.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;dx=0;hor=null;pid=e.pointerId;inner.style.transition='none';rowW=row.getBoundingClientRect().width||300;});
     inner.addEventListener('pointermove',e=>{if(!on)return;const mx=e.clientX-sx,my=e.clientY-sy;
       if(hor===null&&Math.hypot(mx,my)>8)hor=Math.abs(mx)>Math.abs(my);
-      if(!hor)return;e.preventDefault();inner.setPointerCapture(pid);dx=Math.max(-120,Math.min(0,mx));inner.style.transform='translateX('+dx+'px)';
+      if(!hor)return;e.preventDefault();try{inner.setPointerCapture(pid);}catch(_){}dx=Math.max(-rowW,Math.min(0,mx));inner.style.transform='translateX('+dx+'px)';
       row.classList.toggle('sw',dx<-28);hint.style.justifyContent='flex-end';
-      hint.textContent=dx<-28?'削除':'';hint.style.color='#D9634A';});
-    const end=e=>{if(!on)return;on=false;inner.style.transition='transform .18s';
-      if(hor&&dx<-72){vib(10);vanishStars([n.id]);return;}
-      inner.style.transform='';row.classList.remove('sw');
+      hint.textContent=dx<-rowW*0.5?'削除':'';hint.style.color='#D9634A';});
+    const end=e=>{if(!on)return;on=false;
+      if(hor&&dx<-rowW*0.75){                     // swept nearly all the way: finish the sweep, then it's gone
+        inner.style.transition='transform .16s ease-in';inner.style.transform='translateX(-'+rowW+'px)';
+        vib(10);setTimeout(()=>vanishStars([n.id]),150);return;
+      }
+      inner.style.transition='transform .18s';inner.style.transform='';row.classList.remove('sw');
       if(hor===false||hor===null){if(Math.hypot((e.clientX||sx)-sx,(e.clientY||sy)-sy)<8){setMode('sky');openSheet(n,false);}}};
     inner.addEventListener('pointerup',end);inner.addEventListener('pointercancel',end);
   });
