@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SOPHIA for Windows — PC版のダウンロード</title>
+<meta name="description" content="SOPHIA のPC版（Windows）。大きな画面で、星座を見渡して整える。無料の体験版をダウンロードできます。スマホ版を購入すると、PC版も製品版になります。">
+<meta name="theme-color" content="#060a18">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SOPHIA for Windows">
+<meta property="og:description" content="大きな画面で、宇宙を整える。SOPHIA のPC版（無料の体験版）">
+<meta property="og:url" content="https://showdrive2017-web.github.io/sophia-web/pc/">
+<meta property="og:image" content="https://showdrive2017-web.github.io/sophia-web/pc/pc-screen.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#060a18;
+  --navy:#111a35; --navy2:#2c3554;
+  --ink:#EEEBF3; --ash:#A9B0CC; --ash2:#6A7397;
+  --gold:#EAC98A; --gold2:#F6E2B4;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --serif:Cinzel,serif;
+  --gutter:clamp(16px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--night);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.9;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:radial-gradient(90% 55% at 80% 0%,rgba(40,60,120,.35),rgba(40,60,120,0) 70%),linear-gradient(180deg,#02040c 0%,#060c20 48%,#0a1430 100%);
+  background-attachment:fixed;min-height:100vh}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.wrap{max-width:980px;margin:0 auto;padding:0 var(--gutter)}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:22px var(--gutter);max-width:1180px;margin:0 auto}
+.mark{font-family:var(--serif);font-size:13px;letter-spacing:.36em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.mark i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+header nav a{font-size:13px;color:var(--ash);text-decoration:none;letter-spacing:.06em}
+
+.hero{text-align:center;padding:9vh 0 6vh}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--gold);margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5.4vw,58px);letter-spacing:.32em;padding-left:.32em;line-height:1.3}
+h1 small{display:block;font-family:var(--sans);font-weight:500;font-size:clamp(15px,2vw,19px);letter-spacing:.14em;padding:0;margin-top:14px;color:var(--ash)}
+.dl{display:inline-flex;flex-direction:column;align-items:center;gap:2px;margin-top:40px;padding:16px 38px;border-radius:40px;text-decoration:none;
+  border:1px solid rgba(255,230,180,.9);box-shadow:0 0 24px rgba(255,220,160,.3),inset 0 0 18px rgba(255,220,160,.12);transition:box-shadow .3s}
+.dl:hover{box-shadow:0 0 40px rgba(255,220,160,.5),inset 0 0 18px rgba(255,220,160,.2)}
+.dl b{font-size:17px;font-weight:500;letter-spacing:.12em;color:var(--gold2)}
+.dl span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ash)}
+.req{margin-top:16px;font-size:12.5px;color:var(--ash2);letter-spacing:.06em}
+.phone{display:none;margin:28px auto 0;max-width:440px;padding:16px 18px;border:1px solid var(--navy2);border-radius:14px;font-size:13.5px;color:var(--ash);line-height:1.8}
+.phone button{margin-top:10px;font:inherit;font-size:13px;color:var(--gold);background:none;border:1px solid var(--navy2);border-radius:18px;padding:6px 16px;cursor:pointer}
+@media (pointer:coarse) and (max-width:820px){.phone{display:block}}
+
+.shot{margin:2vh auto 0;max-width:1080px;padding:0 var(--gutter)}
+.shot img{border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(234,201,138,.08)}
+
+section{padding:10vh 0 0}
+h2{font-size:clamp(20px,2.6vw,26px);font-weight:500;letter-spacing:.12em;margin-bottom:22px}
+h2 em{font-style:normal;color:var(--gold)}
+p.lead{color:var(--ash);max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:26px}
+.card{padding:22px 22px 20px;border:1px solid var(--navy2);border-radius:14px;background:rgba(17,26,53,.45)}
+.card h3{font-size:15.5px;font-weight:500;letter-spacing:.08em;margin-bottom:8px;color:var(--gold2)}
+.card p{font-size:14px;color:var(--ash);line-height:1.8}
+
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:26px}
+.plan{padding:24px;border-radius:14px;border:1px solid var(--navy2)}
+.plan.full{border-color:rgba(234,201,138,.6);box-shadow:inset 0 0 30px rgba(234,201,138,.06)}
+.plan h3{font-size:16px;font-weight:500;letter-spacing:.1em;margin-bottom:6px}
+.plan .price{font-family:var(--mono);font-size:13px;color:var(--ash2);margin-bottom:12px;letter-spacing:.06em}
+.plan ul{list-style:none;font-size:14px;color:var(--ash);line-height:2}
+.plan li::before{content:"✦";color:var(--gold);font-size:10px;margin-right:10px;vertical-align:2px}
+
+ol.steps{list-style:none;counter-reset:s;margin-top:22px;max-width:760px}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 46px;color:var(--ash);font-size:14.5px}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:28px;height:28px;border-radius:50%;border:1px solid var(--gold);
+  color:var(--gold);font-family:var(--mono);font-size:13px;display:flex;align-items:center;justify-content:center;line-height:1}
+ol.steps b{color:var(--ink);font-weight:500}
+code{font-family:var(--mono);font-size:13.5px;color:var(--gold2);background:rgba(234,201,138,.08);padding:1px 7px;border-radius:6px;white-space:nowrap}
+.note{margin-top:8px;padding:16px 18px;border-left:2px solid var(--gold);background:rgba(17,26,53,.5);border-radius:0 12px 12px 0;font-size:14px;color:var(--ash);max-width:760px}
+
+footer{margin-top:14vh;padding:34px var(--gutter) 46px;text-align:center;font-size:12.5px;color:var(--ash2);border-top:1px solid rgba(255,255,255,.06)}
+footer a{margin:0 12px;text-decoration:none}
+@media (max-width:560px){header nav{display:none}.dl{padding:14px 26px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="mark" href="../"><i></i>SOPHIA</a>
+  <nav><a href="../">トップへ</a></nav>
+</header>
+
+<main>
+  <div class="hero wrap">
+    <div class="eyebrow">FOR WINDOWS</div>
+    <h1>SOPHIA<small>大きな画面で、宇宙を整える。</small></h1>
+    <a class="dl" href="https://github.com/showdrive2017-web/sophia-web/releases/latest/download/SOPHIA-setup.exe">
+      <b>無料の体験版をダウンロード</b><span>Windows 10 / 11（64bit）・約 1.3 MB</span></a>
+    <p class="req">ログイン不要。作品はあなたのPCの中にだけ保存されます。</p>
+    <div class="phone">いまスマホで見ています。PC版は、Windowsのパソコンでこのページを開いてダウンロードしてください。
+      <br><button id="copy">このページのURLをコピー</button></div>
+  </div>
+
+  <div class="shot"><img src="pc-screen.jpg" width="1728" height="1080" alt="PC版の SOPHIA。短編映画『灯台守の手紙』の構想が、色分けされた星と線で星座になっている画面"></div>
+
+  <div class="wrap">
+    <section>
+      <h2>PC版で、<em>できること</em></h2>
+      <p class="lead">スマホは、ハッとした瞬間をすぐ拾うためのキャンバス。PC版は、全体を見渡して、じっくり整えるための編集室です。</p>
+      <div class="grid">
+        <div class="card"><h3>見渡す</h3><p>ズームとパンで、星座の全体も、ひとつの星の細部も。広い画面で、考えの流れがひと目で分かります。</p></div>
+        <div class="card"><h3>付せんと画像</h3><p>メモ用紙に書いて、星空に貼りつける。星には画像も添えられます。</p></div>
+        <div class="card"><h3>色と仲間分け</h3><p>色のグループで星を分けて、名前を付けて整理。囲んでまとめて消すこともできます。</p></div>
+        <div class="card"><h3>スマホから受け取る</h3><p>スマホで「書き出す」した作品ファイルを、PC版の「ファイルから読み込む」で開けます。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>体験版と<em>製品版</em></h2>
+      <p class="lead">PC版は無料の体験版から始まります。スマホ版（iPhone / Android）を購入すると、PC版も製品版になります。PC版だけを買う必要はありません。</p>
+      <div class="plans">
+        <div class="plan"><h3>体験版</h3><div class="price">無料</div>
+          <ul><li>星は10個まで</li><li>プロジェクトは1つまで</li><li>すべての機能を試せる</li></ul></div>
+        <div class="plan full"><h3>製品版</h3><div class="price">スマホ版の購入（1,200円・買い切り）で</div>
+          <ul><li>星はいくつでも</li><li>プロジェクトは5つまで（スマホ）</li><li>PC版も製品版に</li></ul></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>PC版を<em>製品版にする</em></h2>
+      <ol class="steps">
+        <li><b>スマホ版で購入する。</b>アプリの購入画面から、1,200円の買い切りで購入します。</li>
+        <li><b>コードを確かめる。</b>購入後、スマホの購入画面に <code>SOPH-XXXX-XXXX-XXXX</code> の形のコードが出ます（星の一覧 →「設定」から開けます）。</li>
+        <li><b>PC版に入れる。</b>PC版の「プロジェクト」→「体験版 · 製品版にする」で、コードを入力します。</li>
+      </ol>
+      <p class="note">購入済みのスマホから書き出した作品ファイルを、PC版の「ファイルから読み込む」で開いても、自動で製品版になります。</p>
+    </section>
+
+    <section>
+      <h2>インストールのしかた</h2>
+      <ol class="steps">
+        <li><b>ダウンロードした <code>SOPHIA-setup.exe</code> を開きます。</b></li>
+        <li><b>「WindowsによってPCが保護されました」と出たら</b>、「詳細情報」を押して、「実行」を押してください。SOPHIA はまだ新しいアプリで、ダウンロードの実績が少ないため、Windows がこの確認を出します。ノートンなどのセキュリティソフトが確認を出すこともあります。そのときも、そのまま進めて大丈夫です。</li>
+        <li><b>画面の案内に沿って進めると</b>、デスクトップとスタートメニューに SOPHIA のアイコンができます。</li>
+      </ol>
+      <p class="note">Mac版は準備中です。</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <a href="../">トップ</a><a href="https://showdrive2017-web.github.io/sophia-legal/">プライバシーポリシー</a>
+  <div style="margin-top:14px">© 2026 SOPHIA</div>
+</footer>
+<script>
+document.getElementById('copy').onclick=async e=>{
+  try{await navigator.clipboard.writeText(location.href);e.target.textContent='コピーしました';}
+  catch(err){e.target.textContent=location.href;}
+};
+</script>
+</body>
+</html>
