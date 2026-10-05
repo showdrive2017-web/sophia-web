@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from '../vendor/GLTFLoader.js';
+import { DRACOLoader } from '../vendor/DRACOLoader.js';
 
 const section=document.querySelector('#pc-experience');
 function start(){init().catch(error=>{
@@ -37,7 +38,7 @@ async function init(){
   }
   const pmrem=new THREE.PMREMGenerator(renderer),environment=pmrem.fromScene(studio,.02);scene.environment=environment.texture;pmrem.dispose();
   studio.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});
-  const gltf=await new GLTFLoader().loadAsync(new URL('./sophia-pc.glb',import.meta.url).href);
+  const gltf=await new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath(new URL('../vendor/draco/',import.meta.url).href)).loadAsync(new URL('./sophia-pc.glb',import.meta.url).href);
   scene.add(gltf.scene);
   const screen=gltf.scene.getObjectByName(manifest.screenMesh);
   if(!screen)throw Error('Monitor screen missing');
