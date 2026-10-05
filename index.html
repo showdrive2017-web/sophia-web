@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SOPHIA — その思いつきが、無限の宇宙を創る</title>
+<title>改修プレビュー | SOPHIA — その思いつきが、無限の宇宙を創る</title>
 <meta name="description" content="ふとした思いつき・アイデアや打ち合わせ時のメモを、星として生み、つないで星座にしていく見える化アプリ。体験版は星10個まで無料(ログイン不要)、製品版は¥1,200の買い切り。">
 <meta name="theme-color" content="#060a18">
 <meta property="og:type" content="website">
@@ -14,9 +14,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/noto-sans-jp-site.woff2?v=9" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/noto-sans-jp.css?v=9">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 :root{
@@ -24,9 +23,9 @@
   --navy:#111a35; --navy2:#2c3554;
   --ink:#EEEBF3; --ash:#A9B0CC; --ash2:#6A7397;
   --gold:#EAC98A; --gold2:#F6E2B4;
-  --sans:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --serif:Cinzel,serif;
+  --sans:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
+  --mono:var(--sans);
+  --serif:var(--sans);
   --expo:cubic-bezier(.19,1,.22,1);
   --quart:cubic-bezier(.76,0,.24,1);
   --gutter:clamp(20px,5vw,72px);
@@ -34,7 +33,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 html.lenis,html.lenis body{height:auto}
-body{background:var(--night);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.9;
+body{background:var(--night);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:500;line-height:1.9;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 img{display:block;max-width:100%;height:auto}
@@ -91,7 +90,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #hd .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 #hd .brand img{width:34px;height:34px;filter:drop-shadow(0 4px 14px rgba(20,30,80,.3));transition:transform .8s var(--expo)}
 #hd .brand:hover img{transform:rotate(-12deg) scale(1.08)}
-#hd .brand span{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.34em}
+#hd .brand span{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.12em}
 #snd{display:flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;font-family:var(--mono);font-size:11px;
   letter-spacing:.16em;border:1px solid color-mix(in srgb,currentColor 35%,transparent);
   background:color-mix(in srgb,currentColor 6%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .4s}
@@ -108,7 +107,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 main{position:relative;z-index:1}
 section{position:relative}
 .wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 var(--gutter)}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.10em;text-transform:uppercase;color:var(--gold);
   margin-bottom:28px;display:flex;align-items:center;gap:14px}
 .eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.6;transform-origin:left}
 .js .eyebrow::before{transform:scaleX(0);transition:transform 1.2s var(--expo)}
@@ -116,12 +115,12 @@ section{position:relative}
 .js .eyebrow.in::before{transform:none}
 .js .eyebrow.in span{opacity:1;transform:none}
 
-/* reveal: each character rises out of its phrase mask, slightly blurred and tilted (lusion-style) */
+/* Text rises through a clean mask, keeping its contours sharp. */
 .rv .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em .04em;margin:-.14em -.04em}
 .rv .w>span{display:inline-block}
 .rv .c{display:inline-block}
-.js .rv .c{transform:translate3d(0,115%,0) rotate(9deg);filter:blur(6px);transform-origin:0 100%;
-  transition:transform 1.5s var(--expo),filter 1.2s var(--expo);transition-delay:calc(var(--ci,0) * var(--st,22ms) + var(--d0,0ms))}
+.js .rv .c{transform:translate3d(0,115%,0);filter:none;transform-origin:0 100%;
+  transition:transform 1.1s var(--expo);transition-delay:calc(var(--ci,0) * var(--st,22ms) + var(--d0,0ms))}
 .js .rv.in .c{transform:none;filter:blur(0)}
 .rv .br{display:block;white-space:nowrap}
 
@@ -154,14 +153,14 @@ section{position:relative}
 #hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:110px 0 150px}
 #hero .wrap{width:100%}
 #hero .inner{will-change:transform,opacity}
-#hero .mark{font-family:var(--serif);font-weight:600;font-size:clamp(13px,1.3vw,16px);letter-spacing:.5em;color:var(--navy2);margin-bottom:30px;
+#hero .mark{font-family:var(--serif);font-weight:600;font-size:clamp(13px,1.3vw,16px);letter-spacing:.16em;color:var(--navy2);margin-bottom:30px;
   opacity:0;animation:mark 2.4s .3s var(--expo) forwards}
-@keyframes mark{from{opacity:0;letter-spacing:1.4em;filter:blur(6px)}to{opacity:1;letter-spacing:.5em;filter:blur(0)}}
+@keyframes mark{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 #hero h1{font-weight:700;font-size:clamp(34px,9.2vw,112px);line-height:1.22;letter-spacing:.02em;color:var(--navy)}
-#hero h1 .c{--d0:550ms;--st:55ms;transition-duration:2s,1.6s}
+
 #hero h1 .br{will-change:transform}
 #hero .cue{position:absolute;left:0;right:0;bottom:30px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:#f3e6d6;text-transform:uppercase;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;color:#f3e6d6;text-transform:uppercase;
   opacity:0;animation:fade 1.4s 2.4s var(--expo) forwards}
 #hero .cue .snd-hint{text-transform:none;letter-spacing:.12em;transition:opacity .6s}
 #hero .cue .stem{width:1px;height:38px;background:linear-gradient(currentColor,transparent);animation:stem 2.4s ease-in-out infinite}
@@ -231,7 +230,7 @@ section{position:relative}
 .card.tilt{transition:opacity 1.4s var(--expo),transform .25s ease-out}
 .card:nth-child(2){transition-delay:.14s}
 .js .cards:not(.in) .card{opacity:0;transform:translateY(70px) rotateX(-18deg)}
-.card .k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--ash)}
+.card .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ash)}
 .card .v{font-weight:700;font-size:clamp(40px,5vw,56px);letter-spacing:.02em;line-height:1.3;margin:12px 0 10px}
 .card .v small{font-size:.32em;font-weight:500;margin-left:.6em;color:var(--ash);letter-spacing:.08em}
 .card p{color:var(--ash);font-size:14.5px;line-height:1.9}
@@ -258,7 +257,7 @@ section{position:relative}
 @keyframes halo{50%{transform:scale(1.12);opacity:.8}}
 #download .eyebrow{justify-content:center}
 #download .eyebrow::before{display:none}
-#download h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,52px);letter-spacing:.42em;padding-left:.42em;margin-bottom:12px}
+#download h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,52px);letter-spacing:.16em;padding-left:.16em;margin-bottom:12px}
 #download .soon{color:var(--ash);font-size:15px;letter-spacing:.1em;margin-bottom:36px}
 .stores{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .store{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:16px;min-width:210px;text-align:left;
@@ -283,7 +282,7 @@ section{position:relative}
 /* ============ footer ============ */
 footer{position:relative;z-index:2;padding:56px var(--gutter) 40px;padding-bottom:max(40px,env(safe-area-inset-bottom));
   text-align:center;border-top:1px solid rgba(255,255,255,.08);background:rgba(2,4,12,.55)}
-footer .mark{font-family:var(--serif);font-size:13px;letter-spacing:.36em;color:var(--ash);margin-bottom:18px}
+footer .mark{font-family:var(--serif);font-size:13px;letter-spacing:.12em;color:var(--ash);margin-bottom:18px}
 footer .links{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--ash);margin-bottom:16px}
 footer .links a{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .6s var(--expo),color .3s}
 footer .links a:hover{color:var(--gold);background-size:100% 1px}
@@ -308,7 +307,53 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
   #twinkles i,#hero .cue .stem,#download.lit .star::before,.vsnd.muted,#download .star .rays,#download.lit .store::after{animation:none}
   #veil{display:none}
 }
+
+/* Requested journey: space first, descent into a dawn atmosphere at the end. */
+#sky .day{opacity:0;background:radial-gradient(90% 38% at 50% 110%,rgba(255,230,186,.8),transparent 75%),linear-gradient(180deg,#07132c 0%,#153551 44%,#497a9a 70%,#aab6bd 86%,#f0d3b0 100%)}
+#sky .night{opacity:1;background:radial-gradient(80% 55% at 65% 28%,rgba(48,65,125,.25),transparent 75%),linear-gradient(180deg,#02040c,#060c20 55%,#0a1430)}
+#sky .blue{opacity:0}
+#stars,#twinkles{opacity:1}
+#veil{background:#05091a;animation-duration:1.8s}
+#hero .inner{position:relative;min-height:clamp(240px,25vw,380px)}
+#hero .mark{color:var(--gold)}
+#hero h1{color:var(--ink);font-weight:800;font-size:clamp(32px,7.8vw,96px);line-height:1.22;letter-spacing:-.025em}
+#hero .hero-next{position:absolute;top:clamp(55px,5.8vw,88px);left:0;margin:0;font-size:clamp(23px,5.4vw,66px);font-weight:800;line-height:1.3;letter-spacing:-.025em}
+@keyframes phraseExit{to{transform:translate3d(0,-115%,0)}}
+#hd{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){#hero h1{display:none}#hero .hero-next{animation:none;opacity:1;filter:none;transform:none}}
+
+
+/* Curved atmospheric horizon; the ending has a strict document boundary. */
+#page{overflow:clip}
+#constellation{overflow:hidden}
+#sky .day{opacity:0;background:radial-gradient(90% 48% at 50% 85%,rgba(74,54,101,.20),transparent 75%),linear-gradient(180deg,#030611,#080e22 65%,#151a32)}
+#sky .day svg{position:absolute;inset:0;width:100%;height:100%}
+#download{min-height:calc(100svh - 180px);padding:8vh 0 6vh}
+footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(28px,env(safe-area-inset-bottom))}
+
+
+/* Phrase masks and restrained word staggering, following the Lusion reference. */
+#copy-intuitive{font-weight:750;margin-bottom:12vh;letter-spacing:-.015em}
+#copy1,#copy2{font-weight:800;letter-spacing:-.015em}
+#price h2{font-weight:800;letter-spacing:-.025em}
+#hero .hero-line{display:block;overflow:hidden}
+#hero .hero-next .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.09em 0;margin:-.09em 0}
+#hero .hero-next .w>span{display:inline-block;transform:translate3d(0,115%,0)}
+.js .rv.word-rise .w>span{transform:translate3d(0,115%,0);opacity:1;transition:transform 1.1s var(--expo);transition-delay:calc(var(--wi,0)*75ms)}
+.js .rv.word-rise.in .w>span{transform:translate3d(0,0,0)}
+.js #hero h1.word-rise .w>span{transform:translate3d(0,115%,0);transition:none}
+.hero-ready #hero h1.word-rise .w>span{animation:phraseLift 1.2s calc(.20s + var(--wi,0)*.09s) var(--expo) forwards,phraseExit .75s calc(4.8s + var(--wi,0)*.04s) var(--expo) forwards}
+.hero-ready #hero .hero-next .w>span{animation:phraseLift 1.2s calc(5.15s + var(--wi,0)*.09s) var(--expo) forwards}
+#s2{margin-top:-110svh;padding-top:10svh;z-index:4}
+.js body:not(.devices-pc-exited) #s2{visibility:hidden}
+.js body:not(.devices-pc-exited) #copy2 .w>span{transform:translate3d(0,105%,0);opacity:0}
+#s2 .node{top:calc(10svh + 6px)}
+@keyframes phraseLift{to{transform:translate3d(0,0,0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.hero-ready #hero h1.word-rise .w>span,.hero-ready #hero .hero-next .w>span,.js .rv.word-rise .w>span{animation:none;transform:none;opacity:1;transition:none}}
+
 </style>
+<link rel="stylesheet" href="assets/experience/devices.css?v=9">
+<script type="importmap">{"imports": {"three": "./assets/vendor/three.module.js"}}</script>
 </head>
 <body>
 <div id="veil" aria-hidden="true"></div>
@@ -321,7 +366,17 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 </header>
 
 <div id="sky" aria-hidden="true">
-  <div class="l day"></div><div class="l blue"></div><div class="l night"></div>
+  <div class="l day"><svg viewBox="0 0 1600 900" preserveAspectRatio="none"><defs>
+<linearGradient id="earthSurface" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a213a"/><stop offset="1" stop-color="#040713"/></linearGradient>
+<linearGradient id="atmosphere" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#514f89" stop-opacity=".05"/><stop offset=".32" stop-color="#777398" stop-opacity=".45"/><stop offset=".5" stop-color="#cdb897" stop-opacity=".6"/><stop offset=".68" stop-color="#757aab" stop-opacity=".45"/><stop offset="1" stop-color="#514f89" stop-opacity=".05"/></linearGradient>
+<filter id="planetGlow" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
+<filter id="planetRim" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<path d="M-100 930 Q800 410 1700 930" fill="none" stroke="url(#atmosphere)" stroke-width="32" filter="url(#planetGlow)" opacity=".5"/>
+<path d="M-100 930 Q800 410 1700 930 L1700 1200 L-100 1200 Z" fill="url(#earthSurface)"/>
+<path d="M-100 930 Q800 410 1700 930" fill="none" stroke="url(#atmosphere)" stroke-width="5" filter="url(#planetRim)"/>
+<path d="M-100 930 Q800 410 1700 930" fill="none" stroke="url(#atmosphere)" stroke-width="1.3"/>
+</svg></div><div class="l blue"></div><div class="l night"></div>
   <canvas id="stars"></canvas>
   <div id="twinkles"></div>
   <div id="meteors"></div>
@@ -339,7 +394,8 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
   <section id="hero">
     <div class="wrap"><div class="inner">
       <div class="mark">SOPHIA</div>
-      <h1 class="rv" aria-label="その思いつきが、無限の宇宙を創る"><span class="br"><span class="w"><span>その思いつきが、</span></span></span><span class="br"><span class="w"><span>無限の宇宙を創る</span></span></span></h1>
+      <h1 class="rv word-rise" aria-label="その思いつきが、無限の宇宙を創る"><span class="br"><span class="w"><span>その思いつきが、</span></span></span><span class="br"><span class="w"><span>無限の宇宙を</span></span><span class="w"><span>創る</span></span></span></h1>
+      <p class="hero-next"><span class="hero-line"><span class="w"><span style="--wi:0">アプリを起動した瞬間に、</span></span></span><span class="hero-line"><span class="w"><span style="--wi:1">無限の宇宙が広がります。</span></span></span></p>
     </div></div>
     <span class="node" data-node></span>
     <div class="cue" aria-hidden="true"><span class="snd-hint">画面をクリックすると、音が流れます</span><span>Scroll</span><span class="stem"></span></div>
@@ -348,17 +404,18 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
   <section id="s1" class="stmt">
     <div class="wrap">
       <div class="eyebrow"><span>01 — Intuitive</span></div>
-      <p class="big rv scrub" id="copy1"><span class="w"><span>SOPHIA は、</span></span><span class="w"><span>直感的に</span></span><span class="w"><span>誰にでも</span></span><span class="w"><span>分かりやすく、</span></span><span class="w"><span>その操作性の</span></span><span class="w"><span>気持ちよさが</span></span><span class="w"><span>創造力を</span></span><span class="w"><span>高めてくれます。</span></span></p>
+      <p class="big rv word-rise" id="copy-intuitive"><span class="w"><span>SOPHIA は、</span></span><span class="w"><span>直感的に</span></span><span class="w"><span>誰にでも</span></span><span class="w"><span>分かりやすく、</span></span><span class="w"><span>その操作性の気持ちよさが</span></span><span class="w"><span>創造力を高めてくれます。</span></span></p>
+      <p class="big rv word-rise" id="copy1"><span class="w"><span>それは、</span></span><span class="w"><span>あなただけの宇宙―</span></span></p>
     </div>
     <span class="node side-l" data-node></span>
   </section>
 
-  <section id="film" aria-label="紹介動画">
+  <section id="film" hidden aria-label="紹介動画">
     <div class="stage">
       <div class="halo"></div>
       <div class="label">FILM<small>SCROLL TO PLAY</small></div>
       <div class="box">
-        <video id="promo" src="assets/promo.mp4" poster="assets/promo-poster.jpg" muted playsinline preload="metadata" controls aria-label="SOPHIA 紹介動画"></video>
+        <video id="promo"   muted playsinline preload="metadata" controls aria-label="SOPHIA 紹介動画"></video>
         <button class="play" type="button" aria-label="動画を再生">▶</button>
       </div>
       <div class="ui">
@@ -372,10 +429,23 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
     <span class="node" data-node></span>
   </section>
 
+  <section id="device-experience" aria-label="SOPHIA スマホとPCの体験">
+    <div class="device-stage">
+      <div class="device-view"></div>
+      <p class="device-hint" aria-live="polite">LOADING</p>
+      <p class="device-caption" role="note" aria-live="polite" hidden></p>
+      <div class="device-controls" hidden>
+        <p class="device-status"><span class="device-message">映像の終わりまでご覧ください</span><span class="device-progress" aria-hidden="true"><i></i></span></p>
+        <div class="device-buttons"><button type="button" data-device-play>画面を再生</button><button type="button" data-device-restart>最初から</button><button type="button" data-device-skip>スキップ ›</button></div>
+      </div>
+      <video class="device-fallback" src="assets/phone/screen-sequence.mp4?v=7" preload="none" playsinline hidden></video>
+    </div>
+  </section>
+
   <section id="s2" class="stmt right">
     <div class="wrap">
       <div class="eyebrow"><span>02 — Concept</span></div>
-      <p class="big rv scrub" id="copy2"><span class="w"><span>ふとした</span></span><span class="w"><span>思いつき・</span></span><span class="w"><span>アイデアや</span></span><span class="w"><span>打ち合わせ時の</span></span><span class="w"><span>メモを、</span></span><span class="w"><span>星として生み、</span></span><span class="w"><span>つないで</span></span><span class="w"><span>星座にしていく。</span></span><span class="w"><span>説明はいらない。</span></span><span class="w"><span>ただ触れて、</span></span><span class="w"><span>発見していく——</span></span><span class="w"><span>新しい発想の</span></span><span class="w"><span>見える化アプリです。</span></span></p>
+      <p class="big rv word-rise" id="copy2"><span class="w"><span>ふとした</span></span><span class="w"><span>思いつき・</span></span><span class="w"><span>アイデアや</span></span><span class="w"><span>打ち合わせ時の</span></span><span class="w"><span>メモを、</span></span><span class="w"><span>星として生み、</span></span><span class="w"><span>つないで</span></span><span class="w"><span>星座にしていく。</span></span><span class="w"><span>説明はいらない。</span></span><span class="w"><span>ただ触れて、</span></span><span class="w"><span>発見していく——</span></span><span class="w"><span>新しい発想の</span></span><span class="w"><span>見える化アプリです。</span></span></p>
     </div>
     <span class="node side-r" data-node></span>
   </section>
@@ -451,10 +521,17 @@ let vw=innerWidth, vh=innerHeight;
 
 /* ---------------- smooth scroll (Lenis) ---------------- */
 const lenis=(!reduce&&window.Lenis)?new Lenis({lerp:.075,wheelMultiplier:.85,smoothWheel:true}):null;
+
+window.sophiaScroll={
+ hold(y){if(lenis){lenis.stop();lenis.scrollTo(y,{immediate:true,force:true})}window.scrollTo(0,y)},
+ release(){if(lenis)lenis.start()},
+ jump(y){if(lenis)lenis.scrollTo(y,{immediate:true,force:true});else window.scrollTo(0,y)}
+};
 const scrollToY=(y,dur)=>{ if(lenis) lenis.scrollTo(y,{duration:dur||2,easing:t=>1-Math.pow(1-t,4)}); else window.scrollTo({top:y,behavior:'smooth'}); };
 
 /* ---------------- text: split into characters, reveal + scroll-lit ---------------- */
 $$('.rv').forEach(el=>{
+  if(el.classList.contains('word-rise')){el.querySelectorAll('.w>span').forEach((sp,i)=>sp.style.setProperty('--wi',i));return;}
   let ci=0;
   el.querySelectorAll('.w>span').forEach(sp=>{
     const txt=sp.textContent; sp.textContent='';
@@ -465,12 +542,14 @@ $$('.rv').forEach(el=>{
   });
 });
 const scrubs=$$('.scrub').map(el=>({el,cs:Array.from(el.querySelectorAll('.c'))}));
-requestAnimationFrame(()=>requestAnimationFrame(()=>$$('#hero .rv').forEach(e=>e.classList.add('in'))));
+document.fonts.ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{document.documentElement.classList.add('hero-ready');$$('#hero .rv').forEach(e=>e.classList.add('in'))})));
 const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{rootMargin:'0px 0px -16% 0px'});
-$$('main section:not(#hero) .rv, #plan .cards, .eyebrow').forEach(e=>io.observe(e));
+$$('main section:not(#hero) .rv:not(#copy2), #plan .cards, .eyebrow').forEach(e=>io.observe(e));
+const conceptIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');conceptIO.unobserve(e.target)}}),{rootMargin:'0px 0px 8% 0px'});
+conceptIO.observe($('#copy2'));
 
 /* ---------------- sky: star field, twinkles, meteors ---------------- */
-const sky={blue:$('#sky .blue'),night:$('#sky .night'),stars:$('#stars'),tw:$('#twinkles')};
+const sky={day:$('#sky .day'),blue:$('#sky .blue'),night:$('#sky .night'),stars:$('#stars'),tw:$('#twinkles')};
 function paintStars(){
   const c=sky.stars, ctx=c.getContext('2d'), d=Math.min(2,devicePixelRatio||1), W=vw, H=Math.round(vh*1.15);
   c.style.height=H+'px'; c.width=W*d; c.height=H*d; ctx.setTransform(d,0,0,d,0,0); ctx.clearRect(0,0,W,H);
@@ -540,7 +619,7 @@ document.addEventListener('visibilitychange',()=>{
 /* ---------------- film: emerges from a star, stretches open with the scroll, plays at full size ---------------- */
 const film={el:$('#film'),stage:$('#film .stage'),box:$('#film .box'),halo:$('#film .halo'),v:$('#promo'),label:$('#film .label'),
   lock:$('#film .lock'),bar:$('#film .lock .bar i'),vsnd:$('#film .vsnd'),skip:$('#film .skip'),play:$('#film .play'),
-  top:0,grow:0,lockY:Infinity,done:false,max:false,justEnded:false,primed:false,
+  top:0,grow:0,lockY:Infinity,done:true,max:false,justEnded:false,primed:false,
   w:0,h:0,vw_:0,vh_:0,skew:0};
 const v=film.v; v.removeAttribute('controls');
 function applyVideoSound(){
@@ -576,7 +655,7 @@ v.addEventListener('timeupdate',()=>{ if(v.duration) film.bar.style.width=(v.cur
 const page=$('#page'), clipOK=CSS.supports('overflow','clip');
 function applyLock(){
   if(!film.done && clipOK){ page.style.height=(film.lockY+innerHeight)+'px'; page.style.overflow='clip'; }
-  else{ page.style.height=''; page.style.overflow=''; }
+  else{ page.style.height=''; page.style.overflow='clip'; }
   if(lenis) lenis.resize();
 }
 function unlockFilm(){
@@ -584,6 +663,7 @@ function unlockFilm(){
   film.done=true; film.el.classList.add('done'); applyLock(); requestAnimationFrame(()=>{ layoutLine(); });
 }
 function layoutFilm(){
+  if(film.el.hidden){film.lockY=Infinity;applyLock();return;}
   film.grow=vh*1.5;
   film.el.style.height=(vh+film.grow+vh*.9)+'px';
   film.top=film.el.getBoundingClientRect().top+scrollY;
@@ -591,6 +671,7 @@ function layoutFilm(){
   applyLock();
 }
 function updateFilm(y,vel){
+  if(film.el.hidden)return;
   const W=document.documentElement.clientWidth, Hs=film.stage.clientHeight;
   const start=film.top-vh*.85, p=seg(y,start,film.lockY);
   // the orb: a star swells, stretches sideways, then pours open vertically
@@ -633,16 +714,16 @@ addEventListener('touchmove',e=>{ if(ty-e.touches[0].clientY>8&&atLock()) nudge(
 /* ---------------- constellation: a curved, slightly wandering line drawn with the scroll ---------------- */
 const svg=$('#constellation'), route=svg.querySelector('.route'), glow=svg.querySelector('.glow'), trail=svg.querySelector('.trail'),
   comet=svg.querySelector('.comet'), sats=svg.querySelector('.sats'), grad=$('#lineGrad'), pen=$('#pen'), sparks=$('#sparks');
-const nodes=$$('[data-node]'), dl=$('#download');
+const nodes=$$('[data-node]').filter(n=>!n.closest('#film')), dl=$('#download');
 let pts=[], total=0, samples=[], satGroups=[];
 function rnd(seed){ let s=seed; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; }
 function layoutLine(){
-  const main=$('main'), mr=main.getBoundingClientRect(), W=main.clientWidth, H=main.scrollHeight;
+  const main=$('main'), mr=main.getBoundingClientRect(), W=main.clientWidth, H=main.offsetHeight;
   svg.setAttribute('width',W); svg.setAttribute('height',H); svg.setAttribute('viewBox','0 0 '+W+' '+H);
   grad.setAttribute('y2',H);
   const narrow=W<640, R=rnd(7);
   // on phones every side star sits on the left edge so the line never cuts through the copy
-  pts=nodes.map(n=>{const r=n.getBoundingClientRect();
+  pts=nodes.map(n=>{const r=(n.closest('#download')?dl.querySelector('.star'):n).getBoundingClientRect();
     let x=r.left+r.width/2-mr.left; if(narrow&&/side-/.test(n.className)) x=14;
     return {x,y:r.top+r.height/2-mr.top,n};});
   nodes.forEach(n=>{ n.style.left=(narrow&&/side-/.test(n.className))?'14px':''; });
@@ -687,7 +768,7 @@ function lenAtY(y){
   while(hi-lo>1){const m=(lo+hi)>>1; if(samples[m].y<y) lo=m; else hi=m;}
   const a=samples[lo],b=samples[hi],t=(y-a.y)/((b.y-a.y)||1); return lerp(a.l,b.l,t);
 }
-let shownLen=0, lastPen=null, sparkN=0;
+let shownLen=0, lastPen=null, sparkN=0, cinemaPenFloor=0;
 function spark(x,y){
   if(reduce||sparkN>40) return; sparkN++;
   const s=document.createElement('i'); s.style.left=x+'px'; s.style.top=y+'px';
@@ -698,7 +779,10 @@ function spark(x,y){
 }
 function updateLine(y){
   if(!samples.length) return;
-  const penY=y+vh*.62, target=lenAtY(penY);
+  const cinema=window.sophiaCinema;
+  if(cinema?.holding) cinemaPenFloor=Math.max(cinemaPenFloor,y+vh*.62+vh*1.25*smooth(0,1.8,(performance.now()-cinema.since)/1000));
+  if(y+vh*2<cinemaPenFloor&&!cinema?.holding) cinemaPenFloor=0;
+  const penY=Math.max(y+vh*.62,cinemaPenFloor), target=lenAtY(penY);
   shownLen=reduce?target:lerp(shownLen,target,.16); if(Math.abs(shownLen-target)<.3) shownLen=target;
   const l=shownLen, off=total-l;
   trail.style.strokeDashoffset=off; glow.style.strokeDashoffset=off;
@@ -741,15 +825,19 @@ let lastY=scrollY;
 function frame(time){
   if(lenis) lenis.raf(time);
   const y=scrollY, vel=lenis?lenis.velocity:(y-lastY); lastY=y;
-  night=clamp(y/(vh*1.15));
-  sky.blue.style.opacity=smooth(.05,.55,night)*(1-smooth(.65,1,night));
-  sky.night.style.opacity=smooth(.42,1,night);
-  const st=smooth(.5,1,night); sky.stars.style.opacity=st; sky.tw.style.opacity=st;
+  const introProgress=clamp(y/(vh*1.15));
+  const dawnStart=dl.getBoundingClientRect().top+y-vh*.8;
+  const dawn=smooth(dawnStart,dawnStart+vh*1.05,y);
+  night=1-dawn;
+  sky.day.style.opacity=dawn;
+  sky.blue.style.opacity=0;
+  sky.night.style.opacity=1-dawn;
+  const st=1-dawn*.70; sky.stars.style.opacity=st; sky.tw.style.opacity=st;
   sky.stars.style.transform='translate3d(0,'+(-((y*.04)%(vh*.15))).toFixed(1)+'px,0)';
-  heroIn.style.opacity=1-smooth(.08,.6,night);
+  heroIn.style.opacity=1-smooth(.08,.6,introProgress);
   heroLines.forEach((l,i)=>{ l.style.transform='translate3d(0,'+(-y*(.18+i*.12)).toFixed(1)+'px,0)'; });
-  heroCue.style.visibility=night>.3?'hidden':'visible';
-  hd.classList.toggle('dark',night>.3);
+  heroCue.style.visibility=introProgress>.3?'hidden':'visible';
+  hd.classList.toggle('dark',true);
   updateLine(y); updateFilm(y,vel); updateScrub();
   if(finePointer&&!reduce){ cx=lerp(cx,mx,.2); cy=lerp(cy,my,.2); cur.style.transform='translate3d('+cx.toFixed(1)+'px,'+cy.toFixed(1)+'px,0)'; }
   requestAnimationFrame(frame);
@@ -764,10 +852,11 @@ addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{
 layout();
 // web fonts, images and reveals can shift the page after first layout: re-measure whenever main changes height
 let lastMainH=0;
-new ResizeObserver(()=>{ const h=$('main').scrollHeight; if(h===lastMainH) return; lastMainH=h; layoutFilm(); layoutLine(); }).observe($('main'));
+new ResizeObserver(()=>{ const h=$('main').offsetHeight; if(h===lastMainH) return; lastMainH=h; layoutFilm(); layoutLine(); }).observe($('main'));
 applyVideoSound();
 requestAnimationFrame(frame);
 })();
 </script>
+<script type="module" src="assets/experience/devices.js?v=9"></script>
 </body>
 </html>
