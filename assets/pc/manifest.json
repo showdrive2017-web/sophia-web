@@ -1,0 +1,57 @@
+{
+  "model": "sophia-pc.glb",
+  "screenMesh": "Sophia_Screen",
+  "animation": "Sophia_PC_Fall",
+  "fallDuration": 3.966666666666667,
+  "keyboardCapHeightScale": 0.45,
+  "screen": {
+    "video": "screen-sequence.mp4",
+    "poster": "screen-poster.jpg",
+    "fps": 30,
+    "frames": 675,
+    "duration": 22.5,
+    "resolution": [
+      1920,
+      1080
+    ]
+  },
+  "screenRatio": 1.7777778209812458,
+  "units": "meters",
+  "mayaFrameStart": 1,
+  "mayaLandingFrame": 120,
+  "sizes": {
+    "manifest.json": 1250,
+    "pc-scroll.css": 2098,
+    "pc-scroll.js": 8551,
+    "screen-poster.jpg": 33270,
+    "screen-sequence.mp4": 5174508,
+    "sophia-pc.glb": 4443268
+  },
+  "cleanMaterials": {
+    "CleanMonitor": {
+      "color": "#0D1013",
+      "metalness": 0.0,
+      "roughness": 0.72,
+      "specular": 0.27
+    },
+    "CleanStand": {
+      "color": "#101315",
+      "metalness": 0.0,
+      "roughness": 0.65,
+      "specular": 0.27
+    },
+    "CleanKeyboard": {
+      "color": "#0C0E11",
+      "metalness": 0.0,
+      "roughness": 0.75,
+      "specular": 0.27
+    },
+    "CleanKeys": {
+      "color": "#15181C",
+      "metalness": 0.0,
+      "roughness": 0.68,
+      "specular": 0.27
+    }
+  },
+  "closedMonitorBack": true
+}

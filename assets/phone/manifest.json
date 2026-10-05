@@ -1,0 +1,19 @@
+{
+  "video": "screen-sequence.mp4",
+  "poster": "screen-poster.jpg",
+  "frames": 1560,
+  "fps": 30,
+  "duration": 52.0,
+  "resolution": [
+    1242,
+    2688
+  ],
+  "ratio": 0.46205357142857145,
+  "videoBytes": 15872918,
+  "source": "Desktop/mobile_sequence.png",
+  "endingTextPreserved": true,
+  "model": "sophia-mobile.glb",
+  "screenMesh": "Sophia_Mobile_Screen",
+  "screenRatio": 0.46205357142857145,
+  "modelBytes": 9393476
+}

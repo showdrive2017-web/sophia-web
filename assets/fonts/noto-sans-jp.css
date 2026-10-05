@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(./noto-sans-jp-site.woff2?v=9) format('woff2');
+  unicode-range: U+a, U+20-7e, U+a5, U+a9, U+2014-2015, U+203a-203b, U+2212, U+25b6, U+3001-3002, U+3042, U+3044, U+3048, U+304a-306b, U+306e-307a, U+307e-307f, U+3081-3082, U+3084, U+3088-308c, U+308f, U+3092-3093, U+3099-309a, U+30a2, U+30a4, U+30a7, U+30ad-30b0, U+30b7-30ba, U+30bf-30c3, U+30c6-30c9, U+30cf-30d7, U+30db-30de, U+30e1-30e2, U+30e5, U+30e9-30ea, U+30ec-30ed, U+30ef, U+30f3, U+30f7, U+30fb-30fc, U+4e00, U+4e0d, U+4f53, U+4f5c, U+4f7f, U+4fee, U+500b, U+505c, U+50cf, U+5148, U+5165, U+516c, U+518d, U+51fa, U+5206-5207, U+521d, U+524d, U+5275, U+529b, U+52d5, U+5316, U+53ef, U+5408, U+540d, U+54c1, U+554f, U+56de, U+5916, U+59cb, U+5b87, U+5b99, U+5e83, U+5ea6-5ea7, U+601d, U+6027, U+60f3, U+611f, U+624b, U+6253, U+6301, U+642d, U+64cd, U+6539, U+6574, U+6599, U+65b0, U+65e5, U+660e, U+661f-6620, U+6642, U+66ff-6700, U+6708, U+6765, U+6a5f, U+6b62-6b63, U+6b8b, U+6c17, U+6d41, U+6d88, U+6e21, U+7121, U+7248, U+7406, U+751f, U+7531, U+753b, U+767a, U+7684, U+76ee, U+76f4, U+77ac, U+793a, U+7d42, U+80fd, U+81ea, U+8868, U+88fd, U+8981, U+898b, U+89a7, U+89e6, U+8a66, U+8aac-8aad, U+8ab0, U+8cb7, U+8cfc, U+8d77, U+8f09, U+8fbc, U+8fd1, U+9020, U+9032, U+958b, U+9593, U+9650, U+9762, U+97f3, U+984d, U+98df, U+9a13, U+9ad8, U+ff1f, U+1f507;
+}

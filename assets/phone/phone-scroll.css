@@ -1,0 +1,27 @@
+#phone-experience{position:relative;height:320vh;isolation:isolate;z-index:2}
+#phone-experience .phone-stage{position:sticky;top:0;height:100svh;min-height:480px;overflow:hidden}
+#phone-experience .phone-view{position:absolute;inset:0;z-index:2}
+#phone-experience .phone-view canvas{display:block;width:100%;height:100%}
+#phone-experience .phone-copy{position:absolute;left:var(--gutter,5vw);top:9vh;z-index:3;pointer-events:none}
+#phone-experience .phone-copy small{color:var(--gold,#EAC98A);font:12px var(--mono,monospace);letter-spacing:.22em}
+#phone-experience .phone-copy h2{margin:12px 0;font-size:clamp(20px,2.6vw,36px);font-weight:500;letter-spacing:.14em;line-height:1.6}
+#phone-experience .phone-copy p{font-size:13px;color:var(--ash,#a9b0cc);letter-spacing:.1em}
+#phone-experience .phone-hint{position:absolute;left:50%;bottom:5vh;transform:translateX(-50%);z-index:3;text-align:center;font:11px var(--mono,monospace);letter-spacing:.18em;color:var(--gold,#EAC98A);white-space:nowrap}
+#phone-experience .phone-controls{position:absolute;right:var(--gutter,5vw);bottom:5vh;z-index:4;display:flex;gap:8px}
+#phone-experience .phone-controls button{font-size:12px;padding:8px 15px;border:1px solid rgba(234,201,138,.4);border-radius:30px;background:rgba(6,10,24,.7);color:#eee;cursor:pointer}
+#phone-experience .phone-controls button:hover{border-color:var(--gold,#EAC98A)}
+#phone-experience .phone-controls[hidden]{display:none}
+#phone-experience .phone-fallback{position:absolute;inset:24vh 8vw 14vh;object-fit:contain;width:84%;height:62%;opacity:.9}
+#phone-experience.phone-ready .phone-fallback{display:none}
+#phone-experience .phone-node{position:absolute;left:8%;top:44%;pointer-events:none}
+@media(max-width:640px){
+ #phone-experience{height:300vh}
+ #phone-experience .phone-stage{min-height:400px}
+ #phone-experience .phone-copy{top:8vh;right:var(--gutter,5vw)}
+ #phone-experience .phone-copy h2{font-size:20px;letter-spacing:.08em}
+ #phone-experience .phone-copy p{font-size:12px}
+ #phone-experience .phone-hint{bottom:12vh;font-size:10px;letter-spacing:.12em}
+ #phone-experience .phone-controls{bottom:5vh;right:50%;transform:translateX(50%)}
+}
+@media(prefers-reduced-motion:reduce){#phone-experience{height:110vh}}
+
