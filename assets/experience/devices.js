@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {GLTFLoader} from '../vendor/GLTFLoader.js';
+import {DRACOLoader} from '../vendor/DRACOLoader.js';
 import {choreography,keyboardQuaternion,advanceProgress,phoneLaunchOffset,stageProgress} from './choreography.js?v=7a';
 import {phoneCaption} from './captions.js?v=9';
 import {completionLift,completionHandoff} from './completion.js?v=9';
@@ -46,8 +47,8 @@ async function init(){
  const studio=new THREE.Scene();studio.background=new THREE.Color(0x6a7588);
  for(const[pos,scale,color]of[[[0,2,0],[4,.01,4],0xffffff],[[2,0,0],[.01,3,3],0xa8c9ff],[[-2,0,0],[.01,3,3],0xffdfbc],[[0,0,-2],[4,3,.01],0x1c2233]]){const box=new THREE.Mesh(new THREE.BoxGeometry(...scale),new THREE.MeshBasicMaterial({color}));box.position.set(...pos);studio.add(box)}
  const pm=new THREE.PMREMGenerator(r);scene.environment=pm.fromScene(studio,.02).texture;pm.dispose();studio.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});
- const loader=new GLTFLoader();
- const [pc,mobile]=await Promise.all([loader.loadAsync(new URL('../pc/sophia-pc.glb?v=8',import.meta.url).href),loader.loadAsync(new URL('../phone/sophia-mobile.glb?v=7',import.meta.url).href)]);scene.add(pc.scene,mobile.scene);mobile.scene.scale.setScalar(2.2);mobile.scene.updateMatrixWorld(true);
+ const loader=new GLTFLoader().setDRACOLoader(new DRACOLoader().setDecoderPath(new URL('../vendor/draco/',import.meta.url).href));   // the models are Draco-compressed (about a seventh of the size)
+ const [pc,mobile]=await Promise.all([loader.loadAsync(new URL('../pc/sophia-pc.glb?v=10',import.meta.url).href),loader.loadAsync(new URL('../phone/sophia-mobile.glb?v=10',import.meta.url).href)]);scene.add(pc.scene,mobile.scene);mobile.scene.scale.setScalar(2.2);mobile.scene.updateMatrixWorld(true);
  const phoneBounds=new THREE.Box3().setFromObject(mobile.scene),phoneCorner=new THREE.Vector3();
  // Use independent world-space paths. The original Maya geometry stays intact.
  const parts={};pc.scene.updateMatrixWorld(true);
@@ -61,7 +62,7 @@ async function init(){
  function pose(part,pos,angles){part.node.position.set(...pos);part.node.quaternion.setFromEuler(new THREE.Euler(...angles)).multiply(part.base)}
  const phases={};
  for(const [name,screenName,point,next]of[['phone','Sophia_Mobile_Screen',.36,.425],['pc','Sophia_Screen',.74,.79]]){
-  const v=document.createElement('video');v.src=new URL('../'+name+'/screen-sequence.mp4'+(name==='phone'?'?v=7':''),import.meta.url).href;v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='metadata';v.hidden=true;section.append(v);
+  const v=document.createElement('video');v.src=new URL('../'+name+'/screen-sequence.mp4?v=10',import.meta.url).href;v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='metadata';v.hidden=true;section.append(v);
   const screen=(name==='pc'?parts.monitor.node:mobile.scene).getObjectByName(screenName);if(!screen)throw Error('Missing display');
   const tx=new THREE.VideoTexture(v);tx.colorSpace=THREE.SRGBColorSpace;tx.flipY=false;tx.anisotropy=Math.min(8,r.capabilities.getMaxAnisotropy());const mat=new THREE.MeshBasicMaterial({map:tx,toneMapped:false});
   const phase={name,v,screen,poster:screen.material,mat,point,next,status:'pending',paused:false,primed:false,push:0,launchTime:0,completedAt:0,lift:0};phases[name]=phase;
