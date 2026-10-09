@@ -2,10 +2,12 @@ import * as THREE from 'three';
 import {GLTFLoader} from '../vendor/GLTFLoader.js';
 import {DRACOLoader} from '../vendor/DRACOLoader.js';
 import {choreography,keyboardQuaternion,advanceProgress,phoneLaunchOffset,stageProgress} from './choreography.js?v=7a';
-import {phoneCaption} from './captions.js?v=9';
+import {phoneCaption} from './captions.js?v=10';
 import {completionLift,completionHandoff} from './completion.js?v=9';
 import {Stardust} from './stardust.js?v=6';
 import {keyTravel} from './typing.js?v=6';
+const __EN=document.documentElement.lang==='en',__W={"スマホ、モニター、キーボード、マウスが一緒に落下し、スマホ、PCの順に正面に現れる":"A phone, monitor, keyboard and mouse fall together; the phone and then the PC turn to face you","↓ スクロールして、次のシーンへ":"↓ Scroll to the next scene","もう一度再生":"Play again","映像を読み込めませんでした。スキップで先へ進めます。":"The video could not load. Use Skip to continue.","再生を試す":"Try playing","一時停止":"Pause","映像の終わりまでご覧ください":"Please watch to the end","画面を再生":"Play screen","「画面を再生」で映像が始まります。スキップで先へ進めます。":"Press “Play screen” to start. Use Skip to continue.","画面が正面に来たら再生します":"Plays when the screen faces you","映像が始まります":"Starting the video","再生":"Play"};
+const W=s=>__EN?(__W[s]||s):s;   // the page's language
 const section=document.querySelector('#device-experience');
 const clamp=v=>Math.max(0,Math.min(1,v)),smooth=v=>{v=clamp(v);return v*v*(3-2*v)},lerp=THREE.MathUtils.lerp;
 let hold=null,holdY=0,snap=false;
@@ -40,7 +42,7 @@ async function init(){
   section.dataset.caption=String(cue.id);
  }
  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
- const r=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});r.setPixelRatio(Math.min(devicePixelRatio,1.75));r.setClearColor(0,0);r.outputColorSpace=THREE.SRGBColorSpace;r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=1.15;view.append(r.domElement);r.domElement.setAttribute('aria-label','スマホ、モニター、キーボード、マウスが一緒に落下し、スマホ、PCの順に正面に現れる');
+ const r=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});r.setPixelRatio(Math.min(devicePixelRatio,1.75));r.setClearColor(0,0);r.outputColorSpace=THREE.SRGBColorSpace;r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=1.15;view.append(r.domElement);r.domElement.setAttribute('aria-label',W("スマホ、モニター、キーボード、マウスが一緒に落下し、スマホ、PCの順に正面に現れる"));
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(32,1,.001,25);
  scene.add(new THREE.HemisphereLight(0xcde7ff,0x797075,2.3));
  for(const[pos,color,intensity]of[[[.5,2,2],0xffffff,3.5],[[-1,1,.5],0x9bbdff,1.8],[[1,.6,-1],0xffd79a,2.8]]){const light=new THREE.DirectionalLight(color,intensity);light.position.set(...pos);scene.add(light)}
@@ -68,17 +70,17 @@ async function init(){
   const phase={name,v,screen,poster:screen.material,mat,point,next,status:'pending',paused:false,primed:false,push:0,launchTime:0,completedAt:0,lift:0};phases[name]=phase;
   v.addEventListener('loadeddata',()=>{if(current===phase)screen.material=mat});
   v.addEventListener('timeupdate',()=>{if(current===phase&&Number.isFinite(v.duration))bar.style.width=(100*v.currentTime/v.duration)+'%'});
-  v.addEventListener('ended',()=>{phase.status='done';phase.completedAt=performance.now();phase.paused=false;if(hold===name)scrollRelease();msg.textContent='↓ スクロールして、次のシーンへ';play.textContent='もう一度再生';ui.classList.add('finished');hint.textContent=''});
-  v.addEventListener('error',()=>{if(current===phase){msg.textContent='映像を読み込めませんでした。スキップで先へ進めます。';play.textContent='再生を試す'}});
+  v.addEventListener('ended',()=>{phase.status='done';phase.completedAt=performance.now();phase.paused=false;if(hold===name)scrollRelease();msg.textContent=W("↓ スクロールして、次のシーンへ");play.textContent=W("もう一度再生");ui.classList.add('finished');hint.textContent=''});
+  v.addEventListener('error',()=>{if(current===phase){msg.textContent=W("映像を読み込めませんでした。スキップで先へ進めます。");play.textContent=W("再生を試す")}});
  }
  let current=null,raf=0,typingEvents=0,previousPressed=0;
  function geometry(){const start=innerHeight*.04,end=section.getBoundingClientRect().top+scrollY+section.offsetHeight-view.clientHeight;return{top:start,range:end-start}}
- function show(phase){current=phase;ui.hidden=false;ui.classList.toggle('finished',phase.status==='done');hint.textContent=phase.name==='phone'||phase.status==='done'?'':'SOPHIA FOR PC';play.disabled=['framing','launching'].includes(phase.status);play.textContent=phase.status==='done'?'もう一度再生':phase.v.paused?'再生':'一時停止';bar.style.width=(Number.isFinite(phase.v.duration)?100*phase.v.currentTime/phase.v.duration:0)+'%'}
- async function run(phase){show(phase);phase.paused=false;if(phase.v.readyState>=2)phase.screen.material=phase.mat;msg.textContent='映像の終わりまでご覧ください';try{await phase.v.play();if(current!==phase||phase.status==='skipped'){phase.v.pause();return}play.textContent='一時停止'}catch{play.textContent='画面を再生';msg.textContent='「画面を再生」で映像が始まります。スキップで先へ進めます。'}}
- function enter(phase){phase.status='framing';phase.push=0;phase.launchTime=0;phase.completedAt=0;const g=geometry();scrollHold(g.top+g.range*phase.point,phase.name);show(phase);phase.v.preload='auto';msg.textContent='画面が正面に来たら再生します';play.textContent='再生'}
+ function show(phase){current=phase;ui.hidden=false;ui.classList.toggle('finished',phase.status==='done');hint.textContent=phase.name==='phone'||phase.status==='done'?'':'SOPHIA FOR PC';play.disabled=['framing','launching'].includes(phase.status);play.textContent=phase.status==='done'?W("もう一度再生"):phase.v.paused?W("再生"):W("一時停止");bar.style.width=(Number.isFinite(phase.v.duration)?100*phase.v.currentTime/phase.v.duration:0)+'%'}
+ async function run(phase){show(phase);phase.paused=false;if(phase.v.readyState>=2)phase.screen.material=phase.mat;msg.textContent=W("映像の終わりまでご覧ください");try{await phase.v.play();if(current!==phase||phase.status==='skipped'){phase.v.pause();return}play.textContent=W("一時停止")}catch{play.textContent=W("画面を再生");msg.textContent=W("「画面を再生」で映像が始まります。スキップで先へ進めます。")}}
+ function enter(phase){phase.status='framing';phase.push=0;phase.launchTime=0;phase.completedAt=0;const g=geometry();scrollHold(g.top+g.range*phase.point,phase.name);show(phase);phase.v.preload='auto';msg.textContent=W("画面が正面に来たら再生します");play.textContent=W("再生")}
  function skipCurrent(){if(!current)return;const phase=current;phase.status='skipped';phase.v.pause();scrollRelease();const g=geometry();const target=phase.next===1?g.top+section.offsetHeight-view.clientHeight*.14:g.top+g.range*phase.next;window.sophiaScroll?.jump(target);window.scrollTo(0,target)}
  skip.addEventListener('click',skipCurrent);
- play.addEventListener('click',()=>{if(!current)return;const p=current;if(!p.v.paused){p.paused=true;p.v.pause();play.textContent='再生'}else{if(p.v.ended||p.status==='done'||p.status==='skipped'){p.v.currentTime=0;enter(p)}else void run(p)}});
+ play.addEventListener('click',()=>{if(!current)return;const p=current;if(!p.v.paused){p.paused=true;p.v.pause();play.textContent=W("再生")}else{if(p.v.ended||p.status==='done'||p.status==='skipped'){p.v.currentTime=0;enter(p)}else void run(p)}});
  restart.addEventListener('click',()=>{if(!current)return;current.v.currentTime=0;enter(current)});
  function resize(){const w=view.clientWidth,h=view.clientHeight;if(!w||!h)return;r.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();if(hold){const g=geometry();holdY=g.top+g.range*phases[hold].point;window.sophiaScroll?.jump(holdY);window.scrollTo(0,holdY)}}new ResizeObserver(resize).observe(view);resize();
  const route=document.querySelector('#constellation'),trail=route.querySelector('.trail'),pen=document.querySelector('#pen');
@@ -128,7 +130,7 @@ async function init(){
   const p=visualP,active=scrollY>g.top*.5&&p<.998;
   document.body.classList.toggle('devices-world-active',active);view.style.visibility=active?'visible':'hidden';hint.hidden=!active;
   if(!hold){if(target>=.32&&target<.41)show(phases.phone);else if(target>=.715&&target<.785)show(phases.pc);else{ui.hidden=true;current=null;hint.textContent=target<.3?'SCROLL TO EXPLORE':target<.7?'SCROLL TO ASSEMBLE':'SCROLL TO CONTINUE'}}
-  if(hold&&phases[hold].status==='framing'&&phases[hold].lift<.4&&Math.abs(p-target)<.00025&&Object.values(motion).every(o=>Math.abs(o.value-target)<.0008&&Math.abs(o.velocity)<.005)){const phase=phases[hold];if(hold==='phone'&&!reduce){phase.status='launching';phase.launchTime=now;msg.textContent='映像が始まります'}else{phase.push=hold==='phone'?.04:0;phase.status='playing';void run(phase)}}
+  if(hold&&phases[hold].status==='framing'&&phases[hold].lift<.4&&Math.abs(p-target)<.00025&&Object.values(motion).every(o=>Math.abs(o.value-target)<.0008&&Math.abs(o.velocity)<.005)){const phase=phases[hold];if(hold==='phone'&&!reduce){phase.status='launching';phase.launchTime=now;msg.textContent=W("映像が始まります")}else{phase.push=hold==='phone'?.04:0;phase.status='playing';void run(phase)}}
   if(hold==='phone'&&phases.phone.status==='launching'){const phase=phases.phone;phase.push=phoneLaunchOffset((now-phase.launchTime)/1000);if(now-phase.launchTime>=550){phase.status='playing';void run(phase)}}
   hint.hidden=!active||current?.name==='phone';
   const poses=choreography(p,camera.aspect,now/1000,reduce,clocks,{width:view.clientWidth,height:view.clientHeight});
