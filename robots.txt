@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /preview/
+
+Sitemap: https://sophia-universe.com/sitemap.xml
