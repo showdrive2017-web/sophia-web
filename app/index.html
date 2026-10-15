@@ -796,11 +796,27 @@ const StoreIAP=(function(){                    // cordova-plugin-purchase（Capa
     }
   };
 })();
-if(CapN)License.use(StoreIAP);                 // PC 版・ブラウザには売り場がまだないので、制限しない
+// The browser copy on the website is the trial (2026-10-15): stars up to the trial limit; the full version is the phone app.
+const STORE_URL='https://apps.apple.com/jp/app/id6818526841';
+const WebShop={
+  init(set){set(false);},                      // never full in the browser, whatever is cached
+  buy(){window.open(STORE_URL,'_blank','noopener');return Promise.resolve('cancel');},
+  restore(){return Promise.resolve('unavailable');},
+  price(){return '1,200円';}
+};
+License.use(CapN?StoreIAP:WebShop);
 
 let buyAfter=null;
 function buyView(mode){
   const price=License.price();
+  if(!CapN){                                     // browser trial: lead to the phone app
+    $('buyGo').textContent='App Store で入手';$('buyGo').style.display='';
+    $('buyRestore').style.display='none';$('buyClose').textContent=mode==='wall'?'あとで':'閉じる';
+    $('buyTitle').textContent=mode==='wall'?'この宇宙を、ずっと。':'ブラウザ版（体験版）';
+    $('buyMsg').textContent=(mode==='wall'?'ブラウザ版で生める星は '+License.LIMIT+' 個までです。':'生んだ星　'+Math.min(nodes.length,99)+' / '+License.LIMIT)
+      +'\n\nスマホのアプリ版なら、'+price+' の買い切りで星はいくつでも。\niPhone は App Store から（Android 版は近日公開）。\n\n「書き出す」で保存した作品は、アプリ版で読み込めます。';
+    return;
+  }
   $('buyGo').textContent='購入する（'+price+'）';
   $('buyGo').style.display=License.isFull()?'none':'';
   $('buyRestore').style.display=License.isFull()?'none':'';
