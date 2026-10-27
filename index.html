@@ -431,7 +431,26 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 #sky .night{opacity:1;background:radial-gradient(80% 55% at 65% 28%,rgba(48,65,125,.25),transparent 75%),linear-gradient(180deg,#02040c,#060c20 55%,#0a1430)}
 #sky .blue{opacity:0}
 #stars,#twinkles{opacity:1}
-#veil{background:#05091a;animation-duration:1.8s}
+#veil{background:#05091a;animation:veil .6s 0s ease-out forwards}   /* 0.6 s into space (the owner) */
+/* ============ the gate: empty space until the visitor double-clicks; then their star is born and the page begins ============ */
+html.gated,html.gated body{overflow:hidden}
+html.gated #hd,html.gated main,html.gated footer{opacity:0;visibility:hidden}
+html.opened #hd,html.opened main,html.opened footer{transition:opacity 1.8s ease,visibility 0s}
+#gate{position:fixed;inset:0;z-index:30;display:none;cursor:crosshair;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline:none}
+html.gated #gate{display:block}
+.gate-msg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;writing-mode:vertical-rl;
+  font-size:clamp(17px,1.55vw,22px);font-weight:500;line-height:2.5;letter-spacing:.34em;color:var(--ink);white-space:nowrap;pointer-events:none}
+.gate-msg span{display:block;opacity:0;transform:translateY(-14px);transition:opacity 1.6s ease,transform 1.8s var(--expo)}
+.gate-msg.on span{opacity:1;transform:none}
+.gate-msg.on span:nth-child(2){transition-delay:.35s}.gate-msg.on span:nth-child(3){transition-delay:.7s}
+.gate-msg.off span{opacity:0;transform:none;transition:opacity 1.4s ease;transition-delay:0s}
+.gate-msg b{font-weight:inherit}.gate-msg .t-tap{display:none}
+@media (pointer:coarse){.gate-msg .t-click{display:none}.gate-msg .t-tap{display:inline}}
+#myStarClip{position:absolute;left:0;top:0;width:100%;height:0;overflow-x:clip;overflow-y:visible;z-index:3;pointer-events:none}   /* the glow never widens the page */
+#myStar{position:absolute;left:0;top:0}
+#hero .node.mine{opacity:0}
+#hero .cue .snd-hint{display:none}   /* the sound now starts with the star */
+@media(prefers-reduced-motion:reduce){.gate-msg span{transition:none;transform:none}}
 #hero .inner{position:relative;min-height:clamp(240px,25vw,380px)}
 #hero .mark{color:var(--gold)}
 #hero h1{color:var(--ink);font-weight:800;font-size:clamp(32px,7.8vw,96px);line-height:1.22;letter-spacing:-.025em}
@@ -601,6 +620,8 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 <div id="veil" aria-hidden="true"></div>
 <div id="grain" aria-hidden="true"></div>
 <div id="cursor" aria-hidden="true"></div>
+<div id="gate" tabindex="0" role="button" aria-label="ダブルクリックして、星を生み出す（Enter でも）"><p class="gate-msg"><span>この宇宙に、</span><span><b class="t-click">ダブルクリック</b><b class="t-tap">ダブルタップ</b>して</span><span>星を生み出してください</span></p></div>
+<div id="myStarClip" aria-hidden="true"><canvas id="myStar" width="0" height="0"></canvas></div>
 
 <header id="hd">
   <a class="brand" href="#top" aria-label="SOPHIA トップへ"><img src="assets/icon-180.png" width="34" height="34" alt=""><span>SOPHIA</span></a>
@@ -782,6 +803,10 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 </div>
 
 <script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/app/sophia-core.js"></script>
+<script src="assets/app/sophia-star.js"></script>
+<script src="assets/app/sophia-fx.js"></script>
+<script src="assets/app/sophia-sound.js"></script>
 <script>
 (function(){
 'use strict';
@@ -797,6 +822,11 @@ if('scrollRestoration' in history)history.scrollRestoration='manual';
 window.scrollTo(0,0);
 
 let vw=innerWidth, vh=innerHeight;
+// the gate (see the end of this script)
+const gate=$('#gate'), gmsg=$('#gate .gate-msg'), myStar=$('#myStar'), heroNode=$('#hero .node'), html=document.documentElement;
+const starNode={id:1}, starDpr=Math.min(2,devicePixelRatio||1);
+let starAt=null, starT0=0, birth=null, starR=10, msgAt=0, born=false, lastTap=null, appSound=null;
+
 
 /* ---------------- smooth scroll (Lenis) ---------------- */
 const lenis=(!reduce&&window.Lenis)?new Lenis({lerp:.075,wheelMultiplier:.85,smoothWheel:true}):null;
@@ -821,7 +851,8 @@ $$('.rv').forEach(el=>{
   });
 });
 const scrubs=$$('.scrub').map(el=>({el,cs:Array.from(el.querySelectorAll('.c'))}));
-document.fonts.ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{document.documentElement.classList.add('hero-ready');$$('#hero .rv').forEach(e=>e.classList.add('in'))})));
+const heroGo=()=>document.fonts.ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{document.documentElement.classList.add('hero-ready');$$('#hero .rv').forEach(e=>e.classList.add('in'))})));
+if(!$('#gate')) heroGo();   // with the gate, they start when the star is born
 const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{rootMargin:'0px 0px -16% 0px'});
 $$('main section:not(#hero) .rv:not(#copy2), #price .cards, .eyebrow').forEach(e=>io.observe(e));
 const conceptIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');conceptIO.unobserve(e.target)}}),{rootMargin:'0px 0px 8% 0px'});
@@ -1010,7 +1041,7 @@ function layoutLine(){
   pts=nodes.map(n=>{const r=(n.closest('#download')?dl.querySelector('.star'):n).getBoundingClientRect();
     let x=r.left+r.width/2-mr.left; if(narrow&&/side-/.test(n.className)) x=14;
     return {x,y:r.top+r.height/2-mr.top,n};});
-  nodes.forEach(n=>{ n.style.left=(narrow&&/side-/.test(n.className))?'14px':''; });
+  nodes.forEach(n=>{ if(n.classList.contains('mine')) return; n.style.left=(narrow&&/side-/.test(n.className))?'14px':''; });   // the visitor's star keeps its place
   // waypoints between stars give the line a gentle wander instead of one plain S per gap
   const way=[pts[0]];
   for(let i=1;i<pts.length;i++){ const a=pts[i-1],b=pts[i],dy=b.y-a.y, n=dy>vh*1.6?2:1;
@@ -1127,7 +1158,7 @@ function frame(time){
   requestAnimationFrame(frame);
 }
 if(!clipOK) addEventListener('scroll',()=>{ if(!film.done&&scrollY>film.lockY){ window.scrollTo(0,film.lockY); nudge(); } },{passive:true});
-function layout(){ vw=innerWidth; vh=innerHeight; layoutFilm(); paintStars(); layoutLine(); }
+function layout(){ vw=innerWidth; vh=innerHeight; placeStar(); layoutFilm(); paintStars(); layoutLine(); }
 let rt, lastW=vw, lastH=vh;
 addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{
   // mobile URL bars change the height a little while scrolling; only re-lay out on real size changes
@@ -1139,6 +1170,56 @@ let lastMainH=0;
 new ResizeObserver(()=>{ const h=$('main').offsetHeight; if(h===lastMainH) return; lastMainH=h; layoutFilm(); layoutLine(); }).observe($('main'));
 applyVideoSound();
 requestAnimationFrame(frame);
+
+/* ---------------- the gate: every visit opens in empty space; a double-click (double-tap) gives birth to the visitor's star ----------------
+   The words show until the cursor starts to move (moving = read), at least 1.5 s. There is no way past it but a star: it is an app for giving birth to stars.
+   The star is the app's own (shared/sophia-star.js, -fx.js, -sound.js); the BGM and the page begin with it, and the line that follows the scroll starts there. */
+function placeStar(){
+  if(!starAt) return;
+  const x=starAt.fx*innerWidth, y=starAt.fy*innerHeight, S=myStar.width/starDpr;
+  myStar.style.transform='translate3d('+(x-S/2).toFixed(1)+'px,'+(y-S/2).toFixed(1)+'px,0)';
+  heroNode.style.left=x.toFixed(1)+'px'; heroNode.style.top=y.toFixed(1)+'px'; heroNode.style.bottom='auto';
+}
+function drawMyStar(now){
+  const S=myStar.width/starDpr, c=S/2, t=now-starT0, sctx=myStar.getContext('2d');
+  sctx.setTransform(starDpr,0,0,starDpr,0,0); sctx.clearRect(0,0,S,S);
+  if(!(birth&&SOPHIA.fx.drawBirth(sctx,birth,t,c,c,1,SOPHIA.GRAY,starR))){
+    birth=null;
+    const br=SOPHIA.breathe(starNode,now), lum=0.46+0.54*br, G=starR*(8.2+5.4*br);   // the app's plain new star (mobile drawStar, state 0)
+    SOPHIA.star.flare(sctx,c,c,starR,'#E4EBFA',lum,G,0.84,1);
+  }
+  requestAnimationFrame(drawMyStar);
+}
+if(gate){
+  html.classList.add('gated'); everClicked=true;   // the old "first click turns the sound on" is replaced by the star
+  if(lenis) lenis.stop(); window.scrollTo(0,0);
+  setTimeout(()=>{ gmsg.classList.add('on'); msgAt=performance.now(); },1200);
+  const readIt=()=>{ if(msgAt&&!gmsg.classList.contains('off')&&performance.now()-msgAt>1500) gmsg.classList.add('off'); };
+  addEventListener('pointermove',e=>{ if(e.pointerType==='mouse') readIt(); },{passive:true});
+  const giveBirth=(x,y)=>{
+    if(born) return; born=true;
+    starR=innerWidth<640?9:10;
+    const S=Math.ceil(starR*30);   // room for the widest glow
+    myStar.width=myStar.height=Math.round(S*starDpr); myStar.style.width=myStar.style.height=S+'px';
+    starAt={fx:x/innerWidth,fy:y/innerHeight}; placeStar(); heroNode.classList.add('mine');
+    try{ appSound=appSound||SOPHIA.createSound(); appSound.born(); }catch(e){}
+    starT0=performance.now(); birth=SOPHIA.fx.birth(starNode,0); requestAnimationFrame(drawMyStar);
+    gmsg.classList.add('off');
+    setSound(true); primeVideo();   // inside the gesture, so phones allow the music; it rises slowly
+    setTimeout(()=>{
+      html.classList.remove('gated'); html.classList.add('opened'); gate.remove();
+      if(lenis) lenis.start(); heroGo(); layoutLine();
+    },reduce?0:900);
+  };
+  gate.addEventListener('dblclick',e=>{ e.preventDefault(); giveBirth(e.clientX,e.clientY); });
+  gate.addEventListener('touchend',e=>{   // double-tap: two taps within 0.35 s, close together
+    const t=e.changedTouches[0], now=performance.now(); e.preventDefault();
+    if(msgAt&&!gmsg.classList.contains('off')&&now-msgAt>1500) gmsg.classList.add('off');
+    if(lastTap&&now-lastTap.t<350&&Math.hypot(t.clientX-lastTap.x,t.clientY-lastTap.y)<40){ lastTap=null; giveBirth(t.clientX,t.clientY); }
+    else lastTap={t:now,x:t.clientX,y:t.clientY};
+  },{passive:false});
+  gate.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); giveBirth(innerWidth/2,innerHeight*.45); } });
+}
 })();
 </script>
 <script>
