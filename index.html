@@ -101,7 +101,7 @@
    "name": "Android版はありますか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "はい。Android版は Google Play からダウンロードできます。"
+    "text": "Android版は Google Play で配信します。"
    }
   },
   {
@@ -599,7 +599,7 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   <a class="brand" href="#top" aria-label="SOPHIA トップへ"><img src="assets/icon-180.png" width="34" height="34" alt=""><span>SOPHIA</span></a>
   <div class="hd-r"><a class="qbtn hd-dl" href="https://apps.apple.com/jp/app/id6818526841" target="_blank" rel="noopener" aria-label="ダウンロード" data-win-href="pc/" data-win-label="PC版を無料で試す">App Store で入手</a><button id="snd" type="button" aria-pressed="false" aria-label="サウンドの切り替え"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="lbl">SOUND OFF</span></button></div>
 </header>
-<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&/Windows/.test(u)&&!/Phone|Android/.test(u)){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}else if(a&&/Android/.test(u)){a.href='https://play.google.com/store/apps/details?id=com.sophia.mobile';a.textContent='Google Play で入手';}})();</script>
+<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&/Windows/.test(u)&&!/Phone|Android/.test(u)){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}})();</script>
 
 <div id="sky" aria-hidden="true">
   <div class="l day"><svg viewBox="0 0 1600 900" preserveAspectRatio="none"><defs>
@@ -1131,8 +1131,10 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* Google Play：false＝「近日公開」（審査中）／true＝公開済み（ストアへのリンク）。この 1 行だけ切り替える */
-var PLAY_LIVE=true;   // 2026-10-27: public on Google Play
+var PLAY_LIVE=false;   // 2026-10-27: the production release is still in review; true once it is live on Google Play
 document.querySelectorAll('[data-play]').forEach(function(el){el.hidden=(el.dataset.play==='live')!==PLAY_LIVE;});
+var hdl=document.querySelector('#hd .hd-dl');   // on Android, the header button goes to Google Play once it is live
+if(PLAY_LIVE&&hdl&&/Android/.test(navigator.userAgent)){hdl.href='https://play.google.com/store/apps/details?id=com.sophia.mobile';hdl.textContent='Google Play で入手';}
 </script>
 <script>
 /* the two devices: a click (tap, swipe, Enter/Space, ←/→) shows the next picture; after the third, a ~20 s demo plays muted, then back to the first */
