@@ -451,6 +451,9 @@ html.gated #gate{display:block}
 #myStar{position:absolute;left:0;top:0}
 #hero .node.mine{opacity:0}
 #hero .cue .snd-hint{display:none}   /* the sound now starts with the star */
+/* with the gate the first screen is the visitor's sky; the top copy waits a screen lower and comes in as the line reaches it */
+html.gate-flow #hero{align-items:flex-start;padding-top:72vh;padding-top:72svh}
+html.gate-flow #hero .cue{top:calc(100vh - 118px);top:calc(100svh - 118px);bottom:auto}
 @media(prefers-reduced-motion:reduce){.gate-msg span{transition:none;transform:none}}
 #hero .inner{position:relative;min-height:clamp(240px,25vw,380px)}
 #hero .mark{color:var(--gold)}
@@ -1055,7 +1058,8 @@ function layoutLine(){
   // Catmull-Rom through the waypoints, as cubic Béziers (vertical tangents kept soft)
   let d='M'+way[0].x.toFixed(1)+','+way[0].y.toFixed(1);
   for(let i=0;i<way.length-1;i++){ const p0=way[i-1]||way[i],p1=way[i],p2=way[i+1],p3=way[i+2]||p2;
-    const c1x=p1.x+(p2.x-p0.x)/6, c1y=p1.y+(p2.y-p0.y)/6, c2x=p2.x-(p3.x-p1.x)/6, c2y=p2.y-(p3.y-p1.y)/6;
+    let c1x=p1.x+(p2.x-p0.x)/6, c1y=p1.y+(p2.y-p0.y)/6; const c2x=p2.x-(p3.x-p1.x)/6, c2y=p2.y-(p3.y-p1.y)/6;
+    if(i===0&&starAt){ c1x=p1.x; c1y=p1.y+(p2.y-p1.y)*.45; }   // leave the visitor's star heading down: no flat stretch for the pen to race along
     d+=' C'+c1x.toFixed(1)+','+Math.max(p1.y,c1y).toFixed(1)+' '+c2x.toFixed(1)+','+Math.min(p2.y,c2y).toFixed(1)+' '+p2.x.toFixed(1)+','+p2.y.toFixed(1); }
   [route,glow,trail,comet].forEach(p=>p.setAttribute('d',d));
   total=trail.getTotalLength();
@@ -1156,9 +1160,14 @@ function frame(time){
   sky.night.style.opacity=1-dawn;
   const st=1-dawn*.70; sky.stars.style.opacity=st; sky.tw.style.opacity=st;
   sky.stars.style.transform='translate3d(0,'+(-((y*.04)%(vh*.15))).toFixed(1)+'px,0)';
-  if(starAt&&!heroShown&&y>24){ heroShown=true; heroGo(); }   // after the star, the words come once the line has begun (the owner)
-  heroIn.style.opacity=starAt?1-smooth(.32,.88,introProgress):1-smooth(.08,.6,introProgress);
-  heroLines.forEach((l,i)=>{ l.style.transform='translate3d(0,'+(-y*(.18+i*.12)).toFixed(1)+'px,0)'; });
+  let py=y;
+  if(starAt){   // after the star, the words come into view whole once the line is well out (the owner); fade and parallax count from there
+    const top=heroIn.getBoundingClientRect().top;
+    if(!heroShown&&top<vh*.34){ heroShown=true; heroGo(); }
+    heroIn.style.opacity=1-smooth(vh*.02,-vh*.5,top);
+    py=Math.max(0,-top);   // the lines drift apart only once the copy starts to leave the top
+  } else heroIn.style.opacity=1-smooth(.08,.6,introProgress);
+  heroLines.forEach((l,i)=>{ l.style.transform='translate3d(0,'+(-py*(.18+i*.12)).toFixed(1)+'px,0)'; });
   heroCue.style.visibility=introProgress>.3?'hidden':'visible';
   hd.classList.toggle('dark',true);
   updateLine(y); updateFilm(y,vel); updateScrub();
@@ -1199,7 +1208,7 @@ function drawMyStar(now){
   requestAnimationFrame(drawMyStar);
 }
 if(gate){
-  html.classList.add('gated'); everClicked=true;   // the old "first click turns the sound on" is replaced by the star
+  html.classList.add('gated','gate-flow'); everClicked=true;   // the old "first click turns the sound on" is replaced by the star
   if(lenis) lenis.stop(); window.scrollTo(0,0);
   setTimeout(()=>{ gmsg.classList.add('on'); msgAt=performance.now(); },1200);
   const readIt=()=>{ if(msgAt&&!gmsg.classList.contains('off')&&performance.now()-msgAt>1500) gmsg.classList.add('off'); };
