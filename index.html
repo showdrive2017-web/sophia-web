@@ -354,21 +354,25 @@ html.opened #hero .cue{animation:fade .6s 0s var(--tone) forwards}   /* with the
 .sophia-name{font-family:var(--mincho);font-weight:500;font-size:1.1em;letter-spacing:.08em;color:var(--gold2)}
 #s1 .node{top:95vh;top:95svh}
 
-/* ============ 02 the two devices: one pinned stage — the phone arrives from depth and grows, shows its screens, then the PC takes over ============ */
-#apps{text-align:center;--ph:min(78svh,760px);--mw:min(86vw,calc((100svh - 250px) * 16 / 9),1200px)}   /* the devices are laid out at their final size and scaled down before that: crisp at the end */
-#apps::after{content:"";display:block;height:calc(100vh * var(--pin2));height:calc(100svh * var(--pin2))}
-#apps .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;perspective:1300px}
-#apps .wrap{padding-top:calc(max(16px,env(safe-area-inset-top)) + 76px)}
+/* ============ 02 the two devices: the overview is where the page stops. It snaps there and holds a beat, the rims breathe gold to invite a click,
+   and a clicked device grows in place — Lusion's media reveal: a rounded clip opening, scale with a little overshoot, the picture inside landing a beat later ============ */
+#apps{text-align:center;position:relative;--ph:min(78svh,760px);--mw:min(86vw,calc((100svh - 250px) * 16 / 9),1200px)}   /* devices are laid out at their open size and scaled down in the overview: crisp when open */
+html.dev-open #apps{z-index:12}
+#apps .stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+#dim{position:fixed;inset:0;z-index:0;background:rgba(3,5,14,.74);opacity:0;pointer-events:none}
+html.dev-open #dim{pointer-events:auto;cursor:pointer}
+#apps .wrap{position:relative;z-index:1;padding-top:calc(max(16px,env(safe-area-inset-top)) + 76px)}
 #apps .eyebrow{justify-content:center;transition:none}#apps .eyebrow::before{display:none}
-#apps .node{top:90vh;top:90svh;left:50%}
+#apps .node{top:92vh;top:92svh;left:50%}
 .sec-h.apps-h{margin:4px 0 0}
 .apps-h .w{display:block}
-.devs{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d}
+.devs{position:absolute;inset:0;z-index:2;pointer-events:none}
 .dev{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;align-items:center;transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;pointer-events:auto}
-.dev[data-dev=pc]{z-index:3;width:var(--mw)}
+.dev[data-dev=pc]{width:var(--mw)}
+.dev.open{z-index:4}
 .scr{position:relative;display:block;border:0;padding:0;cursor:pointer;background:#05070f;overflow:hidden;-webkit-tap-highlight-color:transparent}
 .scr:focus-visible{outline:2px solid var(--gold);outline-offset:6px}
-.scr .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:transform,opacity}
+.scr .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s var(--tone);will-change:transform,opacity}
 .scr .sl.on{opacity:1}
 /* the glass: a diagonal sheen and a faint vignette, no filters */
 .scr::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.075) 0%,rgba(255,255,255,.025) 32%,rgba(255,255,255,0) 48%);box-shadow:inset 0 0 28px rgba(0,0,0,.22)}
@@ -385,8 +389,24 @@ html.opened #hero .cue{animation:fade .6s 0s var(--tone) forwards}   /* with the
 .neck{display:block;width:clamp(40px,5vw,72px);height:clamp(24px,3.2vw,46px);margin-top:-1px;background:linear-gradient(90deg,#3f4451,#9299a6 34%,#5a5f6c 64%,#2a2e38);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
 .foot{display:block;width:clamp(120px,16vw,230px);height:clamp(8px,1vw,14px);border-radius:50%/60%;background:linear-gradient(#9399a5,#3b3f4b 55%,#21252e);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 24px rgba(0,0,0,.6)}
 .mon::after{content:"";position:absolute;left:12%;right:12%;bottom:-10px;height:26px;border-radius:50%;z-index:-1;background:radial-gradient(ellipse at center,rgba(0,0,0,.6),rgba(0,0,0,0) 70%)}
-/* each device's words: beside the phone at PC width, under it on phones; under the PC. A cue to click, and the slide dots */
-.capbox{position:absolute;left:0;top:0;width:min(30em,calc(100vw - 48px));text-align:left;opacity:0;will-change:transform,opacity;pointer-events:none}
+/* the invitation: a gold rim that breathes (opacity only), the two devices out of phase */
+.phb::before,.mbody::before{content:"";position:absolute;inset:-3px;border-radius:inherit;pointer-events:none;opacity:0;z-index:1;
+  box-shadow:0 0 0 1.5px rgba(246,226,180,.95),0 0 26px 5px rgba(234,201,138,.5),inset 0 0 0 1px rgba(246,226,180,.35)}
+.pulse .phb::before,.pulse .mbody::before{animation:devPulse 2.6s ease-in-out infinite}
+.pulse .dev[data-dev=pc] .mbody::before{animation-delay:-1.3s}
+@keyframes devPulse{0%,100%{opacity:.1}50%{opacity:.95}}
+.dcue{position:absolute;left:0;top:0;transform:translateX(-50%);opacity:0;transition:opacity .6s var(--tone);pointer-events:none;white-space:nowrap}
+.pulse .dcue{opacity:1}
+.cue-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:12px;letter-spacing:.1em;color:var(--gold2);border:1px solid rgba(234,201,138,.5);background:rgba(234,201,138,.08)}
+.cue-pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:cuePulse 2.2s ease-in-out infinite}
+@keyframes cuePulse{50%{opacity:.35;transform:scale(.7)}}
+.cue-pill .t-click{display:none}
+@media (pointer:fine){.cue-pill .t-tap{display:none}.cue-pill .t-click{display:inline}}
+/* while a device is open: its words beside it (under it on phones; the PC's under it), the arrows, the close button */
+.xctl{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .35s var(--tone),visibility 0s .35s}
+.xctl.on{opacity:1;visibility:visible;transition-delay:0s}
+.capbox{position:absolute;left:0;top:0;width:min(30em,calc(100vw - 48px));text-align:left;opacity:0;visibility:hidden;will-change:transform,opacity}
+.capbox.on{visibility:visible;pointer-events:auto}
 .capbox h3{font-weight:500;font-size:13px;letter-spacing:.14em;color:var(--gold2);margin-bottom:8px}
 .capbox p{font-size:clamp(14px,1.1vw,16px);line-height:1.8;color:var(--ink);min-height:2.6em}
 .capbox p.swap{animation:capIn .5s var(--rise)}
@@ -400,57 +420,25 @@ html.opened #hero .cue{animation:fade .6s 0s var(--tone) forwards}   /* with the
 .sdots i.pv{border-radius:0;width:0;height:0;background:none;border-left:7px solid rgba(255,255,255,.22);border-top:4px solid transparent;border-bottom:4px solid transparent}
 .sdots i.pv.on{border-left-color:var(--gold);background:none}
 .capbox.pc .sdots{justify-content:center}
-.cue-pill{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px;border-radius:999px;font-size:12px;letter-spacing:.1em;color:var(--gold2);border:1px solid rgba(234,201,138,.5);background:rgba(234,201,138,.08)}
-.cue-pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:cuePulse 2.2s ease-in-out infinite}
-@keyframes cuePulse{50%{opacity:.35;transform:scale(.7)}}
-.cue-pill .t-click{display:none}
-@media (pointer:fine){.cue-pill .t-tap{display:none}.cue-pill .t-click{display:inline}}
-
-/* ============ 「直感的な操作で、全て使えます。」— after the screens, one big line swings out of its mask, then the note ============ */
-#intuit{padding:var(--sec) 0 calc(var(--sec) * .9)}
-.bigline{font-weight:700;font-size:clamp(34px,6.6vw,104px);line-height:1.3;letter-spacing:0;color:var(--ink);--lmd:1s}
-.bigline .w{display:block;padding:.14em .06em;margin:-.14em -.06em}
-.js .bigline .w>span{transform:translate3d(0,130%,0) rotate(7deg)}
-.bridge{max-width:38em;margin:clamp(40px,5vw,64px) 0 0;color:var(--ash);font-size:clamp(14px,1.05vw,16px);line-height:1.95;text-align:left}
-.bridge a{color:var(--gold2)}
-
-/* ============ 02 lightbox: a device, opened large ============ */
-#lb{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
-#lb .bd{position:absolute;inset:0;background:rgba(3,5,14,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .4s var(--tone)}
-#lb.on .bd{opacity:1}
-#lb .box{position:relative;z-index:1;display:grid;grid-template-columns:1fr;gap:clamp(14px,2vw,28px);align-items:center;justify-items:center;width:min(92vw,1280px);
-  opacity:0;transform:scale(.97);transition:opacity .4s var(--tone),transform .4s var(--rise)}
-#lb.on .box{opacity:1;transform:none}
-#lb .frame{position:relative;max-width:100%}
-#lb .shot{position:relative;background:#05070f;overflow:hidden;box-sizing:content-box;border:clamp(6px,.8vw,10px) solid #1b2033;
-  box-shadow:0 0 0 1px rgba(255,255,255,.18),0 40px 100px rgba(0,0,0,.6)}
-#lb[data-kind=pc] .shot{width:min(calc(92vw - 20px),calc((80svh - 150px) * 16 / 9),1240px);aspect-ratio:16/9;border-radius:12px;border-bottom-width:clamp(10px,1.4vw,18px)}
-#lb[data-kind=mobile] .shot{height:min(84svh,calc(100svh - 170px),860px);aspect-ratio:560/1213;border-radius:12%/5.5%;border-width:7px}
-#lb .shot>img,#lb .shot>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s var(--tone)}
-#lb .shot>.on{opacity:1}
-#lb .nav{position:absolute;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;
+.pp{margin-top:12px;padding:7px 16px;border-radius:999px;font-size:12.5px;letter-spacing:.08em;border:1px solid rgba(234,201,138,.55);background:rgba(234,201,138,.09)}
+.pp:hover{background:rgba(234,201,138,.2)}
+.xnav{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;pointer-events:auto;
   color:var(--ink);background:rgba(6,10,24,.55);border:1px solid rgba(255,255,255,.3);transition:background .3s,border-color .3s}
-#lb .nav:hover{background:rgba(234,201,138,.25);border-color:rgba(255,230,180,.9)}
-#lb .prev{left:-22px}#lb .next{right:-22px}
-#lb .side{text-align:center;max-width:30em}
-#lb .side h3{font-weight:500;font-size:14px;letter-spacing:.14em;color:var(--gold2);margin-bottom:8px}
-#lb .side p{font-size:clamp(14px,1.1vw,16px);line-height:1.8;color:var(--ink);min-height:2.6em}
-#lb .dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
-#lb .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s,transform .3s}
-#lb .dots i.on{background:var(--gold);transform:scale(1.3)}
-#lb .dots i.pv{border-radius:0;width:0;height:0;background:none;border-left:7px solid rgba(255,255,255,.25);border-top:4px solid transparent;border-bottom:4px solid transparent}
-#lb .dots i.pv.on{border-left-color:var(--gold);background:none}
-#lb .pp{margin-top:14px;padding:8px 18px;border-radius:999px;font-size:13px;letter-spacing:.08em;border:1px solid rgba(234,201,138,.55);background:rgba(234,201,138,.09)}
-#lb .pp:hover{background:rgba(234,201,138,.2)}
-#lb .x{position:absolute;z-index:2;top:max(14px,env(safe-area-inset-top));right:14px;width:44px;height:44px;border-radius:50%;font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;
+.xnav:hover{background:rgba(234,201,138,.25);border-color:rgba(255,230,180,.9)}
+.xclose{position:absolute;top:calc(max(16px,env(safe-area-inset-top)) + 64px);right:22px;width:44px;height:44px;border-radius:50%;font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;pointer-events:auto;
   color:var(--ink);background:rgba(6,10,24,.55);border:1px solid rgba(255,255,255,.3)}
-#lb .x:hover{background:rgba(234,201,138,.25)}
-@media (min-width:900px){
-  #lb[data-kind=mobile] .box{grid-template-columns:auto minmax(0,1fr);width:min(92vw,960px)}   /* at PC width the phone has its words beside it */
-  #lb[data-kind=mobile] .side{text-align:left}#lb[data-kind=mobile] .dots{justify-content:flex-start}
-}
-@media (max-width:640px){#lb .prev{left:-10px}#lb .next{right:-10px}#lb .nav{width:40px;height:40px;margin-top:-20px}#lb .side p{min-height:0}
-  #lb[data-kind=mobile] .shot{height:min(80svh,calc(100svh - 200px))}#lb .x{top:max(10px,env(safe-area-inset-top));right:10px;width:40px;height:40px}}
+.xclose:hover{background:rgba(234,201,138,.25)}
+@media (pointer:coarse){html{scroll-snap-type:y proximity}#apps{scroll-snap-align:start;scroll-snap-stop:always}}   /* phones scroll natively: the browser's own snap gives the stop */
+
+/* ============ 「直感的な操作で、全て使えます。」— comes in from beyond the left edge to its centred place, skewed, settling; the lines staggered ============ */
+#intuit{padding:var(--sec) 0 calc(var(--sec) * .9);overflow:hidden;text-align:center}
+#intuit .wrap{max-width:none}
+.bigline{font-weight:700;font-size:clamp(34px,6.6vw,104px);line-height:1.3;letter-spacing:0;color:var(--ink)}
+.bigline .w{display:block;padding:.14em .06em;margin:-.14em -.06em;overflow:visible}
+.js .bigline .w>span{display:inline-block;transform:translate3d(calc(-50vw - 62%),0,0) skewX(-14deg);transform-origin:50% 100%;transition:transform 1.15s cubic-bezier(.2,1.08,.3,1);transition-delay:calc(var(--wi,0) * .13s)}
+.js .bigline.in .w>span{transform:none}
+.bridge{max-width:38em;margin:clamp(40px,5vw,64px) auto 0;color:var(--ash);font-size:clamp(14px,1.05vw,16px);line-height:1.95;text-align:left}
+.bridge a{color:var(--gold2)}
 
 /* ============ 03 for you ============ */
 #who .node{top:calc(var(--sec) + 6px)}
@@ -649,6 +637,7 @@ html.gated #hd::before{display:none}
   :root{--pin:.5;--pin1:.8;--pin2:2.2}
   #apps{--ph:min(600px,calc(100svh - 250px));--mw:90vw}
   .capbox,.capbox.pc{width:calc(100vw - 48px);text-align:center}.capbox h3{font-size:12px}.capbox p{font-size:14px}
+  .xclose{top:calc(max(10px,env(safe-area-inset-top)) + 62px);right:12px;width:40px;height:40px}.xnav{width:40px;height:40px}
   #hd .brand span{display:none}
   #hd .hd-dl{padding:8px 12px;font-size:11.5px}
   main .wrap{padding-left:40px}
@@ -679,16 +668,18 @@ html.gated #hd::before{display:none}
   #twinkles i,#hero .cue .stem,#download .star .rays,#download.lit .store::after,#hero .inner.in .glint::after{animation:none}
   html.born #hd>*{animation:none;opacity:1;transform:none}
   #vtw i{animation:none}
-  #apps::after{display:none}
-  #apps .stage{position:static;height:auto;overflow:visible;padding-top:var(--sec)}
-  #apps .wrap{padding-top:0}
-  .devs{position:static;display:flex;flex-direction:column;align-items:center;gap:40px;margin-top:40px;pointer-events:auto}
-  .dev,.capbox{position:static;transform:none!important;opacity:1!important;visibility:visible!important;margin:0!important;left:auto!important;top:auto!important}
-  .capbox,.capbox.pc{width:auto;max-width:30em;text-align:center;margin-top:-20px!important}
+  #apps .stage{height:auto;overflow:visible;padding:var(--sec) 0}
+  #apps .wrap{padding-top:0;opacity:1!important}
+  .devs{position:static;display:flex;flex-direction:column;align-items:center;gap:48px;margin-top:40px;pointer-events:auto}
+  .dev{position:static;transform:none!important;opacity:1!important;visibility:visible!important;margin:0!important;clip-path:none!important}
+  .dev[data-dev=pc]{width:min(90vw,920px)}
+  #apps .dcue,.pulse .phb::before,.pulse .mbody::before{display:none}
+  .capbox{position:static;width:auto;max-width:30em;text-align:center;margin:12px auto 0;transform:none!important}
+  .xctl{position:static;height:auto}.xnav{display:none}
+  html{scroll-snap-type:none!important}
   #apps .eyebrow,#apps-h .w>span{opacity:1!important;transform:none!important}
   #veil{display:none}
   .gate-msg span{transition:none;transform:none}
-  #lb .box,#lb .bd{transition:none}
 }
 </style>
 </head>
@@ -783,6 +774,7 @@ html.gated #hd::before{display:none}
 
   <section id="apps" aria-labelledby="apps-h">
     <div class="stage">
+      <div id="dim" aria-hidden="true"></div>
       <div class="wrap">
         <div class="eyebrow"><span>02 — Mobile &amp; PC</span></div>
         <h2 id="apps-h" class="sec-h apps-h lm"><span class="w"><span>スマホでも、PCでも。</span></span></h2>
@@ -790,16 +782,22 @@ html.gated #hd::before{display:none}
       <div class="devs">
         <div class="dev" data-dev="mobile">
           <div class="phb"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i>
-            <button class="scr phone" type="button" aria-label="モバイル版SOPHIA：押すと大きく開きます" aria-haspopup="dialog"><img class="sl on" src="assets/v2/m1.webp" alt="星の一覧で、思いつきを書いて星を生む画面" decoding="async"><img class="sl" src="assets/v2/m2.webp" alt="星をなぞってつないだ星座の画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/m3.webp" alt="大きな星と、日付のダイヤルの画面" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="モバイル版の操作動画"></video></button>
+            <button class="scr phone" type="button" aria-label="モバイル版SOPHIA：押すとその場で大きく開きます" aria-expanded="false"><img class="sl on" src="assets/v2/m1.webp" alt="星の一覧で、思いつきを書いて星を生む画面" decoding="async"><img class="sl" src="assets/v2/m2.webp" alt="星をなぞってつないだ星座の画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/m3.webp" alt="大きな星と、日付のダイヤルの画面" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="モバイル版の操作動画"></video></button>
           </div>
         </div>
-        <div class="capbox m"><h3>モバイル版SOPHIA</h3><p>書いて「星を生む」。画面をダブルタップしても、星が生まれます。</p><span class="sdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i class="pv"></i></span><br><span class="cue-pill" aria-hidden="true"><i></i><b class="t-click">クリックで中身を見る</b><b class="t-tap">タップで中身を見る</b></span></div>
         <div class="dev" data-dev="pc">
           <div class="mon"><div class="mbody">
-            <button class="scr monitor" type="button" aria-label="PC版SOPHIA：押すと大きく開きます" aria-haspopup="dialog"><img class="sl on" src="assets/v2/p1.webp?v=2" alt="PC版の、奥行きのある広い星空と星座" decoding="async"><img class="sl" src="assets/v2/p2.webp?v=2" alt="寄ると星の名前に印が付き、中身のはじめと日付が見える画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/p3.webp?v=2" alt="真鍮のダイヤルで日付を入れる画面と、星座の小人" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="PC版の操作動画"></video></button>
+            <button class="scr monitor" type="button" aria-label="PC版SOPHIA：押すとその場で大きく開きます" aria-expanded="false"><img class="sl on" src="assets/v2/p1.webp?v=2" alt="PC版の、奥行きのある広い星空と星座" decoding="async"><img class="sl" src="assets/v2/p2.webp?v=2" alt="寄ると星の名前に印が付き、中身のはじめと日付が見える画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/p3.webp?v=2" alt="真鍮のダイヤルで日付を入れる画面と、星座の小人" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="PC版の操作動画"></video></button>
             <span class="chin" aria-hidden="true"></span></div><span class="neck" aria-hidden="true"></span><span class="foot" aria-hidden="true"></span></div>
         </div>
-        <div class="capbox pc"><h3>PC版SOPHIA</h3><p>広い画面に、奥行きのある星空。</p><span class="sdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i class="pv"></i></span><br><span class="cue-pill" aria-hidden="true"><i></i><b class="t-click">クリックで中身を見る</b><b class="t-tap">タップで中身を見る</b></span></div>
+        <span class="dcue" data-for="mobile" aria-hidden="true"><span class="cue-pill"><i></i><b class="t-click">クリックで中身を見る</b><b class="t-tap">タップで中身を見る</b></span></span>
+        <span class="dcue" data-for="pc" aria-hidden="true"><span class="cue-pill"><i></i><b class="t-click">クリックで中身を見る</b><b class="t-tap">タップで中身を見る</b></span></span>
+      </div>
+      <div class="xctl">
+        <button class="xnav prev" type="button" aria-label="前の画面">‹</button><button class="xnav next" type="button" aria-label="次の画面">›</button>
+        <div class="capbox m"><h3>モバイル版SOPHIA</h3><p aria-live="polite"></p><span class="sdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i class="pv"></i></span><br><button class="pp" type="button" hidden>停止</button></div>
+        <div class="capbox pc"><h3>PC版SOPHIA</h3><p aria-live="polite"></p><span class="sdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i class="pv"></i></span><br><button class="pp" type="button" hidden>停止</button></div>
+        <button class="xclose" type="button" aria-label="閉じる">×</button>
       </div>
     </div>
     <span class="node" data-node></span>
@@ -807,7 +805,7 @@ html.gated #hd::before{display:none}
 
   <section id="intuit" aria-label="直感的な操作で、全て使えます。">
     <div class="wrap">
-      <p class="bigline lm"><span class="w" style="--wi:0"><span>直感的な操作で、</span></span><span class="w" style="--wi:1;--d0:.02s"><span>全て使えます。</span></span></p>
+      <p class="bigline lm"><span class="w" style="--wi:0"><span>直感的な操作で、</span></span><span class="w" style="--wi:1"><span>全て使えます。</span></span></p>
       <p class="bridge">スマホで製品版を買えば、PC版も製品版に（購入画面に出るコード、または製品版のスマホから書き出した作品ファイルで）。<br>作品は、作品ファイルを書き出して読み込めば、スマホとPCのあいだで移せます。自動で同期はしません。<a href="app/">ブラウザ版</a>は、インストールなしで試せる体験版です。</p>
     </div>
   </section>
@@ -890,17 +888,6 @@ html.gated #hd::before{display:none}
   <div class="copy">© 2026 The Highway Design</div>
 </footer>
 </div>
-<div id="lb" role="dialog" aria-modal="true" aria-label="画面を大きく見る" hidden>
-  <div class="bd" data-close></div>
-  <div class="box">
-    <div class="frame"><div class="shot"></div>
-      <button class="nav prev" type="button" aria-label="前の画面">‹</button><button class="nav next" type="button" aria-label="次の画面">›</button>
-    </div>
-    <div class="side"><h3></h3><p aria-live="polite"></p><div class="dots" aria-hidden="true"><i></i><i></i><i></i><i class="pv"></i></div><button class="pp" type="button" hidden>停止</button></div>
-  </div>
-  <button class="x" type="button" aria-label="閉じる" data-close>×</button>
-</div>
-
 <script src="assets/vendor/lenis.min.js"></script>
 <script src="assets/app/sophia-core.js"></script>
 <script src="assets/app/sophia-star.js"></script>
@@ -1158,12 +1145,14 @@ function layoutLine(){
   addAvoid([$('#hero h1'),$('#hero .hero-next'),$('#hero .hero-sub'),$('#hero .quick')],hero.offsetHeight-heroStage.offsetHeight);
   addAvoid([$('#copy-intuitive'),$('#copy1')],s1.offsetHeight-s1Stage.offsetHeight);
   addAvoid([$('#intuit .bigline')],0); addAvoid([$('#price h2')],0);
+  addAvoid([$('#apps-h')],0); addAvoid([devM],0); addAvoid([devP],0);   // 02's heading and the two devices in their overview places
   const sideOf=(a,A)=>{ if(narrow) return 12; const left=a.x<(A.l+A.r)/2, okL=A.l>24, okR=A.r+24<W-24;   // the side the line is already on, if there is room; the left gutter on phones
     return left?(okL?A.l:A.r):(okR?A.r:A.l); };
   // waypoints between stars give the line a gentle wander instead of one plain S per gap; round a text block it runs straight down its clear side
   const way=[pts[0]];
   for(let i=1;i<pts.length;i++){ const a=pts[i-1],b=pts[i],dy=b.y-a.y, n=dy>vh*1.6?2:1;
-    const blocks=avoid.filter(A=>A.t<b.y&&A.b>a.y).sort((p,q)=>p.t-q.t);
+    let blocks=avoid.filter(A=>A.t<b.y&&A.b>a.y).sort((p,q)=>p.t-q.t);
+    for(let m=0;m<blocks.length-1;m++){ const P=blocks[m],Q=blocks[m+1]; if(Q.t<P.b){ blocks.splice(m,2,{l:Math.min(P.l,Q.l),r:Math.max(P.r,Q.r),t:Math.min(P.t,Q.t),b:Math.max(P.b,Q.b)}); m--; } }   // side-by-side blocks (the two devices) become one
     const inBlock=yy=>blocks.some(A=>yy>A.t-60&&yy<A.b+60);
     for(let k=1;k<=n;k++){ const t=k/(n+1), yy=a.y+dy*t; if(inBlock(yy)) continue;
       let x=lerp(a.x,b.x,t*t*(3-2*t)), amp=narrow?6:Math.min(150,W*.1);
@@ -1288,64 +1277,109 @@ function updateS1(y){
   if(p>=.72 && !copy1.in){ copy1.in=true; copy1.classList.add('in'); }
 }
 
-/* ---------------- 02: one pinned stage. Every motion is a table of (progress → value[, easing]); the screens and the demos sit in windows of the same progress ---------------- */
-const apps=$('#apps'), appsStage=$('#apps .stage'), devM=$('.dev[data-dev=mobile]'), devP=$('.dev[data-dev=pc]'), capM=$('.capbox.m'), capP=$('.capbox.pc'),
-  appsH=$('#apps-h'), appsHs=$('#apps-h .w>span'), appsEye=$('#apps .eyebrow');
+/* ---------------- 02: the overview is a stop. With Lenis the page snaps onto it and holds a beat (input absorbed), the rims start to breathe; a click grows the device
+   in place (Lusion's media reveal: a rounded clip opening, scale with a little overshoot, the picture inside landing a beat later, the rest receding). Outside / Esc / × reverses it ---------------- */
+const apps=$('#apps'), appsStage=$('#apps .stage'), appsWrap=$('#apps .wrap'), devM=$('.dev[data-dev=mobile]'), devP=$('.dev[data-dev=pc]'), devsEl=$('#apps .devs'),
+  dim=$('#dim'), xctl=$('#apps .xctl'), xprev=$('#apps .xnav.prev'), xnext=$('#apps .xnav.next'), xclose=$('#apps .xclose');
 const DEMO={mobile:'assets/v2/demo-phone.mp4?v=20',pc:'assets/v2/demo-pc.mp4?v=20'}, DEMO_SECONDS=20;
 const CAPS={mobile:['書いて「星を生む」。画面をダブルタップしても、星が生まれます。','星に触れて、すっと滑らせると、つながって星座に。','星を大きく育てたり、日付と時刻をダイヤルで入れたり。','実際の操作'],
   pc:['広い画面に、奥行きのある星空。','少し寄ると、名前の下に中身のはじめと日付。','真鍮のダイヤルで日付を。星座には、小さな女の子が住んでいます。','実際の操作']};
-const SLW={mobile:[[.18,.26],[.26,.34],[.34,.42],[.42,.50]], pc:[[.60,.68],[.68,.76],[.76,.84],[.84,.94]]};   // the four screens of each device, as windows of the pin (マツ子's table)
-let appsPin=0, appsEnd=1, AK=null, lastAp=-2;
-const eBack=t=>{ const c=1.70158; return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2); };   // the arrival overshoots a little and settles: にゅるっ
-const kf=(p,s)=>{ if(p<=s[0][0]) return s[0][1]; for(let i=1;i<s.length;i++) if(p<=s[i][0]){ const a=s[i-1],b=s[i],u=seg(p,a[0],b[0]); return lerp(a[1],b[1],b[2]==='back'?eBack(u):b[2]==='out'?eQuint(u):u*u*(3-2*u)); } return s[s.length-1][1]; };
-const devState={mobile:{el:devM,cap:capM,sl:Array.from(devM.querySelectorAll('.sl')),v:devM.querySelector('video'),dots:Array.from(capM.querySelectorAll('.sdots i')),p:capM.querySelector('p'),cur:-1},
-  pc:{el:devP,cap:capP,sl:Array.from(devP.querySelectorAll('.sl')),v:devP.querySelector('video'),dots:Array.from(capP.querySelectorAll('.sdots i')),p:capP.querySelector('p'),cur:-1}};
-for(const k in devState){ const d=devState[k]; d.v.addEventListener('timeupdate',()=>{ if(d.v.currentTime>=DEMO_SECONDS) d.v.currentTime=0; }); d.v.addEventListener('ended',()=>{ d.v.currentTime=0; d.v.play().catch(()=>{}); }); }
+const eBack=t=>{ const c=1.2; return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2); };   // a little overshoot that settles: にゅるっ
+const coarse=matchMedia('(pointer: coarse)').matches;
+let appsTop=0, AK=null, snapArmed=true, snapping=false, pulsing=false, pulseLatch=false;
+const EX={k:null,state:0,t0:0,dur:0,raf:0};   // 0 closed, 1 opening, 2 open, 3 closing
+const devState={};
+[['mobile',devM],['pc',devP]].forEach(([k,el])=>{ const cap=$('.capbox.'+(k==='mobile'?'m':'pc'));
+  devState[k]={el,btn:el.querySelector('.scr'),cap,sl:Array.from(el.querySelectorAll('.sl')),v:el.querySelector('video'),dots:Array.from(cap.querySelectorAll('.sdots i')),p:cap.querySelector('p'),pp:cap.querySelector('.pp'),cue:$('.dcue[data-for='+k+']'),i:0};
+  const d=devState[k]; d.p.textContent=CAPS[k][0];
+  d.v.addEventListener('timeupdate',()=>{ if(d.v.currentTime>=DEMO_SECONDS) d.v.currentTime=0; });
+  d.v.addEventListener('ended',()=>{ d.v.currentTime=0; d.v.play().catch(()=>{}); });
+  d.v.addEventListener('play',()=>syncPP(k)); d.v.addEventListener('pause',()=>syncPP(k));
+  d.v.addEventListener('click',e=>{ if(EX.state===2&&EX.k===k){ e.stopPropagation(); togglePP(k); } });
+  d.pp.addEventListener('click',()=>togglePP(k));
+  d.btn.addEventListener('click',()=>{ if(!EX.state) openDev(k); else if(EX.state===2&&EX.k===k) show(k,d.i+1); });
+  let x0=null,y0=0;
+  d.btn.addEventListener('touchstart',e=>{ x0=e.touches[0].clientX; y0=e.touches[0].clientY; },{passive:true});
+  d.btn.addEventListener('touchend',e=>{ if(x0===null||EX.state!==2||EX.k!==k) return; const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0; x0=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){ e.preventDefault(); show(k,d.i+(dx<0?1:-1)); } },{passive:false});
+});
+function syncPP(k){ const d=devState[k]; d.pp.textContent=d.v.paused?'再生':'停止'; d.pp.setAttribute('aria-pressed',String(!d.v.paused)); }
+function togglePP(k){ const v=devState[k].v; if(v.paused) v.play().catch(()=>{}); else v.pause(); }
+function show(k,i){   // the pictures and the demo of the open device; the demo plays when reached and pauses when left — never a gate
+  const d=devState[k]; i=(i+4)%4; d.i=i;
+  d.sl.forEach((e,n)=>e.classList.toggle('on',n===i)); d.dots.forEach((e,n)=>e.classList.toggle('on',n===i));
+  d.p.textContent=CAPS[k][i]; d.p.classList.remove('swap'); void d.p.offsetWidth; d.p.classList.add('swap');
+  const demo=i===3; d.pp.hidden=!demo;
+  if(demo){ if(!d.v.src) d.v.src=DEMO[k]; d.v.currentTime=0; d.v.play().catch(()=>{}); } else if(!d.v.paused) d.v.pause();
+  syncPP(k);
+}
 function layoutApps(){
   const W=vw, H=vh, wide=W>=900, pw=devM.offsetWidth, ph=devM.offsetHeight, mw=devP.offsetWidth, mh=devP.offsetHeight, hdH=$('#hd').offsetHeight||70;
-  devM.style.margin=(-ph/2).toFixed(1)+'px 0 0 '+(-pw/2).toFixed(1)+'px'; devP.style.margin=(-mh/2).toFixed(1)+'px 0 0 '+(-mw/2).toFixed(1)+'px';   // both sit on the stage's centre; the tables move them from there
+  devM.style.margin=(-ph/2).toFixed(1)+'px 0 0 '+(-pw/2).toFixed(1)+'px'; devP.style.margin=(-mh/2).toFixed(1)+'px 0 0 '+(-mw/2).toFixed(1)+'px';   // both sit on the stage's centre
   const ps0=(wide?H*.36:H*.2)/ph, ms0=(wide?W*.44:W*.5)/mw, gap=wide?72:16, row=pw*ps0+gap+mw*ms0, x0=-row/2;   // the overview: both small, in a row under the heading
   const pcx=x0+pw*ps0/2, mcx=x0+pw*ps0+gap+mw*ms0/2, rowY=wide?H*.1:H*.06;
-  const pbx=wide?-W*.13:0, pby=wide?0:(hdH+24+ph/2)-H/2;   // the phone's big place (its words beside it at PC width, under it on phones)
-  const mby=(hdH+20+mh/2)-H/2;   // the PC's big place: just under the header, its words below
-  // the phone is picked up: it dips into perspective as it lifts off the row, then lands flat with a little overshoot; the PC rises from below, unfolding
-  AK={ ps:[[.08,ps0],[.18,1,'back'],[.50,1],[.60,.6]], px:[[.08,pcx],[.18,pbx,'out'],[.50,pbx],[.60,wide?-W*.3:-W*.25]], py:[[.08,rowY],[.18,pby,'back'],[.50,pby],[.60,H*.75]],
-    po:[[.50,1],[.58,0]], prx:[[.08,0],[.11,18],[.18,0,'out']], pry:[[.08,0],[.11,-12],[.18,0,'out'],[.50,0],[.60,18]], pz:[[.08,1],[.11,1.14],[.20,1,'out']],
-    ms:[[.08,ms0],[.20,.5],[.50,.62],[.62,1,'back']], mx:[[.08,mcx],[.20,mcx+W*.08],[.50,0],[.62,0]], my:[[.08,rowY],[.20,rowY+H*.12],[.50,H*.72],[.62,mby,'out']],
-    mo:[[.08,1],[.20,0],[.50,0],[.57,1]], mrx:[[.20,0],[.50,16],[.62,0,'out']], mclip:[[.20,0],[.50,16],[.60,0,'out']], mz:[[.20,1],[.50,1.15],[.64,1,'out']],
-    co:[[.18,0],[.22,1],[.50,1],[.55,0]], cy:[[.18,24],[.22,0]], qo:[[.62,0],[.66,1]], qy:[[.62,24],[.66,0]] };
+  const pbx=wide?-W*.13:0, pby=wide?0:(hdH+24+ph/2)-H/2, mby=(hdH+20+mh/2)-H/2;   // the open places
+  AK={mobile:{ov:[pcx,rowY,ps0],big:[pbx,pby,1],w:pw,h:ph,rx:0,ry:-8},pc:{ov:[mcx,rowY,ms0],big:[0,mby,1],w:mw,h:mh,rx:5,ry:0}};
+  for(const k in AK){ const A=AK[k], d=devState[k]; if(!EX.state){ pose(k,0); d.el.style.opacity=''; d.el.style.visibility=''; }
+    d.cue.style.left=(wide?W/2+A.ov[0]:W/2).toFixed(1)+'px'; d.cue.style.top=(H/2+rowY+Math.max(ph*ps0,mh*ms0)/2+16).toFixed(1)+'px'; d.cue.style.display=(!wide&&k==='pc')?'none':''; }   // phones: one cue under the row
+  const capM=devState.mobile.cap, capP=devState.pc.cap;
   if(wide){ capM.style.left=(W/2+pbx+pw/2+56).toFixed(1)+'px'; capM.style.top=(H/2-capM.offsetHeight/2).toFixed(1)+'px'; }
   else{ capM.style.left=((W-capM.offsetWidth)/2).toFixed(1)+'px'; capM.style.top=(H/2+pby+ph/2+14).toFixed(1)+'px'; }
   capP.style.left=((W-capP.offsetWidth)/2).toFixed(1)+'px'; capP.style.top=(H/2+mby+mh/2+(wide?18:12)).toFixed(1)+'px';
-  appsPin=apps.offsetTop; appsEnd=apps.offsetTop+apps.offsetHeight-appsStage.offsetHeight; lastAp=-2;
+  appsTop=apps.offsetTop;
 }
-function slides(k,p,visible){   // which screen shows: a short crossfade at each boundary; the demo plays when reached and pauses when left — never a gate
-  const d=devState[k], w=SLW[k], f=.012; let cur=-1;
-  for(let i=0;i<4;i++){ const [a,b]=w[i], o=i===0?1-seg(p,b-f,b+f):i===3?seg(p,a-f,a+f):seg(p,a-f,a+f)*(1-seg(p,b-f,b+f)); const on=o>0;   // the first picture is there from the overview on
-    if(d.sl[i].style.opacity!==String(o)) d.sl[i].style.opacity=o.toFixed(3); if(on) cur=i; }
-  if(cur<0) cur=p<w[0][0]?0:3;
-  if(cur!==d.cur){ d.cur=cur; d.dots.forEach((e,i)=>e.classList.toggle('on',i===cur)); d.p.textContent=CAPS[k][cur]; d.p.classList.remove('swap'); void d.p.offsetWidth; d.p.classList.add('swap'); }
-  const inDemo=visible&&p>=w[3][0]-f&&p<=(k==='mobile'?.58:1.01);
-  if(inDemo&&d.v.paused){ if(!d.v.src){ d.v.src=DEMO[k]; } if(d.v.currentTime>DEMO_SECONDS) d.v.currentTime=0; d.v.play().catch(()=>{}); }
-  else if(!inDemo&&!d.v.paused) d.v.pause();
-  if(!d.v.src&&p>w[3][0]-.12) d.v.src=DEMO[k];   // fetch a little ahead
+function pose(k,t){   // t: 0 = in the overview row, 1 = open. Position eases out; scale overshoots a little on the way open; the clip and the picture land a beat later
+  const A=AK[k], d=devState[k], e=eQuint(t), s=EX.state===3?e:eBack(t), r=1-e;
+  d.el.style.transform='perspective(1300px) translate3d('+lerp(A.ov[0],A.big[0],e).toFixed(1)+'px,'+lerp(A.ov[1],A.big[1],e).toFixed(1)+'px,0) rotateX('+(A.rx*r).toFixed(2)+'deg) rotateY('+(A.ry*r).toFixed(2)+'deg) scale('+lerp(A.ov[2],A.big[2],s).toFixed(4)+')';
+  const c=EX.state?7*(1-eQuint(seg(t,0,.7))):0; d.el.style.clipPath=c>.05?'inset('+c.toFixed(2)+'% '+(c*.6).toFixed(2)+'% '+c.toFixed(2)+'% '+(c*.6).toFixed(2)+'% round 16px)':'';
+  const z=EX.state?1+.12*(1-eQuint(seg(t,.1,1))):1; d.sl.forEach(el=>{ el.style.transform=z>1.001?'scale('+z.toFixed(4)+')':''; });
+  if(EX.state){ const o=devState[k==='mobile'?'pc':'mobile'].el, oo=1-seg(t,0,.35); o.style.opacity=oo.toFixed(3); o.style.visibility=oo>0?'':'hidden';
+    appsWrap.style.opacity=(1-seg(t,0,.3)).toFixed(3); dim.style.opacity=(.74*seg(t,0,.45)).toFixed(3);
+    const ct=eQuint(seg(t,.5,.9)); d.cap.style.opacity=ct.toFixed(3); d.cap.style.transform='translate3d(0,'+(16*(1-ct)).toFixed(1)+'px,0)'; }
 }
-function updateApps(y){
-  if(reduce||!AK) return;
-  const p=seg(y,appsPin,appsEnd); if(p===lastAp) return; lastAp=p; const K=AK;
-  const po=kf(p,K.po), mo=kf(p,K.mo);
-  devM.style.transform='translate3d('+kf(p,K.px).toFixed(1)+'px,'+kf(p,K.py).toFixed(1)+'px,0) rotateX('+kf(p,K.prx).toFixed(2)+'deg) rotateY('+kf(p,K.pry).toFixed(2)+'deg) scale('+kf(p,K.ps).toFixed(4)+')';
-  devM.style.opacity=po.toFixed(3); devM.style.visibility=po>0?'':'hidden';
-  const pz=kf(p,K.pz); devState.mobile.sl.forEach(e=>{ e.style.transform=pz>1.001?'scale('+pz.toFixed(4)+')':''; });   // the screen inside lands a beat after the frame
-  devP.style.transform='translate3d('+kf(p,K.mx).toFixed(1)+'px,'+kf(p,K.my).toFixed(1)+'px,0) rotateX('+kf(p,K.mrx).toFixed(2)+'deg) scale('+kf(p,K.ms).toFixed(4)+')';
-  devP.style.opacity=mo.toFixed(3); devP.style.visibility=mo>0?'':'hidden';
-  const mc=kf(p,K.mclip); devP.style.clipPath=mc>0.01?'inset('+mc.toFixed(2)+'% '+(mc*.5).toFixed(2)+'% '+mc.toFixed(2)+'% '+(mc*.5).toFixed(2)+'% round 14px)':'';   // unfolds as it lands
-  const mz=kf(p,K.mz); devState.pc.sl.forEach(e=>{ e.style.transform=mz>1.001?'scale('+mz.toFixed(4)+')':''; });
-  capM.style.opacity=kf(p,K.co).toFixed(3); capM.style.transform='translate3d(0,'+kf(p,K.cy).toFixed(1)+'px,0)';
-  capP.style.opacity=kf(p,K.qo).toFixed(3); capP.style.transform='translate3d(0,'+kf(p,K.qy).toFixed(1)+'px,0)';
-  slides('mobile',p,po>0); slides('pc',p,mo>0);
-  const hx=seg(p,.08,.16);   // the heading leaves upward through its mask as the phone takes the stage
-  if(hx>0||appsH.classList.contains('done')){ appsH.classList.add('done'); appsHs.style.transform=hx?'translate3d(0,'+(-120*hx).toFixed(1)+'%,0)':'none'; appsEye.style.opacity=(1-hx).toFixed(3); }
+function placeCtl(k){ const A=AK[k], W=vw, H=vh, half=A.w/2, cx=W/2+A.big[0], cy=H/2+A.big[1];
+  xprev.style.left=Math.max(6,cx-half-56).toFixed(1)+'px'; xnext.style.left=Math.min(W-50,cx+half+12).toFixed(1)+'px'; xprev.style.top=xnext.style.top=(cy-22).toFixed(1)+'px'; }
+function tick(now){
+  const u=Math.min(1,(now-EX.t0)/EX.dur), t=EX.state===3?1-u:u; pose(EX.k,t);
+  if(u<1){ EX.raf=requestAnimationFrame(tick); return; }
+  if(EX.state===1){ EX.state=2; xclose.focus({preventScroll:true}); }
+  else{ const d=devState[EX.k]; d.el.classList.remove('open'); html.classList.remove('dev-open','lb-open'); apps.classList.remove('open');
+    d.btn.setAttribute('aria-expanded','false'); d.cap.classList.remove('on'); d.btn.focus({preventScroll:true}); if(lenis&&!snapping) lenis.start(); EX.state=0; EX.k=null; setPulse(Math.abs(scrollY-appsTop)<vh*.7); }
+}
+function openDev(k){
+  if(EX.state||!AK) return; EX.k=k; EX.state=1; const d=devState[k];
+  setPulse(false); html.classList.add('dev-open','lb-open'); apps.classList.add('open'); d.el.classList.add('open'); d.btn.setAttribute('aria-expanded','true');
+  if(lenis){ lenis.scrollTo(appsTop,{duration:.45,lock:true,force:true,onComplete:()=>lenis.stop()}); } else if(Math.abs(scrollY-appsTop)>2) window.scrollTo({top:appsTop,behavior:reduce?'auto':'smooth'});
+  show(k,0); placeCtl(k); d.cap.classList.add('on'); requestAnimationFrame(()=>xctl.classList.add('on'));
+  EX.t0=performance.now(); EX.dur=reduce?1:900; cancelAnimationFrame(EX.raf); EX.raf=requestAnimationFrame(tick);
+}
+function closeDev(){
+  if(EX.state!==2&&EX.state!==1) return; const d=devState[EX.k]; if(!d.v.paused) d.v.pause();
+  EX.state=3; xctl.classList.remove('on'); EX.t0=performance.now(); EX.dur=reduce?1:650; cancelAnimationFrame(EX.raf); EX.raf=requestAnimationFrame(tick);
+}
+function setPulse(on){ if(on===pulsing) return; pulsing=on; devsEl.classList.toggle('pulse',on&&!reduce); }
+dim.addEventListener('click',closeDev); xclose.addEventListener('click',closeDev);
+appsStage.addEventListener('click',e=>{ if(EX.state===2&&!e.target.closest('.dev.open,.xctl')) closeDev(); });
+xprev.addEventListener('click',()=>{ if(EX.k) show(EX.k,devState[EX.k].i-1); }); xnext.addEventListener('click',()=>{ if(EX.k) show(EX.k,devState[EX.k].i+1); });
+document.addEventListener('keydown',e=>{
+  if(!EX.state) return;
+  if(e.key==='Escape'){ e.preventDefault(); closeDev(); }
+  else if(e.key==='ArrowRight'&&EX.state===2){ e.preventDefault(); show(EX.k,devState[EX.k].i+1); }
+  else if(e.key==='ArrowLeft'&&EX.state===2){ e.preventDefault(); show(EX.k,devState[EX.k].i-1); }
+  else if(e.key==='Tab'&&EX.state===2){   // the focus stays with the open device and its controls
+    const d=devState[EX.k], f=[d.btn,xprev,xnext,d.pp,xclose].filter(b=>!b.hidden), a=document.activeElement, i=f.indexOf(a);
+    if(i<0){ e.preventDefault(); f[0].focus(); } else if(e.shiftKey&&i===0){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey&&i===f.length-1){ e.preventDefault(); f[0].focus(); } }
+});
+function updateApps(y){   // the stop: with Lenis the page snaps onto the overview once per pass and holds ~0.75 s; phones use the browser's own snap. The rims breathe while the overview is on screen
+  if(!AK) return; const d=y-appsTop;
+  if(EX.state) return;
+  if(lenis&&!coarse){
+    if(snapArmed&&!snapping&&Math.abs(d)<vh*.5&&Math.abs(d)>1){ snapArmed=false; snapping=true;
+      lenis.scrollTo(appsTop,{duration:.5,lock:true,force:true,easing:eQuint,onComplete:()=>{ lenis.stop(); pulseLatch=true; setPulse(true); setTimeout(()=>{ snapping=false; if(!EX.state) lenis.start(); },750); }}); return; }
+    if(Math.abs(d)>vh*1.2) snapArmed=true;
+  }
+  if(Math.abs(d)<vh*.1) pulseLatch=true; else if(Math.abs(d)>vh*.7) pulseLatch=false;   // the breathing begins once the page has settled on the overview, and stays while it is on screen
+  if(!snapping) setPulse(pulseLatch);
 }
 
 /* ---------------- cursor + card tilt ---------------- */
@@ -1392,7 +1426,7 @@ function frame(time){
   requestAnimationFrame(frame);
 }
 if(!clipOK) addEventListener('scroll',()=>{ if(!film.done&&scrollY>film.lockY){ window.scrollTo(0,film.lockY); nudge(); } },{passive:true});
-function layout(){ vw=innerWidth; vh=innerHeight; placeStar(); layoutFilm(); paintStars(); if(!born) paintVStars(); layoutS1(); layoutLine(); pinMetrics(); layoutApps(); }
+function layout(){ vw=innerWidth; vh=innerHeight; placeStar(); layoutFilm(); paintStars(); if(!born) paintVStars(); layoutS1(); pinMetrics(); layoutApps(); layoutLine(); }   // the devices are placed before the line is routed round them
 let rt, lastW=vw, lastH=vh;
 addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{
   // mobile URL bars change the height a little while scrolling; only re-lay out on real size changes
@@ -1401,7 +1435,7 @@ addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{
 layout();
 // web fonts, images and reveals can shift the page after first layout: re-measure whenever main changes height
 let lastMainH=0;
-new ResizeObserver(()=>{ const h=$('main').offsetHeight; if(h===lastMainH) return; lastMainH=h; layoutFilm(); layoutLine(); pinMetrics(); layoutApps(); }).observe($('main'));
+new ResizeObserver(()=>{ const h=$('main').offsetHeight; if(h===lastMainH) return; lastMainH=h; layoutFilm(); pinMetrics(); layoutApps(); layoutLine(); }).observe($('main'));
 applyVideoSound();
 requestAnimationFrame(frame);
 
@@ -1451,7 +1485,7 @@ if(gate){
     const R=Math.hypot(Math.max(x,W-x),Math.max(y,H-y))+bmax+4, ng=$('#nightg'), at=x.toFixed(1)+'px '+y.toFixed(1)+'px', bez=bezier(.70,0,.25,1);
     const setMask=r=>{ const b=clamp(r*.1,bmin,bmax), m='radial-gradient(circle at '+at+',#000 '+Math.max(0,r-b).toFixed(1)+'px,rgba(0,0,0,0) '+r.toFixed(1)+'px)';
       ng.style.webkitMaskImage=m; ng.style.maskImage=m; };
-    setTimeout(()=>{ pinMetrics(); layoutLine(); },80); setTimeout(layoutApps,260);   // spread through the curve's quiet start   // every measurement during the curve's quiet start (nothing has moved by 80 ms), long before the scroll resumes
+    setTimeout(()=>{ pinMetrics(); layoutApps(); layoutLine(); },80);   // spread through the curve's quiet start   // every measurement during the curve's quiet start (nothing has moved by 80 ms), long before the scroll resumes
     setMask(0); skyEl.classList.remove('pre'); skyEl.classList.add('born');
     const t0=performance.now();
     const open=()=>{ skyEl.classList.add('on'); ng.style.webkitMaskImage=''; ng.style.maskImage='';   // the page and the scroll only once the night is whole
@@ -1477,81 +1511,6 @@ var PLAY_LIVE=false;   // 2026-10-27: the production release is still in review;
 document.querySelectorAll('[data-play]').forEach(function(el){el.hidden=(el.dataset.play==='live')!==PLAY_LIVE;});
 var hdl=document.querySelector('#hd .hd-dl');   // on Android, the header button goes to Google Play once it is live
 if(PLAY_LIVE&&hdl&&/Android/.test(navigator.userAgent)){hdl.href='https://play.google.com/store/apps/details?id=com.sophia.mobile';hdl.textContent='Google Play で入手';}
-</script>
-<script>
-/* the two devices: a click (tap, Enter/Space) opens them large — three pictures and a ~20 s demo, with ‹ ›, ←/→, a swipe; × / Esc / the backdrop close it */
-(function(){
-'use strict';
-var DEMO={mobile:'assets/v2/demo-phone.mp4?v=20',pc:'assets/v2/demo-pc.mp4?v=20'},DEMO_SECONDS=20;   // the 20 s demos (2026-10-27, the owner: 10 s was a little fast): stars, links, names, a time on the dial, the text
-var PICS={mobile:['assets/v2/m1.webp','assets/v2/m2.webp','assets/v2/m3.webp'],pc:['assets/v2/p1.webp?v=2','assets/v2/p2.webp?v=2','assets/v2/p3.webp?v=2']};
-var ALTS={mobile:['星の一覧で、思いつきを書いて星を生む画面','星をなぞってつないだ星座の画面','大きな星と、日付のダイヤルの画面'],
-  pc:['PC版の、奥行きのある広い星空と星座','寄ると星の名前に印が付き、中身のはじめと日付が見える画面','真鍮のダイヤルで日付を入れる画面と、星座の小人']};
-var CAPS={mobile:['書いて「星を生む」。画面をダブルタップしても、星が生まれます。','星に触れて、すっと滑らせると、つながって星座に。','星を大きく育てたり、日付と時刻をダイヤルで入れたり。','実際の操作'],
-  pc:['広い画面に、奥行きのある星空。','少し寄ると、名前の下に中身のはじめと日付。','真鍮のダイヤルで日付を。星座には、小さな女の子が住んでいます。','実際の操作']};
-var NAMES={mobile:'モバイル版SOPHIA',pc:'PC版SOPHIA'};
-var lb=document.getElementById('lb'),shot=lb.querySelector('.shot'),title=lb.querySelector('.side h3'),cap=lb.querySelector('.side p'),
-    dots=[].slice.call(lb.querySelectorAll('.dots i')),pp=lb.querySelector('.pp'),closeBtn=lb.querySelector('.x'),prev=lb.querySelector('.prev'),next=lb.querySelector('.next');
-var kind=null,i=0,opener=null,els=[],v=null,isOpen=false,closing=0,noop=function(){};
-function build(k){
-  shot.textContent='';
-  els=PICS[k].map(function(src,n){var im=new Image();im.src=src;im.alt=ALTS[k][n];im.decoding='async';shot.appendChild(im);return im;});
-  v=document.createElement('video');v.muted=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='metadata';v.setAttribute('aria-label',NAMES[k]+'の操作動画');v.src=DEMO[k];shot.appendChild(v);els.push(v);
-  v.addEventListener('timeupdate',function(){if(v.currentTime>=DEMO_SECONDS)v.currentTime=0;});
-  v.addEventListener('ended',function(){v.currentTime=0;v.play().catch(noop);});
-  v.addEventListener('play',syncPP);v.addEventListener('pause',syncPP);
-  v.addEventListener('click',toggle);
-}
-function syncPP(){pp.textContent=v&&!v.paused?'停止':'再生';pp.setAttribute('aria-pressed',String(!!v&&!v.paused));}
-function toggle(){if(!v)return;if(v.paused)v.play().catch(noop);else v.pause();}
-function show(n){
-  i=(n+els.length)%els.length;
-  els.forEach(function(e,k){e.classList.toggle('on',k===i);});dots.forEach(function(d,k){d.classList.toggle('on',k===i);});
-  cap.textContent=CAPS[kind][i];
-  var demo=i===els.length-1;pp.hidden=!demo;
-  if(demo){v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(noop);}else if(!v.paused)v.pause();
-  syncPP();
-}
-function openLb(k,btn){
-  if(isOpen)return;isOpen=true;clearTimeout(closing);
-  kind=k;opener=btn;lb.dataset.kind=k;title.textContent=NAMES[k];build(k);
-  lb.hidden=false;lb.classList.remove('on');show(0);
-  document.documentElement.classList.add('lb-open');if(window.sophiaScroll)sophiaScroll.hold(scrollY);
-  requestAnimationFrame(function(){requestAnimationFrame(function(){lb.classList.add('on');});});
-  closeBtn.focus({preventScroll:true});
-}
-function closeLb(){
-  if(!isOpen)return;isOpen=false;
-  if(v&&!v.paused)v.pause();
-  lb.classList.remove('on');
-  closing=setTimeout(function(){lb.hidden=true;shot.textContent='';els=[];v=null;},420);
-  document.documentElement.classList.remove('lb-open');if(window.sophiaScroll)sophiaScroll.release();
-  if(opener)opener.focus({preventScroll:true});   // back to the device that opened it
-}
-document.querySelectorAll('.dev .scr').forEach(function(btn){btn.addEventListener('click',function(){openLb(btn.closest('.dev').dataset.dev,btn);btn.classList.remove('invite');});});
-lb.addEventListener('click',function(e){if(!e.target.closest('.shot,.nav,.pp'))closeLb();});   // the backdrop, the margins, the ×: all close it, on the demo as on the pictures
-prev.addEventListener('click',function(){show(i-1);});next.addEventListener('click',function(){show(i+1);});
-pp.addEventListener('click',toggle);
-document.addEventListener('keydown',function(e){
-  if(!isOpen)return;
-  if(e.key==='Escape'){e.preventDefault();closeLb();}
-  else if(e.key==='ArrowRight'){e.preventDefault();show(i+1);}
-  else if(e.key==='ArrowLeft'){e.preventDefault();show(i-1);}
-  else if(e.key==='Tab'){   // the focus stays inside the dialog
-    var f=[prev,next,pp,closeBtn].filter(function(b){return !b.hidden;}),a=document.activeElement,k=f.indexOf(a);
-    if(k<0){e.preventDefault();f[0].focus();}
-    else if(e.shiftKey&&k===0){e.preventDefault();f[f.length-1].focus();}
-    else if(!e.shiftKey&&k===f.length-1){e.preventDefault();f[0].focus();}
-  }
-});
-var x0=null,y0=0;
-shot.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
-shot.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
-  if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();show(i+(dx<0?1:-1));}},{passive:false});
-// a soft glow once the devices come into view, so it's clear they can be pressed
-var seen=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
-  document.querySelectorAll('.scr').forEach(function(b,k){setTimeout(function(){b.classList.add('invite');},600+k*350);});seen.disconnect();}});},{threshold:.45});
-var apps=document.querySelector('#apps .devs');if(apps)seen.observe(apps);
-})();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "37361abb44584bfea50079531f976dfa"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
