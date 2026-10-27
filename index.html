@@ -267,7 +267,8 @@ section{position:relative}
 #hero .wrap{width:100%}
 #hero .inner{will-change:transform,opacity}
 #hero .mark{font-family:var(--serif);font-weight:600;font-size:clamp(13px,1.3vw,16px);letter-spacing:.16em;color:var(--navy2);margin-bottom:30px;
-  opacity:0;animation:mark 2.4s .3s var(--expo) forwards}
+  opacity:0}
+.hero-ready #hero .mark{animation:mark 2.4s .3s var(--expo) forwards}   /* with the gate, it waits for the words */
 @keyframes mark{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 #hero h1{font-weight:700;font-size:clamp(34px,9.2vw,112px);line-height:1.22;letter-spacing:.02em;color:var(--navy)}
 
@@ -494,7 +495,7 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 #hero .hero-sub p span{display:block}
 /* the two lines under 「このアプリを起動した瞬間に、」: the same size as it, after it (the owner, 2026-10-27: "the most important part") */
 #hero .hero-sub{margin-top:clamp(14px,2vw,28px);opacity:1;animation:none}
-#hero .quick{opacity:0;animation:fade 1.4s 1.9s var(--expo) forwards}
+#hero .quick{opacity:0}.hero-ready #hero .quick{animation:fade 1.4s 1.2s var(--expo) forwards}
 /* each phrase rises out of its own mask, tilted a little and settling (Lusion / Rejouice), right after the top heading */
 #hero .hero-sub .m{overflow:hidden;vertical-align:top;padding:.32em .5em;margin:-.32em -.5em}
 #hero .hero-sub .m>i{opacity:0;transform:translate3d(0,150%,0) rotate(4deg);transform-origin:0 100%}
@@ -507,13 +508,14 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   filter:drop-shadow(0 0 1px rgba(255,244,214,.95)) drop-shadow(0 0 7px rgba(240,196,110,.8)) drop-shadow(0 0 22px rgba(226,166,72,.5))}
 #hero .glint::after{content:attr(data-t);position:absolute;left:0;top:0;color:transparent;-webkit-text-stroke:0;pointer-events:none;
   background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%) no-repeat;background-size:250% 100%;background-position:150% 0;
-  -webkit-background-clip:text;background-clip:text;animation:glint 6s 2.6s infinite}
+  -webkit-background-clip:text;background-clip:text}
+.hero-ready #hero .glint::after{animation:glint 6s 2.6s infinite}.hero-ready #hero .glint::before{animation:flare 6s 2.6s infinite}   /* runs only once the words are out */
 #hero .glint::before{content:"";position:absolute;right:-.32em;top:-.22em;width:.62em;height:.62em;pointer-events:none;opacity:0;transform:scale(0) rotate(0);
   background:linear-gradient(90deg,transparent 46%,#fff 50%,transparent 54%),linear-gradient(0deg,transparent 46%,#fff 50%,transparent 54%),radial-gradient(circle,#fff 0 6%,rgba(255,236,190,.6) 14%,transparent 34%);
-  -webkit-mask:radial-gradient(circle,#000 18%,transparent 70%);mask:radial-gradient(circle,#000 18%,transparent 70%);animation:flare 6s 2.6s infinite}
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 70%);mask:radial-gradient(circle,#000 18%,transparent 70%)}
 @keyframes glint{0%{background-position:150% 0}24%,100%{background-position:-50% 0}}
 @keyframes flare{0%,15%{opacity:0;transform:scale(0) rotate(0)}21%{opacity:1;transform:scale(1) rotate(45deg)}32%,100%{opacity:0;transform:scale(0) rotate(90deg)}}
-@media(prefers-reduced-motion:reduce){#hero .quick,#hero .hero-sub .m>i,.hero-ready #hero .hero-sub .m>i{animation:none;opacity:1;transform:none}#hero .glint::after,#hero .glint::before{animation:none}}
+@media(prefers-reduced-motion:reduce){#hero .quick,#hero .hero-sub .m>i,.hero-ready #hero .hero-sub .m>i{animation:none;opacity:1;transform:none}.hero-ready #hero .glint::after,.hero-ready #hero .glint::before{animation:none}}
 /* 01: the name stands out */
 .sophia-name{font-weight:800;font-size:1.22em;line-height:1;letter-spacing:.05em;color:var(--gold2);
   text-shadow:0 0 14px rgba(234,201,138,.55),0 0 2px rgba(255,236,190,.8)}
@@ -825,7 +827,7 @@ let vw=innerWidth, vh=innerHeight;
 // the gate (see the end of this script)
 const gate=$('#gate'), gmsg=$('#gate .gate-msg'), myStar=$('#myStar'), heroNode=$('#hero .node'), html=document.documentElement;
 const starNode={id:1}, starDpr=Math.min(2,devicePixelRatio||1);
-let starAt=null, starT0=0, birth=null, starR=10, msgAt=0, born=false, lastTap=null, appSound=null;
+let heroShown=false, starAt=null, starT0=0, birth=null, starR=10, msgAt=0, born=false, lastTap=null, appSound=null;
 
 
 /* ---------------- smooth scroll (Lenis) ---------------- */
@@ -1098,14 +1100,17 @@ function updateLine(y){
   if(cinema?.holding) cinemaPenFloor=Math.max(cinemaPenFloor,y+vh*.62+vh*1.25*smooth(0,1.8,(performance.now()-cinema.since)/1000));
   if(y+vh*2<cinemaPenFloor&&!cinema?.holding) cinemaPenFloor=0;
   let penY=Math.max(y+vh*.62,cinemaPenFloor);
-  if(starAt&&pts.length){ const s0=pts[0].y; penY=Math.max(s0,lerp(s0,penY,clamp(y/(vh*.5)))); }   // the line leaves the visitor's star only as they scroll (the owner)
+  if(starAt&&pts.length){   // the line leaves the visitor's star only as they scroll, easing into the usual pace with no change of speed (the owner: no jolt)
+    const s0=pts[0].y, D=vh*.62-s0, L=Math.max(Math.abs(D)*1.5,vh*.4);
+    penY=Math.max(s0+y+D*smooth(0,L,y),cinemaPenFloor);
+  }
   const target=lenAtY(penY);
   shownLen=reduce?target:lerp(shownLen,target,.16); if(Math.abs(shownLen-target)<.3) shownLen=target;
   const l=shownLen, off=total-l;
   trail.style.strokeDashoffset=off; glow.style.strokeDashoffset=off;
   const tail=Math.min(90,l); comet.style.strokeDasharray=tail+' '+(total+tail); comet.style.strokeDashoffset=-(l-tail);
   const pt=trail.getPointAtLength(l); pen.setAttribute('cx',pt.x); pen.setAttribute('cy',pt.y);
-  const show=l>2&&l<total-2; pen.style.opacity=show?1:0; comet.style.opacity=show?1:0;
+  const show=l>2&&l<total-2, fadeIn=Math.min(1,l/60); pen.style.opacity=show?fadeIn:0; comet.style.opacity=show?fadeIn:0;   // the pen fades in as it leaves the star
   if(show&&lastPen){ const dd=Math.hypot(pt.x-lastPen.x,pt.y-lastPen.y); if(dd>14){ spark(pt.x,pt.y); if(dd>40) spark(pt.x,pt.y); lastPen={x:pt.x,y:pt.y}; } }
   else lastPen={x:pt.x,y:pt.y};
   pts.forEach((p,i)=>p.n.classList.toggle('lit',i===0||pt.y>=p.y-2||l>=total-1));
@@ -1151,7 +1156,8 @@ function frame(time){
   sky.night.style.opacity=1-dawn;
   const st=1-dawn*.70; sky.stars.style.opacity=st; sky.tw.style.opacity=st;
   sky.stars.style.transform='translate3d(0,'+(-((y*.04)%(vh*.15))).toFixed(1)+'px,0)';
-  heroIn.style.opacity=1-smooth(.08,.6,introProgress);
+  if(starAt&&!heroShown&&y>24){ heroShown=true; heroGo(); }   // after the star, the words come once the line has begun (the owner)
+  heroIn.style.opacity=starAt?1-smooth(.32,.88,introProgress):1-smooth(.08,.6,introProgress);
   heroLines.forEach((l,i)=>{ l.style.transform='translate3d(0,'+(-y*(.18+i*.12)).toFixed(1)+'px,0)'; });
   heroCue.style.visibility=introProgress>.3?'hidden':'visible';
   hd.classList.toggle('dark',true);
@@ -1210,7 +1216,7 @@ if(gate){
     setSound(true); primeVideo();   // inside the gesture, so phones allow the music; it rises slowly
     setTimeout(()=>{
       html.classList.remove('gated'); html.classList.add('opened'); gate.remove();
-      if(lenis) lenis.start(); heroGo(); layoutLine();
+      if(lenis) lenis.start(); layoutLine();
     },reduce?0:900);
   };
   gate.addEventListener('dblclick',e=>{ e.preventDefault(); giveBirth(e.clientX,e.clientY); });
