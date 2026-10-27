@@ -101,7 +101,7 @@
    "name": "Android版はありますか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Android版は Google Play で配信します。"
+    "text": "はい。Android版は Google Play からダウンロードできます。"
    }
   },
   {
@@ -435,7 +435,7 @@ footer .copy{font-family:var(--mono);font-size:11px;color:var(--ash2);letter-spa
 #hero .inner{position:relative;min-height:clamp(240px,25vw,380px)}
 #hero .mark{color:var(--gold)}
 #hero h1{color:var(--ink);font-weight:800;font-size:clamp(32px,7.8vw,96px);line-height:1.22;letter-spacing:-.025em}
-#hero .hero-next{position:absolute;top:clamp(55px,5.8vw,88px);left:0;margin:0;font-size:clamp(23px,5.4vw,66px);font-weight:800;line-height:1.3;letter-spacing:-.025em}
+#hero .hero-next{position:absolute;top:clamp(55px,5.8vw,88px);left:0;margin:0;font-size:clamp(23px,4.3vw,60px);font-weight:800;line-height:1.3;letter-spacing:-.025em}
 @keyframes phraseExit{to{transform:translate3d(0,-115%,0)}}
 #hd{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){#hero h1{display:none}#hero .hero-next{animation:none;opacity:1;filter:none;transform:none}}
@@ -473,6 +473,25 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 #hero .hero-sub{margin-top:clamp(18px,2.4vw,30px);opacity:0;animation:fade 1.4s 2s var(--expo) forwards}
 #hero .hero-sub p{font-size:clamp(13px,3.6vw,18px);line-height:1.8;letter-spacing:.04em;color:var(--ash);max-width:32em}
 #hero .hero-sub p span{display:block}
+/* the two lines under 「このアプリを起動した瞬間に、」: the same size as it, after it (the owner, 2026-10-27: "the most important part") */
+#hero .hero-sub{margin-top:clamp(14px,2vw,28px);animation-delay:6.1s}
+#hero .hero-sub p{font-size:clamp(23px,4.3vw,60px);font-weight:800;line-height:1.3;letter-spacing:-.025em;color:var(--ink);max-width:none}
+#hero .hero-sub p i{font-style:normal;display:inline-block}
+/* 「新しいアイデア整理アプリ」: a glowing outline (like a saber) and a glint that runs across it now and then */
+#hero .glint{position:relative;color:#fffaf0;-webkit-text-stroke:.012em rgba(255,226,160,.95);
+  filter:drop-shadow(0 0 1px rgba(255,244,214,.95)) drop-shadow(0 0 7px rgba(240,196,110,.8)) drop-shadow(0 0 22px rgba(226,166,72,.5))}
+#hero .glint::after{content:attr(data-t);position:absolute;left:0;top:0;color:transparent;-webkit-text-stroke:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%) no-repeat;background-size:250% 100%;background-position:150% 0;
+  -webkit-background-clip:text;background-clip:text;animation:glint 6s 7.4s infinite}
+#hero .glint::before{content:"";position:absolute;right:-.32em;top:-.22em;width:.62em;height:.62em;pointer-events:none;opacity:0;transform:scale(0) rotate(0);
+  background:linear-gradient(90deg,transparent 46%,#fff 50%,transparent 54%),linear-gradient(0deg,transparent 46%,#fff 50%,transparent 54%),radial-gradient(circle,#fff 0 6%,rgba(255,236,190,.6) 14%,transparent 34%);
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 70%);mask:radial-gradient(circle,#000 18%,transparent 70%);animation:flare 6s 7.4s infinite}
+@keyframes glint{0%{background-position:150% 0}24%,100%{background-position:-50% 0}}
+@keyframes flare{0%,15%{opacity:0;transform:scale(0) rotate(0)}21%{opacity:1;transform:scale(1) rotate(45deg)}32%,100%{opacity:0;transform:scale(0) rotate(90deg)}}
+@media(prefers-reduced-motion:reduce){#hero .hero-sub{animation-delay:0s}#hero .glint::after,#hero .glint::before{animation:none}}
+/* 01: the name stands out */
+.sophia-name{font-weight:800;font-size:1.22em;line-height:1;letter-spacing:.05em;color:var(--gold2);
+  text-shadow:0 0 14px rgba(234,201,138,.55),0 0 2px rgba(255,236,190,.8)}
 #hero .quick{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .qbtn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-size:13.5px;letter-spacing:.06em;text-decoration:none;color:var(--ink);
   border:1px solid rgba(234,201,138,.55);background:rgba(234,201,138,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .4s,border-color .4s}
@@ -500,8 +519,17 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 #price{padding:14vh 0 10vh}
 #price .node{top:calc(14vh + 6px)}
 #price .cards{display:grid;grid-template-columns:1fr;gap:16px;max-width:880px;margin:44px 0 0 auto;perspective:1200px}
-@media (min-width:760px){#price .cards{grid-template-columns:1fr 1fr;gap:24px}}
-#price .trial{margin-top:18px;text-align:right;color:var(--ash);font-size:13px;letter-spacing:.04em}
+/* two bands, one above the other: the free trial first, then the full version (the owner, 2026-10-27) */
+#price .cards{gap:0}
+#price .card.buy{transition-delay:.22s}
+#price .then{transition:opacity 1.4s .12s var(--expo)}.js #price .cards:not(.in) .then{opacity:0}
+#price .then{text-align:center;color:var(--gold);font-size:13px;letter-spacing:.14em;padding:12px 0 10px}
+#price .then::after{content:"";display:block;width:1px;height:18px;margin:8px auto 0;background:linear-gradient(rgba(234,201,138,.8),rgba(234,201,138,0))}
+@media (min-width:760px){
+  #price .card .v{white-space:nowrap}
+  #price .card{display:grid;grid-template-columns:17em 1fr;column-gap:32px;align-items:center;padding:26px 34px}
+  #price .card .k{grid-column:1}#price .card .v{grid-column:1;margin:4px 0 0}#price .card p{grid-column:2;grid-row:1/3}
+}
 #apps{padding:12vh 0 8vh;text-align:center}
 #apps .eyebrow{justify-content:center}#apps .eyebrow::before{display:none}
 #apps .node{top:calc(12vh - 26px);left:50%}
@@ -514,12 +542,12 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 .scr:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(234,201,138,.5),0 0 34px rgba(234,201,138,.22),0 24px 60px rgba(0,0,0,.55)}
 .scr:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 .scr.phone{width:min(100%,210px,24vh);aspect-ratio:560/1213;border-radius:13%/6%;border:clamp(4px,1vw,8px) solid #1b2033}
-.scr.monitor{width:100%;aspect-ratio:1200/717;border-radius:10px;border:clamp(5px,1.1vw,12px) solid #1b2033;border-bottom-width:clamp(9px,1.8vw,20px)}
+.scr.monitor{width:100%;aspect-ratio:16/9;border-radius:10px;border:clamp(5px,1.1vw,12px) solid #1b2033;border-bottom-width:clamp(9px,1.8vw,20px)}
 .stand{display:block;width:16%;height:clamp(14px,2.4vw,30px);margin-top:-1px;background:linear-gradient(#1b2033,#121625);
   clip-path:polygon(28% 0,72% 0,100% 100%,0 100%)}
 .scr .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
 .scr .sl.on{opacity:1}
-.scr video.sl{object-fit:contain;background:#05070f}
+.scr video.sl{background:#05070f}   /* the demos are made in each frame's shape (PC 16:9, phone 900×1950), so they fill it */
 .scr.invite{animation:invite 1.6s ease-in-out 2}
 @keyframes invite{50%{box-shadow:0 0 0 1px rgba(234,201,138,.75),0 0 46px 6px rgba(234,201,138,.38),0 24px 60px rgba(0,0,0,.55)}}
 .dev .cap{min-height:5.2em;margin-top:12px;max-width:26em;color:var(--ink);font-size:clamp(11.5px,1.35vw,14.5px);line-height:1.7;letter-spacing:.02em}
@@ -532,15 +560,21 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 .tapme .t-click{display:none}
 @media (pointer:fine){.tapme .t-tap{display:none}.tapme .t-click{display:inline}}
 @media (min-width:760px){.dev .cap{min-height:3.6em}}
-/* with a mouse: the device under the cursor comes forward, the other steps back (the owner, 2026-10-27) */
+/* with a mouse: the device under the cursor pops up, growing toward the middle; the other steps back (the owner, 2026-10-27).
+   Keyboard focus counts only when it is visible (:focus-visible), so a clicked device doesn't stay big after the cursor leaves. */
 @media (hover:hover) and (pointer:fine){
-  .dev{position:relative;transform-origin:50% 80%;transition:transform .6s var(--expo),opacity .45s ease,filter .45s ease}
-  .devs:hover .dev,.devs:focus-within .dev{opacity:.45;filter:saturate(.6) brightness(.75);transform:scale(.96)}
-  .devs .dev:hover,.devs .dev:focus-within{opacity:1;filter:none;transform:scale(1.09) translateY(-8px);z-index:2}
-  .dev:hover .scr,.dev:focus-within .scr{transform:none;box-shadow:0 0 0 1px rgba(234,201,138,.6),0 0 48px rgba(234,201,138,.26),0 34px 80px rgba(0,0,0,.65)}
+  .dev{position:relative;transition:transform .6s var(--expo),opacity .45s ease,filter .45s ease}
+  .dev[data-dev=mobile]{transform-origin:0 55%}.dev[data-dev=pc]{transform-origin:100% 60%}
+  .devs:hover .dev,.devs:has(.scr:focus-visible) .dev{opacity:.35;filter:saturate(.6) brightness(.7);transform:scale(.95)}
+  .devs .dev:hover,.devs .dev:has(.scr:focus-visible){opacity:1;filter:none;z-index:2}
+  .devs .dev[data-dev=mobile]:hover,.devs .dev[data-dev=mobile]:has(.scr:focus-visible){transform:scale(1.34)}
+  .devs .dev[data-dev=pc]:hover,.devs .dev[data-dev=pc]:has(.scr:focus-visible){transform:scale(1.24)}
+  .apps-h,.tapme,.bridge{transition:opacity .45s ease}
+  #apps:has(.dev:hover,.scr:focus-visible) :is(.apps-h,.tapme,.bridge){opacity:.12}   /* what the popped-up device covers steps back too */
+  .dev:hover .scr,.dev:has(.scr:focus-visible) .scr{transform:none;box-shadow:0 0 0 1px rgba(234,201,138,.6),0 0 48px rgba(234,201,138,.26),0 34px 80px rgba(0,0,0,.65)}
 }
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:reduce){
-  .devs .dev:hover,.devs .dev:focus-within{transform:none}.devs:hover .dev,.devs:focus-within .dev{transform:none}
+  .devs .dev,.devs:hover .dev,.devs .dev[data-dev]:hover,.devs .dev[data-dev]:has(.scr:focus-visible){transform:none}
 }
 .bridge{max-width:46em;margin:clamp(22px,4vw,40px) auto 0;color:var(--ash);font-size:clamp(12.5px,1.4vw,14.5px);line-height:1.95;text-align:left}
 .bridge a{color:var(--gold2)}
@@ -565,7 +599,7 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   <a class="brand" href="#top" aria-label="SOPHIA トップへ"><img src="assets/icon-180.png" width="34" height="34" alt=""><span>SOPHIA</span></a>
   <div class="hd-r"><a class="qbtn hd-dl" href="https://apps.apple.com/jp/app/id6818526841" target="_blank" rel="noopener" aria-label="ダウンロード" data-win-href="pc/" data-win-label="PC版を無料で試す">App Store で入手</a><button id="snd" type="button" aria-pressed="false" aria-label="サウンドの切り替え"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="lbl">SOUND OFF</span></button></div>
 </header>
-<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&/Windows/.test(u)&&!/Phone|Android/.test(u)){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}})();</script>
+<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&/Windows/.test(u)&&!/Phone|Android/.test(u)){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}else if(a&&/Android/.test(u)){a.href='https://play.google.com/store/apps/details?id=com.sophia.mobile';a.textContent='Google Play で入手';}})();</script>
 
 <div id="sky" aria-hidden="true">
   <div class="l day"><svg viewBox="0 0 1600 900" preserveAspectRatio="none"><defs>
@@ -597,8 +631,8 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
     <div class="wrap"><div class="inner">
       <div class="mark">SOPHIA</div>
       <h1 class="rv word-rise" aria-label="その思いつきが、無限の宇宙を創る"><span class="br"><span class="w"><span>その思いつきが、</span></span></span><span class="br"><span class="w"><span>無限の宇宙を</span></span><span class="w"><span>創る</span></span></span></h1>
-      <p class="hero-next"><span class="hero-line"><span class="w"><span style="--wi:0">アプリを起動した瞬間に、</span></span></span><span class="hero-line"><span class="w"><span style="--wi:1">無限の宇宙が広がります。</span></span></span></p>
-      <div class="hero-sub"><p><span>思いつきを星に、つないで星座に。</span><span>触れるたび心地いい、新しいアイデア整理アプリ</span></p><div class="quick"><a class="qbtn" href="https://apps.apple.com/jp/app/id6818526841" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.2-.8s1.9.8 3.3.8c1.4 0 2.2-1.2 3-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.6-1-2.6-4.1zM14 5.3c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg>App Store</a><a class="qbtn" href="pc/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4.3 10.2 3.2v8H2zm9.2-1.2L22 1.6v9.6H11.2zM2 12.6h8.2v8.1L2 19.6zm9.2 0H22v9.7l-10.8-1.5z"/></svg>PC版（無料の体験版）</a></div></div>
+      <p class="hero-next"><span class="hero-line"><span class="w"><span style="--wi:0">このアプリを起動した瞬間に、</span></span></span><span class="hero-line"><span class="w"><span style="--wi:1">無限の宇宙が広がります。</span></span></span></p>
+      <div class="hero-sub"><p><span><i>思いつきを星に、</i><i>つないで星座に。</i></span><span><i>触れるたび心地いい、</i><i class="glint" data-t="新しいアイデア整理アプリ">新しいアイデア整理アプリ</i></span></p><div class="quick"><a class="qbtn" href="https://apps.apple.com/jp/app/id6818526841" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.2-.8s1.9.8 3.3.8c1.4 0 2.2-1.2 3-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.6-1-2.6-4.1zM14 5.3c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg>App Store</a><a class="qbtn" data-play="live" hidden href="https://play.google.com/store/apps/details?id=com.sophia.mobile" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2-10-10.2zm11 9.2 2.9-2.9L5.3.9C5 .7 4.6.6 4.3.7l10.3 10.3zm0 2L4.3 23.3c.3.1.7 0 1-.2l12.2-7.2-2.9-2.9zm6.2-3.1-2.6-1.5-3.1 3.1 3.1 3.1 2.6-1.5c.9-.5.9-1.8 0-2.2z"/></svg>Google Play</a><a class="qbtn" href="pc/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4.3 10.2 3.2v8H2zm9.2-1.2L22 1.6v9.6H11.2zM2 12.6h8.2v8.1L2 19.6zm9.2 0H22v9.7l-10.8-1.5z"/></svg>PC版（無料の体験版）</a></div></div>
     </div></div>
     <span class="node" data-node></span>
     <div class="cue" aria-hidden="true"><span class="snd-hint">画面をクリックすると、音が流れます</span><span>Scroll</span><span class="stem"></span></div>
@@ -607,7 +641,7 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   <section id="s1" class="stmt">
     <div class="wrap">
       <div class="eyebrow"><span>01 — Intuitive</span></div>
-      <p class="big rv word-rise" id="copy-intuitive"><span class="w"><span>SOPHIA は、</span></span><span class="w"><span>直感的に</span></span><span class="w"><span>誰にでも</span></span><span class="w"><span>分かりやすく、</span></span><span class="w"><span>その操作性の気持ちよさが</span></span><span class="w"><span>創造力を高めてくれます。</span></span></p>
+      <p class="big rv word-rise" id="copy-intuitive"><span class="w"><span><b class="sophia-name">SOPHIA</b> は、</span></span><span class="w"><span>直感的に</span></span><span class="w"><span>誰にでも</span></span><span class="w"><span>分かりやすく、</span></span><span class="w"><span>その操作性の気持ちよさが</span></span><span class="w"><span>創造力を高めてくれます。</span></span></p>
       <p class="big rv word-rise" id="copy1"><span class="w"><span>それは、</span></span><span class="w"><span>あなただけの宇宙―</span></span></p>
     </div>
     <span class="node side-l" data-node></span>
@@ -678,18 +712,18 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
       <div class="eyebrow"><span>04 — Price</span></div>
       <h2 class="rv scrub" id="copy3"><span class="w"><span>外食ランチ</span></span><span class="w"><span>一回分で、</span></span><span class="w"><span>自分だけの宇宙が</span></span><span class="w"><span>一生手に入る。</span></span></h2>
       <div class="cards">
+        <div class="card">
+          <div class="k">まずは 体験版</div>
+          <div class="v">無料</div>
+          <p>星10個・プロジェクト1つまで。ログイン不要で、すぐに試せます。</p>
+        </div>
+        <p class="then" aria-hidden="true">気に入ったら</p>
         <div class="card buy">
           <div class="k">製品版</div>
           <div class="v">¥1,200<small>買い切り</small></div>
           <p>月額なし。一度の購入で、ずっとあなたのもの。星はいくつでも、プロジェクトは5つまで。スマホで買えば、PC版も製品版に。</p>
         </div>
-        <div class="card">
-          <div class="k">体験版</div>
-          <div class="v">無料</div>
-          <p>星10個・プロジェクト1つまで。ログイン不要で、すぐに試せます。</p>
-        </div>
       </div>
-      <p class="trial">※体験版は無料（星10個・プロジェクト1つ、ログイン不要）</p>
     </div>
     <span class="node side-l" data-node></span>
   </section>
@@ -1097,14 +1131,14 @@ requestAnimationFrame(frame);
 </script>
 <script>
 /* Google Play：false＝「近日公開」（審査中）／true＝公開済み（ストアへのリンク）。この 1 行だけ切り替える */
-var PLAY_LIVE=false;
+var PLAY_LIVE=true;   // 2026-10-27: public on Google Play
 document.querySelectorAll('[data-play]').forEach(function(el){el.hidden=(el.dataset.play==='live')!==PLAY_LIVE;});
 </script>
 <script>
-/* the two devices: a click (tap, swipe, Enter/Space, ←/→) shows the next picture; after the third, a ~10 s demo plays muted, then back to the first */
+/* the two devices: a click (tap, swipe, Enter/Space, ←/→) shows the next picture; after the third, a ~20 s demo plays muted, then back to the first */
 (function(){
 'use strict';
-var DEMO={mobile:'assets/v2/demo-phone.mp4',pc:'assets/v2/demo-pc.mp4'},DEMO_SECONDS=10;   // the 10 s demos (2026-10-27): stars, links, a time on the dial, the text
+var DEMO={mobile:'assets/v2/demo-phone.mp4?v=20',pc:'assets/v2/demo-pc.mp4?v=20'},DEMO_SECONDS=20;   // the 20 s demos (2026-10-27, the owner: 10 s was a little fast): stars, links, names, a time on the dial, the text
 var CAPS={mobile:['書いて「星を生む」。画面をダブルタップしても、星が生まれます。','星に触れて、すっと滑らせると、つながって星座に。','星を大きく育てたり、日付と時刻をダイヤルで入れたり。','実際の操作'],
   pc:['広い画面に、奥行きのある星空。','少し寄ると、名前の下に中身のはじめと日付。','真鍮のダイヤルで日付を。星座には、小さな女の子が住んでいます。','実際の操作']};
 document.querySelectorAll('.dev').forEach(function(dev){
