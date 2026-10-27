@@ -1104,7 +1104,7 @@ document.querySelectorAll('[data-play]').forEach(function(el){el.hidden=(el.data
 /* the two devices: a click (tap, swipe, Enter/Space, ←/→) shows the next picture; after the third, a ~10 s demo plays muted, then back to the first */
 (function(){
 'use strict';
-var DEMO={mobile:'assets/phone/screen-sequence.mp4?v=11',pc:'assets/pc/screen-sequence.mp4?v=11'},DEMO_SECONDS=10;   // the demo films (to be replaced later)
+var DEMO={mobile:'assets/v2/demo-phone.mp4',pc:'assets/v2/demo-pc.mp4'},DEMO_SECONDS=10;   // the 10 s demos (2026-10-27): stars, links, a time on the dial, the text
 var CAPS={mobile:['書いて「星を生む」。画面をダブルタップしても、星が生まれます。','星に触れて、すっと滑らせると、つながって星座に。','星を大きく育てたり、日付と時刻をダイヤルで入れたり。','実際の操作'],
   pc:['広い画面に、奥行きのある星空。','少し寄ると、名前の下に中身のはじめと日付。','真鍮のダイヤルで日付を。星座には、小さな女の子が住んでいます。','実際の操作']};
 document.querySelectorAll('.dev').forEach(function(dev){
