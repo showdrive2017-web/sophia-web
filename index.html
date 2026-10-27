@@ -541,8 +541,9 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   box-shadow:0 0 0 1px rgba(255,255,255,.16),0 24px 60px rgba(0,0,0,.55);transition:box-shadow .5s var(--expo),transform .5s var(--expo);touch-action:pan-y}
 .scr:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(234,201,138,.5),0 0 34px rgba(234,201,138,.22),0 24px 60px rgba(0,0,0,.55)}
 .scr:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
-.scr.phone{width:min(100%,210px,24vh);aspect-ratio:560/1213;border-radius:13%/6%;border:clamp(4px,1vw,8px) solid #1b2033}
-.scr.monitor{width:100%;aspect-ratio:16/9;border-radius:10px;border:clamp(5px,1.1vw,12px) solid #1b2033;border-bottom-width:clamp(9px,1.8vw,20px)}
+/* the ratio is for the screen inside the frame (content-box), so pictures and demos fit it exactly */
+.scr.phone{--b:clamp(4px,1vw,8px);box-sizing:content-box;width:calc(min(100%,210px,24vh) - 2 * var(--b));aspect-ratio:560/1213;border-radius:13%/6%;border:var(--b) solid #1b2033}
+.scr.monitor{--b:clamp(5px,1.1vw,12px);box-sizing:content-box;width:calc(100% - 2 * var(--b));aspect-ratio:16/9;border-radius:10px;border:var(--b) solid #1b2033;border-bottom-width:clamp(9px,1.8vw,20px)}
 .stand{display:block;width:16%;height:clamp(14px,2.4vw,30px);margin-top:-1px;background:linear-gradient(#1b2033,#121625);
   clip-path:polygon(28% 0,72% 0,100% 100%,0 100%)}
 .scr .sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
