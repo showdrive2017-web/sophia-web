@@ -474,7 +474,9 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
 #hero .hero-sub p{font-size:clamp(13px,3.6vw,18px);line-height:1.8;letter-spacing:.04em;color:var(--ash);max-width:32em}
 #hero .hero-sub p span{display:block}
 /* the two lines under 「このアプリを起動した瞬間に、」: the same size as it, after it (the owner, 2026-10-27: "the most important part") */
-#hero .hero-sub{margin-top:clamp(14px,2vw,28px);animation-delay:6.1s}
+#hero .hero-sub{margin-top:clamp(14px,2vw,28px)}
+#hero .hero-sub p{opacity:0;transform:translateY(18px);animation:subIn 1s 5.45s var(--expo) forwards}
+@keyframes subIn{to{opacity:1;transform:none}}
 #hero .hero-sub p{font-size:clamp(23px,4.3vw,60px);font-weight:800;line-height:1.3;letter-spacing:-.025em;color:var(--ink);max-width:none}
 #hero .hero-sub p i{font-style:normal;display:inline-block}
 /* 「新しいアイデア整理アプリ」: a glowing outline (like a saber) and a glint that runs across it now and then */
@@ -482,13 +484,13 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
   filter:drop-shadow(0 0 1px rgba(255,244,214,.95)) drop-shadow(0 0 7px rgba(240,196,110,.8)) drop-shadow(0 0 22px rgba(226,166,72,.5))}
 #hero .glint::after{content:attr(data-t);position:absolute;left:0;top:0;color:transparent;-webkit-text-stroke:0;pointer-events:none;
   background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%) no-repeat;background-size:250% 100%;background-position:150% 0;
-  -webkit-background-clip:text;background-clip:text;animation:glint 6s 7.4s infinite}
+  -webkit-background-clip:text;background-clip:text;animation:glint 6s 6.4s infinite}
 #hero .glint::before{content:"";position:absolute;right:-.32em;top:-.22em;width:.62em;height:.62em;pointer-events:none;opacity:0;transform:scale(0) rotate(0);
   background:linear-gradient(90deg,transparent 46%,#fff 50%,transparent 54%),linear-gradient(0deg,transparent 46%,#fff 50%,transparent 54%),radial-gradient(circle,#fff 0 6%,rgba(255,236,190,.6) 14%,transparent 34%);
-  -webkit-mask:radial-gradient(circle,#000 18%,transparent 70%);mask:radial-gradient(circle,#000 18%,transparent 70%);animation:flare 6s 7.4s infinite}
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 70%);mask:radial-gradient(circle,#000 18%,transparent 70%);animation:flare 6s 6.4s infinite}
 @keyframes glint{0%{background-position:150% 0}24%,100%{background-position:-50% 0}}
 @keyframes flare{0%,15%{opacity:0;transform:scale(0) rotate(0)}21%{opacity:1;transform:scale(1) rotate(45deg)}32%,100%{opacity:0;transform:scale(0) rotate(90deg)}}
-@media(prefers-reduced-motion:reduce){#hero .hero-sub{animation-delay:0s}#hero .glint::after,#hero .glint::before{animation:none}}
+@media(prefers-reduced-motion:reduce){#hero .hero-sub p{animation:none;opacity:1;transform:none}#hero .glint::after,#hero .glint::before{animation:none}}
 /* 01: the name stands out */
 .sophia-name{font-weight:800;font-size:1.22em;line-height:1;letter-spacing:.05em;color:var(--gold2);
   text-shadow:0 0 14px rgba(234,201,138,.55),0 0 2px rgba(255,236,190,.8)}
@@ -683,7 +685,7 @@ footer{background:transparent;border-top:0;padding-top:28px;padding-bottom:max(2
         <div class="dev" data-dev="pc">
           <h3>PC版SOPHIA</h3>
           <button class="scr monitor" type="button" aria-label="PC版SOPHIA：押すと次の画面へ">
-            <img class="sl on" src="assets/v2/p1.webp" alt="PC版の、奥行きのある広い星空" decoding="async"><img class="sl" src="assets/v2/p2.webp" alt="寄ると星の名前に印が付き、中身のはじめと日付が見える画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/p3.webp" alt="真鍮のダイヤルで日付を入れる画面と、星座の小人" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="PC版の操作動画"></video>
+            <img class="sl on" src="assets/v2/p1.webp?v=2" alt="PC版の、奥行きのある広い星空と星座" decoding="async"><img class="sl" src="assets/v2/p2.webp?v=2" alt="寄ると星の名前に印が付き、中身のはじめと日付が見える画面" loading="lazy" decoding="async"><img class="sl" src="assets/v2/p3.webp?v=2" alt="真鍮のダイヤルで日付を入れる画面と、星座の小人" loading="lazy" decoding="async"><video class="sl" muted playsinline preload="none" aria-label="PC版の操作動画"></video>
           </button><span class="stand" aria-hidden="true"></span>
           <p class="cap" aria-live="polite"></p>
           <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i class="pv"></i></div>
@@ -867,7 +869,7 @@ function rampBgm(sec){
 }
 function ensureAudio(){
   if(audio) return;
-  audio=new Audio('assets/bgm.mp3'); audio.loop=true; audio.preload='auto';
+  audio=new Audio('assets/bgm.m4a?v=2');   // "Late-Night Creativity" (the owner, 2026-10-27) audio.loop=true; audio.preload='auto';
   const AC=window.AudioContext||window.webkitAudioContext;
   if(AC){ try{ actx=new AC(); const src=actx.createMediaElementSource(audio); gain=actx.createGain(); gain.gain.value=0; src.connect(gain).connect(actx.destination);}catch(e){actx=null;gain=null;} }
 }
@@ -1144,6 +1146,7 @@ if(PLAY_LIVE&&hdl&&/Android/.test(navigator.userAgent)){hdl.href='https://play.g
 var DEMO={mobile:'assets/v2/demo-phone.mp4?v=20',pc:'assets/v2/demo-pc.mp4?v=20'},DEMO_SECONDS=20;   // the 20 s demos (2026-10-27, the owner: 10 s was a little fast): stars, links, names, a time on the dial, the text
 var CAPS={mobile:['書いて「星を生む」。画面をダブルタップしても、星が生まれます。','星に触れて、すっと滑らせると、つながって星座に。','星を大きく育てたり、日付と時刻をダイヤルで入れたり。','実際の操作'],
   pc:['広い画面に、奥行きのある星空。','少し寄ると、名前の下に中身のはじめと日付。','真鍮のダイヤルで日付を。星座には、小さな女の子が住んでいます。','実際の操作']};
+var hoverMouse=matchMedia('(hover:hover) and (pointer:fine)');
 document.querySelectorAll('.dev').forEach(function(dev){
   var kind=dev.dataset.dev,btn=dev.querySelector('.scr'),sl=[].slice.call(btn.querySelectorAll('.sl')),v=btn.querySelector('video'),
       cap=dev.querySelector('.cap'),dots=[].slice.call(dev.querySelectorAll('.dots i')),i=0;
@@ -1163,6 +1166,7 @@ document.querySelectorAll('.dev').forEach(function(dev){
   btn.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
     if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3){e.preventDefault();show(i+(dx<0?1:-1));btn.classList.remove('invite');}},{passive:false});
   cap.textContent=CAPS[kind][0];
+  dev.addEventListener('mouseleave',function(){if(hoverMouse.matches&&i!==0)show(0);});
 });
 // a soft glow once they come into view, so it's clear they can be pressed
 var seen=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){

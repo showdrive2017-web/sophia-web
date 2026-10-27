@@ -738,7 +738,7 @@ function rampBgm(sec){
 }
 function ensureAudio(){
   if(audio) return;
-  audio=new Audio('../assets/bgm.mp3'); audio.loop=true; audio.preload='auto';
+  audio=new Audio('../assets/bgm.m4a?v=2');   // "Late-Night Creativity" (the owner, 2026-10-27) audio.loop=true; audio.preload='auto';
   const AC=window.AudioContext||window.webkitAudioContext;
   if(AC){ try{ actx=new AC(); const src=actx.createMediaElementSource(audio); gain=actx.createGain(); gain.gain.value=0; src.connect(gain).connect(actx.destination);}catch(e){actx=null;gain=null;} }
 }
