@@ -1097,7 +1097,9 @@ function updateLine(y){
   const cinema=window.sophiaCinema;
   if(cinema?.holding) cinemaPenFloor=Math.max(cinemaPenFloor,y+vh*.62+vh*1.25*smooth(0,1.8,(performance.now()-cinema.since)/1000));
   if(y+vh*2<cinemaPenFloor&&!cinema?.holding) cinemaPenFloor=0;
-  const penY=Math.max(y+vh*.62,cinemaPenFloor), target=lenAtY(penY);
+  let penY=Math.max(y+vh*.62,cinemaPenFloor);
+  if(starAt&&pts.length){ const s0=pts[0].y; penY=Math.max(s0,lerp(s0,penY,clamp(y/(vh*.5)))); }   // the line leaves the visitor's star only as they scroll (the owner)
+  const target=lenAtY(penY);
   shownLen=reduce?target:lerp(shownLen,target,.16); if(Math.abs(shownLen-target)<.3) shownLen=target;
   const l=shownLen, off=total-l;
   trail.style.strokeDashoffset=off; glow.style.strokeDashoffset=off;
@@ -1198,7 +1200,7 @@ if(gate){
   addEventListener('pointermove',e=>{ if(e.pointerType==='mouse') readIt(); },{passive:true});
   const giveBirth=(x,y)=>{
     if(born) return; born=true;
-    starR=innerWidth<640?9:10;
+    starR=innerWidth<640?13:16;   // larger than the app's (the owner, 2026-10-27)
     const S=Math.ceil(starR*30);   // room for the widest glow
     myStar.width=myStar.height=Math.round(S*starDpr); myStar.style.width=myStar.style.height=S+'px';
     starAt={fx:x/innerWidth,fy:y/innerHeight}; placeStar(); heroNode.classList.add('mine');
