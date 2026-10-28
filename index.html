@@ -101,7 +101,7 @@
    "name": "Android版はありますか？",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Android版は Google Play で配信します。"
+    "text": "Android版は Google Play からダウンロードできます。"
    }
   },
   {
@@ -1654,7 +1654,7 @@ if(gate){
 </script>
 <script>
 /* Google Play：false＝「近日公開」（審査中）／true＝公開済み（ストアへのリンク）。この 1 行だけ切り替える */
-var PLAY_LIVE=false;   // 2026-10-27: the production release is still in review; true once it is live on Google Play
+var PLAY_LIVE=true;    // 2026-10-28: live on Google Play
 document.querySelectorAll('[data-play]').forEach(function(el){el.hidden=(el.dataset.play==='live')!==PLAY_LIVE;});
 var hdl=document.querySelector('#hd .hd-dl');   // on Android, the header button goes to Google Play once it is live
 if(PLAY_LIVE&&hdl&&/Android/.test(navigator.userAgent)){hdl.href='https://play.google.com/store/apps/details?id=com.sophia.mobile';hdl.textContent='Google Play で入手';}
