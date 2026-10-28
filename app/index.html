@@ -814,7 +814,7 @@ function buyView(mode){
     $('buyRestore').style.display='none';$('buyClose').textContent=mode==='wall'?'あとで':'閉じる';
     $('buyTitle').textContent=mode==='wall'?'この宇宙を、ずっと。':'ブラウザ版（体験版）';
     $('buyMsg').textContent=(mode==='wall'?'ブラウザ版で生める星は '+License.LIMIT+' 個までです。':'生んだ星　'+Math.min(nodes.length,99)+' / '+License.LIMIT)
-      +'\n\nスマホのアプリ版なら、'+price+' の買い切りで星はいくつでも。\niPhone は App Store から（Android 版は近日公開）。\n\n「書き出す」で保存した作品は、アプリ版で読み込めます。';
+      +'\n\nスマホのアプリ版なら、'+price+' の買い切りで星はいくつでも。\niPhone は App Store、Android は Google Play から。\n\n「書き出す」で保存した作品は、アプリ版で読み込めます。';
     return;
   }
   $('buyGo').textContent='購入する（'+price+'）';
