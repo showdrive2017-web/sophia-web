@@ -825,6 +825,16 @@ footer{border-top:1px solid rgba(255,255,255,.08);padding-top:40px}
   .card .v small{display:block;margin:2px 0 0;font-size:13px}
 }
 </style>
+<!-- Google 広告の計測：ストア・PC版ダウンロードへのリンクが押された数を数える（アプリの中では計測しない。EEA・英国・スイスは同意がない限り広告用クッキーを使わない） -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18539970089"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"]});
+gtag('consent','default',{ad_personalization:'denied'});
+gtag('js',new Date());gtag('config','AW-18539970089');
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
+if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('event','conversion',{send_to:'AW-18539970089/LCl6CP35ja4dEKn8xYhF'});},true);
+</script>
 </head>
 <body>
 <div id="veil" aria-hidden="true"></div>
