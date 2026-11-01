@@ -1,5 +1,5 @@
 /* SOPHIA shared — 体験版と商品版（DESIGN.md「販売」）。
-   体験版は星10個まで。購入はログインなしで有効になる。ログインは同期のためだけ。
+   体験版は星7個まで。購入はログインなしで有効になる。ログインは同期のためだけ。
    ストアの窓口（adapter）が付いていない所（PC 版・ブラウザ）は、購入の手段ができるまで制限しない。 */
 (function(){
 "use strict";
@@ -7,7 +7,7 @@ var SOPHIA=window.SOPHIA=window.SOPHIA||{};
 var CACHE='sophia-full';
 
 SOPHIA.license=(function(){
-  var LIMIT=10;
+  var LIMIT=7;
   var adapter=null,full=true,listeners=[];
   function set(v){
     v=!!v;
@@ -31,7 +31,7 @@ SOPHIA.license=(function(){
     allows:function(count,add){return full||count+(add||1)<=LIMIT;},
     buy:function(){return adapter?adapter.buy():Promise.resolve('unavailable');},
     restore:function(){return adapter?adapter.restore():Promise.resolve('unavailable');},
-    price:function(){return (adapter&&adapter.price())||'1,200円';},
+    price:function(){return (adapter&&adapter.price())||'900円';},
     onChange:function(f){listeners.push(f);}
   };
 })();
