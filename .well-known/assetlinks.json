@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sophia.mobile",
+      "sha256_cert_fingerprints": [
+        "B0:8A:E4:E1:B0:52:E6:2C:28:28:C7:E2:76:02:86:D6:4A:4F:F5:B3:FC:2D:14:A5:82:44:94:7F:CE:E9:77:56"
+      ]
+    }
+  }
+]

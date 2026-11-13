@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["A3H56NB6Z4.com.showdrive2017.sophia"],
+        "components": [
+          { "/": "/j" },
+          { "/": "/j/*" }
+        ]
+      }
+    ]
+  }
+}
