@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SOPHIA「同じ星空」への招待</title>
+<!-- 「同じ星空」（もとの呼び名：みんなの星空）の招待リンク（/j/#コード）の受け皿。コードは # の後ろにあり、サーバーには送られない。計測は一切しない -->
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#060a18">
+<link rel="icon" href="../assets/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#060a18;
+  --navy2:#2c3554;
+  --ink:#EEEBF3; --ash:#A9B0CC; --ash2:#6A7397;
+  --gold:#EAC98A; --gold2:#F6E2B4;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --serif:Cinzel,serif;
+  --gutter:clamp(16px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--night);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:radial-gradient(90% 55% at 80% 0%,rgba(40,60,120,.35),rgba(40,60,120,0) 70%),linear-gradient(180deg,#02040c 0%,#060c20 48%,#0a1430 100%);
+  background-attachment:fixed;min-height:100vh}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+
+main{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px var(--gutter) 30px;text-align:center}
+.mark{font-family:var(--serif);font-size:13px;letter-spacing:.36em;padding-left:.36em;display:flex;align-items:center;gap:10px;text-decoration:none}
+.mark i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+h1{font-weight:500;font-size:clamp(20px,5.4vw,30px);letter-spacing:.1em;line-height:1.6}
+.lead{font-size:14px;color:var(--ash);letter-spacing:.06em;white-space:pre-line}
+
+.code{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:360px;padding:22px 16px 20px;border-radius:20px;
+  border:1px solid rgba(255,255,255,.12);background:rgba(2,4,12,.45);box-shadow:0 0 0 1px rgba(234,201,138,.08)}
+.code-label{font-size:12px;color:var(--ash);letter-spacing:.12em}
+.code-value{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:clamp(28px,9vw,40px);font-weight:500;letter-spacing:.12em;padding-left:.12em;color:var(--gold2);line-height:1.2;
+  -webkit-user-select:all;user-select:all;white-space:nowrap}
+.copy-btn{font:inherit;font-size:14px;letter-spacing:.08em;color:var(--gold2);background:none;cursor:pointer;padding:10px 22px;border-radius:999px;min-width:180px;
+  border:1px solid rgba(255,230,180,.6);transition:box-shadow .3s}
+.copy-btn:hover{box-shadow:0 0 24px rgba(255,220,160,.3)}
+
+.steps{width:100%;max-width:420px;text-align:left}
+.steps h2{font-size:15px;font-weight:500;letter-spacing:.1em;text-align:center;margin-bottom:10px}
+.steps ol{padding-left:1.4em;font-size:14px;color:var(--ink);letter-spacing:.04em;line-height:1.75;text-wrap:pretty}
+.steps li+li{margin-top:6px}
+.steps li::marker{color:var(--gold)}
+.note{font-size:13px;color:var(--ash);letter-spacing:.06em;text-align:center;margin-top:12px;white-space:pre-line}
+.nocode{max-width:420px;font-size:14px;color:var(--ash);letter-spacing:.06em;white-space:pre-line;text-wrap:pretty}
+main.empty{justify-content:flex-start;padding-top:64px}
+.fail{font-size:13px;color:var(--ash);letter-spacing:.04em;max-width:300px;text-wrap:pretty}
+
+.stores{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.store{display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:16px;min-width:210px;text-align:left;text-decoration:none;
+  border:1px solid rgba(255,230,180,.9);box-shadow:0 0 24px rgba(255,220,160,.3),inset 0 0 18px rgba(255,220,160,.12);transition:box-shadow .3s}
+.store:hover{box-shadow:0 0 40px rgba(255,220,160,.5),inset 0 0 18px rgba(255,220,160,.2)}
+.store svg{width:24px;height:24px;flex:none;fill:var(--gold2)}
+.store .t{display:flex;flex-direction:column;line-height:1.25}
+.store small{font-size:11px;letter-spacing:.08em;color:var(--ash)}
+.store b{font-size:18px;font-weight:500;letter-spacing:.06em;color:var(--gold2)}
+.more{font-size:12px;color:var(--ash);letter-spacing:.08em}
+.copyright{font-family:var(--serif);font-size:11px;color:var(--ash2);letter-spacing:.1em}
+noscript p{font-size:13px;color:var(--ash);letter-spacing:.04em;max-width:420px}
+</style>
+</head>
+<body>
+<main>
+  <a class="mark" href="https://sophia-universe.com/"><i></i>SOPHIA</a>
+
+  <h1 data-t="heading">同じ星空に、招かれました。</h1>
+  <p class="lead" data-t="lead">アイデアノート SOPHIA の<br>「同じ星空」への招待です。</p>
+
+  <noscript><p>招待コードは、リンクの最後の 8 文字です。<br>The invite code is the last 8 characters of the link.</p></noscript>
+
+  <div class="code" id="codeBox" hidden>
+    <p class="code-label" data-t="label">招待コード</p>
+    <p class="code-value" id="codeValue"></p>
+    <button type="button" class="copy-btn" id="copyBtn" data-t="copy">コードをコピー</button>
+    <p class="fail" id="copyFail" hidden data-t="copyFail">コピーできませんでした。コードを長押しして、コピーしてください。</p>
+  </div>
+
+  <section class="steps" id="steps" hidden>
+    <h2 data-t="stepsHead">参加のしかた</h2>
+    <ol>
+      <li data-t="step1">上のコードをコピーする</li>
+      <li data-t="step2">SOPHIA を開く（まだの方は、下から入手）</li>
+      <li data-t="step3">右上の「＋ 仲間を招く」を押し、「招待コードで参加する」に貼り付ける</li>
+    </ol>
+    <p class="note" data-t="note">参加は無料です。<br>コードは、送られてから 7 日間使えます。</p>
+  </section>
+
+  <p class="nocode" id="noCode" hidden data-t="noCode">このリンクには、招待コードが入っていません。招いてくれた方に、もう一度送ってもらってください。</p>
+
+  <div class="stores">
+    <a class="store" id="storeIos" data-os="ios" href="https://apps.apple.com/jp/app/id6818526841" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-1.9-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.2-.8s1.9.8 3.3.8c1.4 0 2.2-1.2 3-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.6-1-2.6-4.1zM14 5.3c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg><span class="t"><small data-t="download">ダウンロード</small><b>App Store</b></span></a>
+    <a class="store" data-os="android" href="https://play.google.com/store/apps/details?id=com.sophia.mobile" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2-10-10.2zm11 9.2 2.9-2.9L5.3.9C5 .7 4.6.6 4.3.7l10.3 10.3zm0 2L4.3 23.3c.3.1.7 0 1-.2l12.2-7.2-2.9-2.9zm6.2-3.1-2.6-1.5-3.1 3.1 3.1 3.1 2.6-1.5c.9-.5.9-1.8 0-2.2z"/></svg><span class="t"><small data-t="download">ダウンロード</small><b>Google Play</b></span></a>
+  </div>
+
+  <a class="more" href="https://sophia-universe.com/" data-t="about">SOPHIA について</a>
+  <p class="copyright">© 2026 The Highway</p>
+</main>
+<script>
+(function(){
+  'use strict';
+  // 文言はすべてここに置く。日本語以外の端末では英語にする
+  var TEXT={
+    ja:{
+      title:'SOPHIA「同じ星空」への招待',
+      heading:'同じ星空に、招かれました。',
+      lead:'アイデアノート SOPHIA の\n「同じ星空」への招待です。',
+      label:'招待コード',
+      copy:'コードをコピー',
+      copied:'コピーしました',
+      stepsHead:'参加のしかた',
+      copyFail:'コピーできませんでした。コードを長押しして、コピーしてください。',
+      step1:'上のコードをコピーする',
+      step2:'SOPHIA を開く（まだの方は、下から入手）',
+      step3:'右上の「＋ 仲間を招く」を押し、「招待コードで参加する」に貼り付ける',
+      note:'参加は無料です。\nコードは、送られてから 7 日間使えます。',
+      noCode:'このリンクには、招待コードが入っていません。\n招いてくれた方に、もう一度送ってもらってください。',
+      download:'ダウンロード',
+      about:'SOPHIA について',
+      iosUrl:'https://apps.apple.com/jp/app/id6818526841'
+    },
+    en:{
+      title:'SOPHIA — an invitation to Same Sky',
+      heading:'You’ve been invited to the same sky.',
+      lead:'Someone has shared a sky with you\nin SOPHIA, the idea notebook.',
+      label:'Invite code',
+      copy:'Copy the code',
+      copied:'Copied',
+      stepsHead:'How to join',
+      copyFail:'Couldn’t copy. Press and hold the code to copy it.',
+      step1:'Copy the code above',
+      step2:'Open SOPHIA (if you don’t have it yet, you can get it below)',
+      step3:'Tap “+ Invite friends” at the top right, then paste it under “Join with an invite code”',
+      note:'Joining is free.\nThe code works for 7 days after it was sent.',
+      noCode:'This link doesn’t include an invite code.\nPlease ask the person who invited you to send it again.',
+      download:'Download',
+      about:'About SOPHIA',
+      iosUrl:'https://apps.apple.com/app/id6818526841'
+    }
+  };
+  var navLang=(navigator.language||'ja').toLowerCase();
+  var lang=navLang.indexOf('ja')===0?'ja':'en';
+  var T=TEXT[lang];
+
+  document.documentElement.lang=lang;
+  document.title=T.title;
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var k=el.getAttribute('data-t');
+    if(Object.prototype.hasOwnProperty.call(T,k))el.textContent=T[k];
+  });
+  document.getElementById('storeIos').href=T.iosUrl;
+
+  // アプリと同じコードの文字（0・1・I・O は使わない）
+  var ALPHABET='23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  // 区切り（ハイフン・空白・文の終わりの記号）だけを外す。それ以外の文字がまじっていたら、コードなしとして扱う
+  // （ちがう文字を落として 8 文字にすると、別のコードを見せてしまうため）
+  function normalise(hash){
+    var s=String(hash||'').replace(/^#/,'').toUpperCase().replace(/[\s\-‐‑–—_.,。、]/g,'');
+    if(s.length!==8)return null;
+    for(var i=0;i<8;i++){if(ALPHABET.indexOf(s.charAt(i))===-1)return null;}
+    return s;
+  }
+
+  var box=document.getElementById('codeBox'),
+      steps=document.getElementById('steps'),
+      noCode=document.getElementById('noCode'),
+      fail=document.getElementById('copyFail'),
+      main=document.querySelector('main'),
+      value=document.getElementById('codeValue'),
+      btn=document.getElementById('copyBtn'),
+      current=null,timer=null;
+
+  function render(){
+    current=normalise(location.hash);
+    var ok=current!==null;
+    value.textContent=ok?current.slice(0,4)+'-'+current.slice(4):'';
+    box.hidden=!ok;steps.hidden=!ok;noCode.hidden=ok;fail.hidden=true;main.classList.toggle('empty',!ok);
+    resetBtn();
+  }
+  function resetBtn(){if(timer){clearTimeout(timer);timer=null;}btn.textContent=T.copy;}
+  function showFail(){fail.hidden=false;}
+  function showCopied(){fail.hidden=true;btn.textContent=T.copied;if(timer)clearTimeout(timer);timer=setTimeout(resetBtn,2000);}
+
+  function fallbackCopy(text){
+    var ta=document.createElement('textarea');
+    ta.value=text;ta.setAttribute('readonly','');
+    ta.style.position='fixed';ta.style.top='0';ta.style.left='0';ta.style.opacity='0';ta.style.pointerEvents='none';
+    document.body.appendChild(ta);
+    ta.select();ta.setSelectionRange(0,text.length);
+    var ok=false;try{ok=document.execCommand('copy');}catch(e){ok=false;}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  btn.addEventListener('click',function(){
+    if(!current)return;
+    var text=current.slice(0,4)+'-'+current.slice(4);
+    if(navigator.clipboard&&window.isSecureContext){
+      navigator.clipboard.writeText(text).then(showCopied,function(){if(fallbackCopy(text))showCopied();else showFail();});
+    }else if(fallbackCopy(text)){showCopied();}else{showFail();}
+  });
+
+  window.addEventListener('hashchange',render);
+  render();
+
+  // 見ている端末のストアだけを残す。分からない端末（パソコンなど）は両方を見せる
+  var ua=navigator.userAgent,
+      ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1),
+      android=/Android/.test(ua),
+      os=ios?'ios':android?'android':'pc';
+  if(os!=='pc'){
+    document.querySelectorAll('[data-os]').forEach(function(el){el.hidden=el.dataset.os!==os;});
+  }
+})();
+</script>
+</body>
+</html>
