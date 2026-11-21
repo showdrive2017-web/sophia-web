@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SOPHIA — The idea notebook where your thoughts become stars</title>
-<meta name="description" content="SOPHIA turns a passing thought into a star; trace to connect stars into constellations. A calm idea notebook for notes, planning and brainstorming. iPhone, Android and Windows. No sign-in.">
+<meta name="description" content="SOPHIA turns a passing thought into a star; trace to connect stars into constellations. A calm idea notebook for notes, planning and brainstorming. iPhone, Android, Windows and Mac. No sign-in.">
 <link rel="canonical" href="https://sophia-universe.com/en/">
 <link rel="alternate" hreflang="ja" href="https://sophia-universe.com/">
 <link rel="alternate" hreflang="en" href="https://sophia-universe.com/en/">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="SOPHIA">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="SOPHIA — The idea notebook where your thoughts become stars">
-<meta property="og:description" content="The moment you open it, an infinite universe. Turn ideas into stars and connect them. iPhone, Android and Windows.">
+<meta property="og:description" content="The moment you open it, an infinite universe. Turn ideas into stars and connect them. iPhone, Android, Windows and Mac.">
 <meta property="og:url" content="https://sophia-universe.com/en/">
 <meta property="og:image" content="https://sophia-universe.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -32,7 +32,7 @@
   "alternateName": "Sophia",
   "description": "An idea notebook: write a thought and it becomes a star; trace to connect stars into constellations.",
   "applicationCategory": "ProductivityApplication",
-  "operatingSystem": "iOS, Android, Windows",
+  "operatingSystem": "iOS, Android, Windows, macOS",
   "url": "https://sophia-universe.com/",
   "image": "https://sophia-universe.com/assets/og-image.jpg",
   "inLanguage": "en",
@@ -76,7 +76,7 @@
    "name": "Is there a PC version?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Yes, for Windows 10 / 11 (free trial). Open what you exported from your phone on a big screen. Buying the full version on your phone unlocks the PC version too. Download it from the PC version page."
+    "text": "Yes, for Windows 10 / 11 and macOS 13 or later (free trial). Open what you exported from your phone on a big screen. Buying the full version on your phone unlocks the PC version too. Download it from the PC version page."
    }
   },
   {
@@ -847,7 +847,7 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
   <a class="brand" href="#top" aria-label="SOPHIA home"><img src="../assets/icon-180.png" width="34" height="34" alt=""><span>SOPHIA</span></a>
   <div class="hd-r"><a class="qbtn hd-dl" href="https://apps.apple.com/app/id6818526841" target="_blank" rel="noopener" aria-label="Download" data-win-href="pc/" data-win-label="Try the PC version free">Get the app</a><button id="snd" type="button" aria-pressed="false" aria-label="Toggle sound"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="lbl">SOUND OFF</span></button></div>
 </header>
-<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&/Windows/.test(u)&&!/Phone|Android/.test(u)){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}})();</script>
+<script>(function(){var u=navigator.userAgent,a=document.querySelector('#hd .hd-dl');if(a&&(/Windows/.test(u)&&!/Phone|Android/.test(u)||/Macintosh/.test(u)&&!(navigator.maxTouchPoints>1))){a.href=a.dataset.winHref;a.removeAttribute('target');a.textContent=a.dataset.winLabel;}})();</script>
 
 <div id="sky" aria-hidden="true">
   <div class="l vanilla"></div><canvas id="vstars"></canvas>
@@ -1006,8 +1006,9 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
         <span class="store" data-play="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2-10-10.2zm11 9.2 2.9-2.9L5.3.9C5 .7 4.6.6 4.3.7l10.3 10.3zm0 2L4.3 23.3c.3.1.7 0 1-.2l12.2-7.2-2.9-2.9zm6.2-3.1-2.6-1.5-3.1 3.1 3.1 3.1 2.6-1.5c.9-.5.9-1.8 0-2.2z"/></svg><span class="t"><small>Coming soon</small><b>Google Play</b></span></span>
         <a class="store" data-play="live" hidden href="https://play.google.com/store/apps/details?id=com.sophia.mobile" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2l10-10.2-10-10.2zm11 9.2 2.9-2.9L5.3.9C5 .7 4.6.6 4.3.7l10.3 10.3zm0 2L4.3 23.3c.3.1.7 0 1-.2l12.2-7.2-2.9-2.9zm6.2-3.1-2.6-1.5-3.1 3.1 3.1 3.1 2.6-1.5c.9-.5.9-1.8 0-2.2z"/></svg><span class="t"><small>Download</small><b>Google Play</b></span></a>
         <a class="store" href="pc/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4.3 10.2 3.2v8H2zm9.2-1.2L22 1.6v9.6H11.2zM2 12.6h8.2v8.1L2 19.6zm9.2 0H22v9.7l-10.8-1.5z"/></svg><span class="t"><small>Free trial</small><b>Windows</b></span></a>
+        <a class="store" href="pc/"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M4 3h16a1 1 0 0 1 1 1v12H3V4a1 1 0 0 1 1-1zm1 2v9h14V5zM1 17.5h22v1a2.5 2.5 0 0 1-2.5 2.5h-17A2.5 2.5 0 0 1 1 18.5z"/></svg><span class="t"><small>Free trial</small><b>Mac</b></span></a>
       </div>
-      <p class="pcnote fadeup">The Windows version starts as a free trial. Buy the full version on your phone, and the PC version becomes full too. <a href="pc/">About the PC version ›</a></p>
+      <p class="pcnote fadeup">The PC version for Windows and Mac starts as a free trial. Buy the full version on your phone, and the PC version becomes full too. <a href="pc/">About the PC version ›</a></p>
     </div>
     <span class="node" data-node></span>
   </section>
@@ -1018,7 +1019,7 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
       <details><summary>Is SOPHIA free?</summary><p>The trial is free: up to 7 stars and 1 project, no sign-in needed. If you like it, a one-time purchase (no subscription) gives you stars without limit and up to 5 projects.</p></details>
       <details><summary>Where is my data stored?</summary><p>The skies you use alone are stored only on your device. There is no account and no sign-in. Only the stars you write in "Same Sky" are kept on our server, so that your friends see the same sky. You can export your work as text or as a project file.</p></details>
       <details><summary>How is it different from a mind map?</summary><p>You don't fill in boxes. Double-tap to turn a thought into a star, then trace from star to star to connect them. “Summary” turns your connected stars into text, in order — a first draft for plans and scripts.</p></details>
-      <details><summary>Is there a PC version?</summary><p>Yes, for Windows 10 / 11 (free trial). Open what you exported from your phone on a big screen. Buying the full version on your phone unlocks the PC version too. Download it from the <a href="pc/">PC version page</a>.</p></details>
+      <details><summary>Is there a PC version?</summary><p>Yes, for Windows 10 / 11 and macOS 13 or later (free trial). Open what you exported from your phone on a big screen. Buying the full version on your phone unlocks the PC version too. Download it from the <a href="pc/">PC version page</a>.</p></details>
       <details><summary>Is there an Android version?</summary><p><span data-play="soon">The Android version is coming soon to Google Play.</span><span data-play="live" hidden>The Android version is on <a href="https://play.google.com/store/apps/details?id=com.sophia.mobile" target="_blank" rel="noopener">Google Play</a>.</span></p></details>
       <details><summary>What happens when I change phones?</summary><p>Export your work as a project file and import it on the new device. The full version can be restored with “Restore purchases” on the purchase screen.</p></details>
       <details><summary>Which languages does it support?</summary><p>English, Spanish, French, German and Japanese. It follows your device's language.</p></details>

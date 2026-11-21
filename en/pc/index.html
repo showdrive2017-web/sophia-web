@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SOPHIA for Windows — Free trial download</title>
-<meta name="description" content="SOPHIA for Windows 10 / 11: the idea notebook where thoughts become stars, on a big screen, with sticky notes and images. Download the free trial. Buying on your phone unlocks the full PC version.">
+<title>SOPHIA for Windows and Mac — Free trial download</title>
+<meta name="description" content="SOPHIA for Windows 10 / 11 and macOS 13 or later: the idea notebook where thoughts become stars, on a big screen, with sticky notes and images. Download the free trial. Buying on your phone unlocks the full PC version.">
 <link rel="canonical" href="https://sophia-universe.com/en/pc/">
 <link rel="alternate" hreflang="ja" href="https://sophia-universe.com/pc/">
 <link rel="alternate" hreflang="en" href="https://sophia-universe.com/en/pc/">
@@ -12,13 +12,13 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SOPHIA">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:title" content="SOPHIA for Windows — Free trial">
-<meta property="og:description" content="Shape your universe on a big screen. SOPHIA for Windows.">
+<meta property="og:title" content="SOPHIA for Windows and Mac — Free trial">
+<meta property="og:description" content="Shape your universe on a big screen. SOPHIA for Windows and Mac.">
 <meta property="og:url" content="https://sophia-universe.com/en/pc/">
 <meta property="og:image" content="https://sophia-universe.com/en/pc/pc-screen.jpg">
 <meta property="og:image:alt" content="SOPHIA on a PC screen">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SOPHIA for Windows — Free trial">
+<meta name="twitter:title" content="SOPHIA for Windows and Mac — Free trial">
 <meta name="twitter:image" content="https://sophia-universe.com/en/pc/pc-screen.jpg">
 <script type="application/ld+json">
 {
@@ -26,11 +26,11 @@
   "@type": "SoftwareApplication",
   "name": "SOPHIA for Windows",
   "applicationCategory": "ProductivityApplication",
-  "operatingSystem": "Windows 10, Windows 11",
+  "operatingSystem": "Windows 10, Windows 11, macOS 13 or later",
   "url": "https://sophia-universe.com/en/pc/",
   "downloadUrl": "https://sophia-universe.com/download/SOPHIA-setup.exe",
-  "softwareVersion": "2.2.0",
-  "fileSize": "5.2MB",
+  "softwareVersion": "3.0.0",
+  "fileSize": "8.3MB",
   "image": "https://sophia-universe.com/en/pc/pc-screen.jpg",
   "inLanguage": "ja",
   "author": { "@type": "Person", "name": "Yoshinori Kusakari" },
@@ -77,6 +77,7 @@ h1 small{display:block;font-family:var(--sans);font-weight:500;font-size:clamp(1
 .dl:hover{box-shadow:0 0 40px rgba(255,220,160,.5),inset 0 0 18px rgba(255,220,160,.2)}
 .dl b{font-size:17px;font-weight:500;letter-spacing:.12em;color:var(--gold2)}
 .dl span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--ash)}
+.dls{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:40px}.dls .dl{margin-top:0}
 .req{margin-top:16px;font-size:12.5px;color:var(--ash2);letter-spacing:.06em}
 .phone{display:none;margin:28px auto 0;max-width:440px;padding:16px 18px;border:1px solid var(--navy2);border-radius:14px;font-size:13.5px;color:var(--ash);line-height:1.8}
 .phone button{margin-top:10px;font:inherit;font-size:13px;color:var(--gold);background:none;border:1px solid var(--navy2);border-radius:18px;padding:6px 16px;cursor:pointer}
@@ -122,7 +123,7 @@ gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personali
 gtag('consent','default',{ad_personalization:'denied'});
 gtag('js',new Date());gtag('config','AW-18539970089');
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
-if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('event','conversion',{send_to:'AW-18539970089/LCl6CP35ja4dEKn8xYhF'});},true);
+if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe|SOPHIA\.dmg/.test(a.href))gtag('event','conversion',{send_to:'AW-18539970089/LCl6CP35ja4dEKn8xYhF'});},true);
 </script>
 </head>
 <body>
@@ -133,12 +134,16 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
 
 <main>
   <div class="hero wrap">
-    <div class="eyebrow">FOR WINDOWS</div>
+    <div class="eyebrow">FOR WINDOWS &amp; MAC</div>
     <h1>SOPHIA<small>Shape your universe on a big screen.</small></h1>
-    <a class="dl" href="../../download/SOPHIA-setup.exe">
-      <b>Download the free trial</b><span>Windows 10 / 11 (64-bit) · about 5.2 MB</span></a>
-    <p class="req">No sign-in. Your work is saved only on your PC.</p>
-    <div class="phone">You’re on a phone. To get the PC version, open this page on a Windows computer and download it there.
+    <div class="dls">
+      <a class="dl" href="../../download/SOPHIA-setup.exe">
+        <b>Download for Windows</b><span>Windows 10 / 11 (64-bit) · about 8.3 MB</span></a>
+      <a class="dl" href="https://github.com/showdrive2017-web/sophia-web/releases/latest/download/SOPHIA.dmg">
+        <b>Download for Mac</b><span>macOS 13 or later (Apple silicon and Intel)</span></a>
+    </div>
+    <p class="req">Both are free trials. No sign-in. Your work is saved only on your PC.</p>
+    <div class="phone">You’re on a phone. To get the PC version, open this page on a Windows or Mac computer and download it there.
       <br><button id="copy">Copy this page’s URL</button></div>
   </div>
 
@@ -184,7 +189,7 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
         <li><b>If you see “Windows protected your PC”</b>, press “More info”, then “Run anyway”. SOPHIA is still new and has few downloads, so Windows shows this check. If the publisher reads “<b>草苅佳宣</b>” (Yoshinori Kusakari), it is the official SOPHIA file. Security software such as Norton may scan the file for about 20 seconds the first time; when it says it looks safe, you can use it as usual.</li>
         <li><b>Follow the steps on screen</b>, and SOPHIA’s icon appears on your desktop and in the Start menu.</li>
       </ol>
-      <p class="note">A Mac version is in preparation.</p>
+      <p class="note">On a Mac, open the downloaded <code>SOPHIA.dmg</code> and drag the SOPHIA icon into the Applications folder. Then just open SOPHIA from Applications.</p>
     </section>
 
     <section>
@@ -200,7 +205,7 @@ if(/apps\.apple\.com|play\.google\.com|SOPHIA-setup\.exe/.test(a.href))gtag('eve
     <section>
       <h2>About this software</h2>
       <div class="note">
-        Software: SOPHIA for Windows (version 2.2.0)<br>
+        Software: SOPHIA for Windows and Mac (version 3.0.0)<br>
         Developed and distributed by: Yoshinori Kusakari (The Highway)<br>
         Official download source: this page (sophia-universe.com)<br>
         Contact: <a href="mailto:showdrive2017@gmail.com">showdrive2017@gmail.com</a><br>
